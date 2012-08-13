@@ -1,0 +1,155 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+#mainarea
+{
+	position: absolute;
+	text-align: center;
+	width: 1000px;
+	height: 700px;
+	background-color: white;
+}
+
+#toolbar {
+	width: 100%;
+	padding-left: 25px;
+	padding-top: 5px;
+	height: 40px;
+	padding-bottom: 5px;
+	padding-right: 10px;
+	border-radius: 5px;
+	border-bottom: 1.5px solid rgb(160, 160, 160);
+	
+	/* Chrome 10+,Safari */
+	background : -webkit-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+
+	/* Firefox 4+ */ 
+	background : -moz-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+
+	/* Opera */
+	background : -o-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+
+	/* IE 10+ */
+	background : -ms-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%); 
+
+	/* W3C */
+	background : -linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+}
+
+#leftpanel {
+	position: absolute;
+	width: 35%;
+	height: 500px;
+	background-color: lightsteelblue;
+	border-right: solid 1px rgb(180, 180, 180);
+	
+	
+}
+
+#centerpanel {
+	position: absolute;
+	width: 30%;
+	height: 500px;
+	margin-left: 35%;
+	background-color: rgb(200, 227, 230);
+	border-left: solid 1px rgb(200, 200, 200);
+	border-right: solid 1px rgb(180, 180, 180);
+}
+
+#rightpanel {
+	position: absolute;
+	width: 35%;
+	height: 500px;
+	margin-left: 65%;
+	padding: 5px;
+	padding-top: 10px;
+	border-left: solid 1px rgb(200, 200, 200);
+	border-right: solid 1px rgb(100, 100, 100);
+}
+
+#button {
+	width: 200px;
+	height: 50px;
+	padding: 5px;
+	text-align:center;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	border: solid 1px rgb(220, 222, 222);
+	
+	
+	background : -webkit-linear-gradient(bottom, rgb(186, 186, 186) 22%, rgb(245, 245, 245) 76%);
+
+	/* Firefox 4+ */ 
+	background : -moz-linear-gradient(bottom, rgb(186, 186, 186) 22%, rgb(245, 245, 245) 76%);
+
+	/* Opera */
+	background : -o-linear-gradient(bottom, rgb(186, 186, 186) 22%, rgb(245, 245, 245) 76%);
+
+	/* IE 10+ */
+	background : -ms-linear-gradient(bottom, rgb(186, 186, 186) 22%, rgb(245, 245, 245) 76%); 
+
+	/* W3C */
+	background : -linear-gradient(bottom, rgb(186, 186, 186) 22%, rgb(245, 245, 245) 76%);
+}
+
+
+#footer {
+	position: absolute;
+	margin-top:600px;
+	width: 100%;
+	height: 50px;
+	padding-left: 25px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+	border-radius: 5px;
+	border-bottom: 1px solid rgb(130, 130, 130);
+	margin-bottom: 25px;
+	/* Chrome 10+,Safari */
+	background : -webkit-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+
+	/* Firefox 4+ */ 
+	background : -moz-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+
+	/* Opera */
+	background : -o-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+
+	/* IE 10+ */
+	background : -ms-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%); 
+
+	/* W3C */
+	background : -linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
