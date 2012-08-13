@@ -49,8 +49,6 @@ h1 {
 	position: absolute;
 	width: 35%;
 	height: 500px;
-	background-color: lightsteelblue;
-	border-right: solid 1px rgb(180, 180, 180);
 	
 	
 }
@@ -60,9 +58,8 @@ h1 {
 	width: 30%;
 	height: 500px;
 	margin-left: 35%;
-	background-color: rgb(200, 227, 230);
 	border-left: solid 1px rgb(200, 200, 200);
-	border-right: solid 1px rgb(180, 180, 180);
+	border-right: solid 1px rgb(200, 200, 200);
 }
 
 #rightpanel {
@@ -70,12 +67,22 @@ h1 {
 	width: 35%;
 	height: 500px;
 	margin-left: 65%;
-	padding: 5px;
-	padding-top: 10px;
-	border-left: solid 1px rgb(200, 200, 200);
-	border-right: solid 1px rgb(100, 100, 100);
+	padding: 10px;
+	padding-top: 20px;
 }
 
+
+#fileselector {
+	width: 80%;
+	height: 50px;
+	text-align: left;
+	border-bottom: 1px solid rgb(220, 222, 222);
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 20px;
+	padding-bottom: 3px;
+}
+	
 #button {
 	width: 200px;
 	height: 50px;
@@ -106,7 +113,7 @@ h1 {
 	position: absolute;
 	margin-top:600px;
 	width: 100%;
-	height: 50px;
+	height: 40px;
 	padding-left: 25px;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -114,6 +121,8 @@ h1 {
 	border-radius: 5px;
 	border-bottom: 1px solid rgb(130, 130, 130);
 	margin-bottom: 25px;
+	
+	
 	/* Chrome 10+,Safari */
 	background : -webkit-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
 
