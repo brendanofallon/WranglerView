@@ -13,22 +13,12 @@
   
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/wranglerview2/greet</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>submissionServlet</servlet-name>
-    <servlet-class>wranglerView.server.SubmissionServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>submissionServlet</servlet-name>
-    <url-pattern>/wranglerview2/submission</url-pattern>
+    <url-pattern>/wranglerview/greet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>WranglerView2.html</welcome-file>
+    <welcome-file>WranglerView.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

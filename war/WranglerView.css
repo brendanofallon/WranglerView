@@ -112,30 +112,16 @@ h1 {
 	position: absolute;
 	margin-top:600px;
 	width: 100%;
-	height: 40px;
+	height: 50px;
 	padding-left: 25px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-right: 10px;
 	border-radius: 5px;
-	border-bottom: 1px solid rgb(130, 130, 130);
 	margin-bottom: 25px;
+	border-top: 1px solid rgb(200, 200, 200);
+
 	
-	
-	/* Chrome 10+,Safari */
-	background : -webkit-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
-
-	/* Firefox 4+ */ 
-	background : -moz-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
-
-	/* Opera */
-	background : -o-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
-
-	/* IE 10+ */
-	background : -ms-linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%); 
-
-	/* W3C */
-	background : -linear-gradient(bottom, rgb(186, 186, 186) 15%, rgb(230, 227, 230) 58%);
 }
 
 .dialogVPanel {
