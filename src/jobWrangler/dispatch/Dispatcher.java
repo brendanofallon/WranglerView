@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-
 import jobWrangler.executor.Executor;
 import jobWrangler.executor.ExecutorEvent;
 import jobWrangler.executor.ExecutorListener;
@@ -15,7 +14,11 @@ import jobWrangler.job.Job;
  * Monitors one or more Executors, maintains a list of jobs that are waiting to be
  * executed, and dispatches jobs to executors when the executor can accept a new job
  * This stores references to all jobs that are waiting or have completed, either successfully
- * or with an error
+ * or with an error.
+ * 
+ * This class is currently in singleton form - that is we assume there's just one in existence 
+ * (per jvm) at any one time. 
+ * 
  * @author brendanofallon
  *
  */
@@ -33,6 +36,18 @@ public class Dispatcher implements ExecutorListener {
 	
 	//Stores all jobs that threw an exception during execution
 	protected List<Job> errorJobs = new ArrayList<Job>();
+	
+	
+	
+	
+	
+	/**
+	 * Package-private constructor to enforce singleton status. Use Dispatcher.getDispatcher() to
+	 * obtain a reference to an instance
+	 */
+	Dispatcher() {
+		
+	}
 	
 	/**
 	 * Add a new job to the queue. Initially this job will be waiting, but will at some point

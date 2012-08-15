@@ -1,4 +1,6 @@
-package wranglerView.client;
+package wranglerView.client.jobSubmission;
+
+import wranglerView.shared.AnalysisJobDescription;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -6,6 +8,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("submission")
 public interface SubmissionService extends RemoteService {
 	
-	String submitJob(String jobInfo) throws IllegalArgumentException;
-	
+	public void submitJob(AnalysisJobDescription jobDesc);
+
 }

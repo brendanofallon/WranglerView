@@ -1,4 +1,4 @@
-package wranglerView.client;
+package wranglerView.client.jobSubmission;
 
 import wranglerView.shared.TemplateInfo;
 
@@ -13,15 +13,20 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class TemplatePanel {
 
-	private final TemplateInfo dirInfo;
+	private final TemplateInfo templateInfo;
 	private final TemplatesPanel parentPanel;
 	private boolean selected = false;
 	
 	public TemplatePanel(TemplatesPanel parent, TemplateInfo info) {
-		this.dirInfo = info;
+		this.templateInfo = info;
 		this.parentPanel = parent;
 		initComponents();
 		
+	}
+	
+	
+	public TemplateInfo getTemplateInfo() {
+		return templateInfo;
 	}
 	
 	private void initComponents() {
@@ -34,10 +39,10 @@ public class TemplatePanel {
 		VerticalPanel labelsPanel = new VerticalPanel();
 		labelsPanel.getElement().setId("templatemain");
 		
-		HTML topLabel = new HTML("<b>" + dirInfo.templateName + "</b>");
+		HTML topLabel = new HTML("<b>" + templateInfo.templateName + "</b>");
 		topLabel.setStylePrimaryName("filelabelheader");
 		labelsPanel.add(topLabel);
-		labelsPanel.add(new HTML( dirInfo.description ));
+		labelsPanel.add(new HTML( templateInfo.description ));
 		
 		for(int i=1; i<labelsPanel.getWidgetCount(); i++) {
 			labelsPanel.getWidget(i).setStylePrimaryName("filelabel");
@@ -81,6 +86,8 @@ public class TemplatePanel {
 	
 	FocusPanel wrapper;
 	HorizontalPanel mainPanel;
+
+
 
 	
 }

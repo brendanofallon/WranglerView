@@ -65,7 +65,7 @@ h1 {
 .toolbarbutton-down-hovering
 {
 	border-radius: 5px;
-	border: 3px solid gray;
+	border: 2px solid gray;
     background-color       :   rgb(100, 100, 100);
 }
 .toolbarbutton-up-hovering
@@ -78,7 +78,7 @@ h1 {
   	padding-left: 17px;
   	padding-top: 0px;
 	border-radius: 5px;
-    border: 3px solid gray;
+    border: 2px solid gray;
 }
 
 
@@ -155,9 +155,21 @@ h1 {
 .filelabelheader {
 	font:'Droid Sans', Arial, sans-serif;
   	font-size:12pt;
-  	padding-left: 5px;
 }
 
+
+#folderimage {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+#filelabels {
+	text-align:left;
+	margin: 0px;
+	padding: 0px;
+	padding-left:10px;
+}
 .filelabel {
 	font:'Droid Sans', Arial, sans-serif;
   	font-size:10pt;
@@ -203,28 +215,5 @@ h1 {
 	border-top: 1px solid rgb(200, 200, 200);
 	font-size: 12px;
 	
-}
-
-.dialogVPanel {
-  margin: 5px;
-}
-
-.serverResponseLabelError {
-  color: red;
-}
-
-.sendButton {
-  display: block;
-  font-size: 16pt;
-}
-
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
-}
-
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
 }
 

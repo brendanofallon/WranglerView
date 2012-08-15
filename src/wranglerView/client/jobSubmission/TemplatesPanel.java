@@ -1,45 +1,44 @@
-package wranglerView.client;
+package wranglerView.client.jobSubmission;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import wranglerView.shared.FastQDirInfo;
+import wranglerView.shared.TemplateInfo;
 
 import com.google.gwt.user.client.ui.CellPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-/**
- * Presents a list of 'FastQDirInfo' objects to the user, typically as the left
- * panel of the main UI frame
- * @author brendan
- *
- */
-public class FastQsPanel {
+public class TemplatesPanel {
 
-	private List<FastQDirPanel> fqPanels = null;
-	private List<FastQDirInfo> fqInfo = null;
-	private FastQDirInfo selectedFQInfo = null;
+	private List<TemplatePanel> fqPanels = null;
+	private List<TemplateInfo> templateInfo = null;
+	private TemplateInfo selectedTemplate = null;
 	
-	public FastQsPanel() {
+	public TemplatesPanel() {
 		initComponents();
 	}
 	
-	public void setFQInfoList(List<FastQDirInfo> fqs) {
-		fqInfo = fqs;
+	public TemplateInfo getSelectedTemplate() {	
+		return selectedTemplate;
+	}
+	
+	public void setTemplateList(List<TemplateInfo> fqs) {
+		templateInfo = fqs;
 		layoutPanels();
 	}
 	
-	public void addFQInfo(FastQDirInfo fqItem) {
-		if (fqInfo == null)
-			fqInfo = new ArrayList<FastQDirInfo>(16);
-		fqInfo.add(fqItem);
+	public void addTemplate(TemplateInfo item) {
+		if (templateInfo == null)
+			templateInfo = new ArrayList<TemplateInfo>(16);
+		templateInfo.add(item);
 		layoutPanels();
 	}
 	
-	public void setSelectedPanel(FastQDirPanel selectedPanel) {
-		for(FastQDirPanel fqPanel : fqPanels) {
+	public void setSelectedPanel(TemplatePanel selectedPanel) {
+		for(TemplatePanel fqPanel : fqPanels) {
 			if (fqPanel == selectedPanel) {
 				fqPanel.setSelected(true);
+				selectedTemplate = selectedPanel.getTemplateInfo();
 			}
 			else {
 				fqPanel.setSelected(false);
@@ -53,13 +52,13 @@ public class FastQsPanel {
 	 */
 	private void layoutPanels() {
 		removeAll();
-		fqPanels = new ArrayList<FastQDirPanel>();
+		fqPanels = new ArrayList<TemplatePanel>();
 		
-		if (fqInfo == null)
+		if (templateInfo == null)
 			return;
 		
-		for(FastQDirInfo info : fqInfo) {
-			FastQDirPanel panel = new FastQDirPanel(this, info);
+		for(TemplateInfo info : templateInfo) {
+			TemplatePanel panel = new TemplatePanel(this, info);
 			fqPanels.add(panel);
 			mainPanel.add(panel.getWidget());
 		}
@@ -90,4 +89,6 @@ public class FastQsPanel {
 	
 	
 	VerticalPanel mainPanel;
+
+
 }

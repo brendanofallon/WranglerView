@@ -1,5 +1,7 @@
 package wranglerView.client;
 
+import wranglerView.client.jobSubmission.JobSettingsPanel;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;

@@ -1,6 +1,8 @@
 package wranglerView.shared;
 
-public class TemplateInfo {
+import java.io.Serializable;
+
+public class TemplateInfo implements Serializable {
 
 	public String templateName = null;
 	public String description = null;

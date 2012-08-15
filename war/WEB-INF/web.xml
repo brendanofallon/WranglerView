@@ -16,6 +16,39 @@
     <url-pattern>/wranglerview/greet</url-pattern>
   </servlet-mapping>
   
+  
+  <servlet>
+    <servlet-name>submissionServlet</servlet-name>
+    <servlet-class>wranglerView.server.SubmissionServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>submissionServlet</servlet-name>
+    <url-pattern>/wranglerview/submission</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>templateServlet</servlet-name>
+    <servlet-class>wranglerView.server.TemplateServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>templateServlet</servlet-name>
+    <url-pattern>/wranglerview/template</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>fastQServlet</servlet-name>
+    <servlet-class>wranglerView.server.FastQServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>fastQServlet</servlet-name>
+    <url-pattern>/wranglerview/fastq</url-pattern>
+  </servlet-mapping>
+  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WranglerView.html</welcome-file>

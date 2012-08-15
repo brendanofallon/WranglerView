@@ -1,5 +1,6 @@
 package wranglerView.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Date;
  * @author brendan
  *
  */
-public class FastQDirInfo {
+public class FastQDirInfo implements Serializable {
 
 	public String sampleName = null;
 	public String parentDir = null;
@@ -16,5 +17,6 @@ public class FastQDirInfo {
 	public String reads2 = null;
 	public Date reads1ModifiedTime = null;
 	public Date reads2ModifiedTime = null;
-	
+	public String reads1Size = null;
+	public String reads2Size = null;
 }
