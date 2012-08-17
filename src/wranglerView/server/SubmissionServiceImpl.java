@@ -1,9 +1,12 @@
 package wranglerView.server;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +27,8 @@ import wranglerView.server.template.TemplateTransformer;
 import wranglerView.shared.AnalysisJobDescription;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class SubmissionServiceImpl extends RemoteServiceServlet implements SubmissionService{
 
@@ -64,6 +69,17 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			Document inputDoc = TemplateTransformer.transformTemplate(new BufferedReader(new FileReader(templateFile)), subs);
 			
 			
+			String projHomeName = jobDesc.sampleName + "-" + ("" + System.currentTimeMillis()).substring(5);
+			File jobHome = new File(defaultProjectRoot + "/" + projHomeName);
+			if (jobHome.exists()) {
+				throw new IllegalArgumentException("Yikes, project home " + jobHome.getAbsolutePath() + " already exists!");
+			}
+			else {
+				jobHome.mkdir();
+			}
+			
+			String inputFilename = jobDesc.sampleName + "_input.xml";
+			writeInputFile(inputDoc, jobHome, inputFilename);
 			// ....???
 			
 		} catch (IOException e) {
@@ -82,6 +98,19 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		System.out.println("Creating sleeper job with wait time : " + length);
 		
 		return job;
+	}
+
+	private void writeInputFile(Document doc, File jobHome, String filename) throws IOException {
+		
+		OutputFormat format = new OutputFormat(doc);
+        format.setLineWidth(80);
+        format.setIndenting(true);
+        format.setIndent(4);
+        Writer writer = new BufferedWriter(new FileWriter(jobHome + "/" + filename));
+        XMLSerializer serializer = new XMLSerializer(writer, format);
+        serializer.serialize(doc);
+        writer.close();
+        
 	}
 
 }

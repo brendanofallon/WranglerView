@@ -18,25 +18,29 @@ public class PipelineJob extends WranglerJob {
 		this.inputFile = inputFile;
 		this.projHome = projHome;
 		this.setBaseDir(projHome);
-		setCommand(javaPath + " " + memoryStr + "");
+		setCommand(javaPath + " " + memoryStr + " -jar pipeline.jar -home " + projHome.getAbsolutePath() + " " + inputFile.getAbsolutePath() );
 	}
 
-	
 	/**
 	 * Copy pipeline to project home
 	 */
 	protected void initialize() throws InitializationFailedException {
+		//Create base directory and initialize process builder with command
 		super.initialize();
 		
 		if (! projHome.exists()) {
 			projHome.mkdir();
 		}
 		
-		copyPipelineToProjHome();
-		
+		//Copy pipeline executable to project home
+		copyPipelineToProjHome();		
 	}
 
 
+	/**
+	 * Attempt to copy the
+	 * @throws InitializationFailedException
+	 */
 	private void copyPipelineToProjHome() throws InitializationFailedException {
 		try {
 			pipelinePath = TemplateRegistry.getRegistry().getTemplateDirectory() + "/pipeline.jar";
