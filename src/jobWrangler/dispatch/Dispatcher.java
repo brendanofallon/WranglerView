@@ -37,10 +37,6 @@ public class Dispatcher implements ExecutorListener {
 	//Stores all jobs that threw an exception during execution
 	protected List<Job> errorJobs = new ArrayList<Job>();
 	
-	
-	
-	
-	
 	/**
 	 * Package-private constructor to enforce singleton status. Use Dispatcher.getDispatcher() to
 	 * obtain a reference to an instance
@@ -140,6 +136,17 @@ public class Dispatcher implements ExecutorListener {
 		return sum;
 	}
 	
+	
+	public List<Job> getRunningJobs() {
+		List<Job> runningJobs = new ArrayList<Job>();
+		
+		for(Executor exec : executors) {
+			runningJobs.addAll( exec.getJobs() );
+		}
+		
+		return runningJobs;
+	}
+	
 	@Override
 	public void executorUpdated(ExecutorEvent evt) {
 		System.out.println("Executor updated, event type is: " + evt.type + " job is:" + evt.job.getID());
@@ -203,6 +210,17 @@ public class Dispatcher implements ExecutorListener {
 	
 	public Job getCompletedJob(int which) {
 		return completedJobs.get(which);
+	}
+	
+	/**
+	 * Returns a (newly instantiated) list of jobs which aer all jobs
+	 * waiting to be executed
+	 * @return
+	 */
+	public List<Job> getQueuedJobs() {
+		List<Job> jobs = new ArrayList<Job>();
+		jobs.addAll( queue );
+		return jobs;
 	}
 	
 	/**

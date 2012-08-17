@@ -5,18 +5,7 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>wranglerView.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/wranglerview/greet</url-pattern>
-  </servlet-mapping>
-  
-  
+  <!-- Servlets -->  
   <servlet>
     <servlet-name>submissionServlet</servlet-name>
     <servlet-class>wranglerView.server.SubmissionServiceImpl</servlet-class>
@@ -49,6 +38,16 @@
   </servlet-mapping>
   
   
+  
+  <servlet>
+    <servlet-name>qSummaryServlet</servlet-name>
+    <servlet-class>wranglerView.server.QueueSummaryServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>qSummaryServlet</servlet-name>
+    <url-pattern>/wranglerview/queuesummary</url-pattern>
+  </servlet-mapping>
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WranglerView.html</welcome-file>

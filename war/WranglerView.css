@@ -157,6 +157,22 @@ h1 {
   	font-size:12pt;
 }
 
+.jobinfo {
+	width: 350px;
+	height: 50px;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 6px;
+	padding-top: 17px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid rgb(220, 222, 222);
+}
+
+.infolabel {
+	font:'Droid Sans', Arial, sans-serif;
+  	font-size:9pt;
+  	padding-left: 10px;
+}
 
 #folderimage {
 	margin: 0px;
@@ -170,9 +186,10 @@ h1 {
 	padding: 0px;
 	padding-left:10px;
 }
+
 .filelabel {
-	font:'Droid Sans', Arial, sans-serif;
-  	font-size:10pt;
+	font: 'Droid Sans', Arial, sans-serif;
+  	font-size:9pt;
   	padding-left: 10px;
 }
 	

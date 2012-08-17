@@ -1,10 +1,8 @@
 package jobWrangler.job;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 import jobWrangler.util.StreamRedirector;
@@ -19,16 +17,15 @@ import jobWrangler.util.StreamRedirector;
 public class ShellJob extends Job {
 
 	//This is the command that will be executed by the script
-	final String command;
-	private File baseDir = new File( System.getProperty("user.dir") );
+	String command;
+	protected File baseDir = new File( System.getProperty("user.dir") );
 	private ProcessBuilder processBuilder = null;
 	private int exitValue = -1; 
 	private boolean directOutputToFile = true;
 	private File outputFile = null; //File that will contain all output when the process is run
 	
 	public ShellJob(String command) {
-		this.command = command;
-		
+		this.command = command;	
 	}
 	
 	public ShellJob(String command, File dir) throws IOException {
@@ -41,6 +38,30 @@ public class ShellJob extends Job {
 		}
 		
 		baseDir = dir;
+	}
+	
+	/**
+	 * Set the base directory in which all commands will be executed
+	 * @param dir
+	 */
+	public void setBaseDir(File dir) {
+		if (getJobState() == JobState.UNINITIALIZED)
+			this.baseDir = dir;
+		else {
+			throw new IllegalStateException("Cannot set job home directory after initialization");
+		}
+	}
+	
+	/**
+	 * Set the command to be executed by BASH
+	 * @param command
+	 */
+	public void setCommand(String command) {
+		if (getJobState() == JobState.UNINITIALIZED)
+			this.command = command;
+		else {
+			throw new IllegalStateException("Cannot set job commands after initialization");
+		}
 	}
 	
 	/**
@@ -63,7 +84,7 @@ public class ShellJob extends Job {
 		return exitValue;
 	}
 	
-	protected void initialize() {
+	protected void initialize() throws InitializationFailedException {
 		processBuilder = new ProcessBuilder("bash", "-c", command);
 		processBuilder.directory(baseDir);
 		processBuilder.redirectErrorStream(true);

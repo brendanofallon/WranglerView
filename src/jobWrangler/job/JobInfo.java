@@ -10,22 +10,13 @@ import java.util.Date;
 public class JobInfo {
 
 	final Job job;
-	String submitterID = null;
 	Date startTime = null;
 	Date endTime = null;
 	
 	public JobInfo(Job job) {
 		this.job = job;
 	}
-	
-	
-	public String getSubmitterID() {
-		return submitterID;
-	}
 
-	public void setSubmitterID(String submitterID) {
-		this.submitterID = submitterID;
-	}
 
 	public Date getEndTime() {
 		return endTime;

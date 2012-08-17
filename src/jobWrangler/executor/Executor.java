@@ -8,7 +8,7 @@ import javax.swing.SwingWorker;
 import jobWrangler.job.Job;
 
 /**
- * Base class for things that can execute jobs. Œ
+ * Base class for things that can execute jobs. ï¿½
  * @author brendanofallon
  *
  */
@@ -28,6 +28,13 @@ public abstract class Executor {
 	 * @return
 	 */
 	public abstract boolean canSubmitJob(Job job);
+	
+	/**
+	 * Return a list of jobs currently running in this executor
+	 * @param job
+	 * @return
+	 */
+	public abstract List<Job> getJobs();
 	
 	/**
 	 * Attempt to immediately begin running the given job. Jobs may be rejected, for

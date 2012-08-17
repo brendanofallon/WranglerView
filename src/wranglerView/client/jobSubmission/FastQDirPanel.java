@@ -83,7 +83,6 @@ public class FastQDirPanel {
 	
 	public void setSelected(boolean b) {
 		this.selected = b;
-		System.out.println("A new fq panel has been selected");
 		if (selected) {
 			mainPanel.setStyleName("fileselector-selected");
 		}

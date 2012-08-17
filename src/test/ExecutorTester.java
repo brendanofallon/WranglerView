@@ -20,9 +20,9 @@ public class ExecutorTester {
 		
 		
 		for(int i=0; i<20; i++) {
-			int length = (int)(10000.0*Math.random());
+			int length = (int)(10.0*Math.random());
 			System.out.println("Submitting job #" + i + " with length : " + length);
-			Job job = new TestJob(length);
+			Job job = new SleeperJob(length);
 			dispatch.submitJob(job);
 			
 			int waitLength = (int)(5000*Math.random());

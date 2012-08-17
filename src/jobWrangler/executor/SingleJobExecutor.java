@@ -1,9 +1,12 @@
 package jobWrangler.executor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jobWrangler.job.Job;
+import jobWrangler.job.Job.JobState;
 import jobWrangler.job.JobListener;
 import jobWrangler.job.JobMonitor;
-import jobWrangler.job.Job.JobState;
 
 /**
  * This type of executor runs only a single job at a time
@@ -89,6 +92,15 @@ public class SingleJobExecutor extends Executor implements JobListener {
 			return 0;
 		else
 			return 1;
+	}
+
+	@Override
+	public List<Job> getJobs() {
+		List<Job> list = new ArrayList<Job>();
+		
+		if (getCurrentJob() != null)
+			list.add( getCurrentJob() );
+		return list;
 	}
 
 }
