@@ -37,8 +37,6 @@
     <url-pattern>/wranglerview/fastq</url-pattern>
   </servlet-mapping>
   
-  
-  
   <servlet>
     <servlet-name>qSummaryServlet</servlet-name>
     <servlet-class>wranglerView.server.QueueSummaryServiceImpl</servlet-class>

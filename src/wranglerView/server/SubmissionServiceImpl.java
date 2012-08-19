@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 
 import test.SleeperJob;
 import wranglerView.client.jobSubmission.SubmissionService;
+import wranglerView.logging.WLogger;
 import wranglerView.server.template.TemplateRegistry;
 import wranglerView.server.template.TemplateTransformer;
 import wranglerView.shared.AnalysisJobDescription;
@@ -32,11 +33,12 @@ import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class SubmissionServiceImpl extends RemoteServiceServlet implements SubmissionService{
 
-	public static final String defaultProjectRoot = System.getProperty("user.home") + "/wrangler-jobs";
+	public static final String defaultProjectRoot = WranglerProperties.getExecutionDirPath(); //
 	
 	@Override
 	public void submitJob(AnalysisJobDescription jobDesc) throws IllegalArgumentException {
-		System.out.println("Server got job with parent dir: " + jobDesc.pathToFastQDir + "\n AnalysisID: " + jobDesc.templateID + "\n Sample : " + jobDesc.sampleName);
+		//System.out.println("Server got job with parent dir: " + jobDesc.pathToFastQDir + "\n AnalysisID: " + jobDesc.templateID + "\n Sample : " + jobDesc.sampleName);
+		WLogger.info("Submitting a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 		
 		System.out.println("Creating job");
 		Job jobToSubmit = buildJob(jobDesc);
@@ -45,10 +47,7 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		
 			
 		//ShellJob job = new ShellJob("touch newjobfile.txt", new File( System.getProperty("user.dir")));
-		System.out.println("Submitting job...");
-		dispatcher.submitJob(jobToSubmit);
-		System.out.println("Job submitted");
-		
+		dispatcher.submitJob(jobToSubmit);		
 		
 	}
 
@@ -101,6 +100,8 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 	}
 
 	private void writeInputFile(Document doc, File jobHome, String filename) throws IOException {
+		
+		WLogger.info("Creating new input file in home: " + jobHome + " with file name: " + filename);
 		
 		OutputFormat format = new OutputFormat(doc);
         format.setLineWidth(80);

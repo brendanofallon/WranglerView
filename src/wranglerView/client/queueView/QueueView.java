@@ -5,8 +5,12 @@ import wranglerView.shared.QueueSummary;
 import wranglerView.shared.QueueSummary.JobInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -84,7 +88,7 @@ public class QueueView {
 			image = new Image("images/questionmark.png");
 		}
 		panel.add(image);
-		
+		System.out.println("Status of job " + info.sampleName + " is :" + info.status);
 		VerticalPanel vp = new VerticalPanel();
 		//vp.setStylePrimaryName("infolabel");
 		
@@ -108,7 +112,24 @@ public class QueueView {
 
 	private void initComponents() {
 		mainPanel = new VerticalPanel();
-		refreshList();
+//		Button refreshButton  = new Button("Refresh list");
+//		refreshButton.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				refreshList();
+//			}
+//		});
+//		refreshList();
+		
+		timer = new Timer() {
+			public void run() {
+				refreshList();
+			}
+		};
+		
+		timer.scheduleRepeating(10 * 1000);
+		
+		
 	}
 
 
@@ -118,5 +139,6 @@ public class QueueView {
 	
 	private QueueSummaryServiceAsync qSummaryFetcher = GWT.create(QueueSummaryService.class);
 
+	Timer timer;
 	
 }

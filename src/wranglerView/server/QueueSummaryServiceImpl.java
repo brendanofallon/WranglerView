@@ -7,6 +7,7 @@ import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
 import wranglerView.client.queueView.QueueSummaryService;
+import wranglerView.logging.WLogger;
 import wranglerView.shared.QueueSummary;
 import wranglerView.shared.QueueSummary.JobInfo;
 
@@ -78,6 +79,7 @@ public class QueueSummaryServiceImpl  extends RemoteServiceServlet implements Qu
 		
 		info.jobID = job.getID();
 		if (job.getException() != null) {
+			WLogger.warn("Queue summary found a job with an exception set..\n job id: " + job.getID() + "\n exception msg: " + job.getException().getMessage());
 			info.errorMsg = job.getException().getLocalizedMessage();
 		}
 		

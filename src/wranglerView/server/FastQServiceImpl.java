@@ -14,7 +14,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class FastQServiceImpl extends RemoteServiceServlet implements FastQService {
 
-	public static final String defaultFastQRoot = System.getProperty("user.home") + "/fastq_files";
+	public static final String defaultFastQRoot = WranglerProperties.getFastQBaseDir().getAbsolutePath(); //
 	
 	static DecimalFormat formatter = new DecimalFormat("#,##0.00");
 	

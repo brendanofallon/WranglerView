@@ -9,11 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import wranglerView.logging.WLogger;
+import wranglerView.server.WranglerProperties;
 import wranglerView.shared.TemplateInfo;
 
 public class TemplateRegistry {
 
-	public static final String defaultTemplateDir = System.getProperty("user.home") + "/templates";
+	public static final String defaultTemplateDir = WranglerProperties.getTemplatesPath();
 	private File templateDir;
 	private Map<String, TemplateInfo> templates;
 	private Map<String, File> templateFiles;
@@ -21,8 +23,9 @@ public class TemplateRegistry {
 	private static TemplateRegistry registry = null;
 	
 	public static TemplateRegistry getRegistry() throws IOException {
-		if (registry == null)
+		if (registry == null)  {
 			registry = new TemplateRegistry();
+		}
 		
 		return registry;
 	}
@@ -39,6 +42,7 @@ public class TemplateRegistry {
 	}
 	
 	private TemplateRegistry(File templateDir) throws IOException {
+		WLogger.info("Creating new TemplateRegistry object with template dir: " + templateDir);
 		this.templateDir = templateDir;
 		scanDirectory();
 	}
@@ -66,10 +70,12 @@ public class TemplateRegistry {
 	 */
 	private void scanDirectory() throws IOException {
 		if (! templateDir.exists()) {
+			WLogger.severe( "Template directory " + templateDir.getAbsolutePath() + " does not exist!" );
 			throw new IOException("Template directory " + templateDir.getAbsolutePath() + " does not exist");
 		}
 		
 		if (! templateDir.isDirectory()) {
+			WLogger.severe( "Template directory " + templateDir.getAbsolutePath() + " is not a directory" );
 			throw new IOException("Template directory " + templateDir.getAbsolutePath() + " is not a directory");
 		}
 		
@@ -88,7 +94,7 @@ public class TemplateRegistry {
 					
 					templates.put(info.templateID, info);
 					templateFiles.put(info.templateID, files[i]);
-					
+					WLogger.info("Creating new analysis template with name: " + info.templateName + " and id: " + info.templateID);
 				}
 			}
 		}
@@ -112,8 +118,8 @@ public class TemplateRegistry {
 		
 		while(line != null) {
 			
-			if (line.contains("Analysis name:")) {
-				String name = line.replace("Analysis name:", "");
+			if (line.contains("Analysis name")) {
+				String name = line.replace("Analysis name", "").replace(":", "");
 				name = name.replace("<!--", "");
 				name = name.replace("-->", "");
 				name = name.trim();
@@ -121,8 +127,8 @@ public class TemplateRegistry {
 				hasName = true;
 			}
 			
-			if (line.contains("Analysis description:")) {
-				String desc = line.replace("Analysis description:", "");
+			if (line.contains("Analysis description")) {
+				String desc = line.replace("Analysis description", "").replace(":", "");
 				desc = desc.replace("<!--", "");
 				desc = desc.replace("-->", "");
 				desc = desc.trim();
@@ -130,8 +136,8 @@ public class TemplateRegistry {
 				hasDesc = true;
 			}
 			
-			if (line.contains("Analysis ID:")) {
-				String id = line.replace("Analysis ID:", "");
+			if (line.contains("Analysis ID")) {
+				String id = line.replace("Analysis ID", "").replace(":", "");
 				id = id.replace("<!--", "");
 				id = id.replace("-->", "");
 				id = id.trim();
