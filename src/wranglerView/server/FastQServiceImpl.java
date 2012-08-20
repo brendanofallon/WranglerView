@@ -34,7 +34,7 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 		for(int i=0; i<files.length; i++) {
 			File file = files[i];
 			if (file.isDirectory()) {
-				System.out.println("Examining directory " + file.getAbsolutePath());
+				//System.out.println("Examining directory " + file.getAbsolutePath());
 				FastQDirInfo info = buildInfo(file);
 				if (info != null) {
 					fqInfoList.add(info);
@@ -60,7 +60,7 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 		}
 		
 		FastQDirInfo info = new FastQDirInfo();
-		info.parentDir = dir.getName();
+		info.parentDir = dir.getAbsolutePath();
 		info.sampleName = dir.getName();
 		for(int i=0; i<files.length; i++) {
 			if ( looksLikeFastQ(files[i])) {

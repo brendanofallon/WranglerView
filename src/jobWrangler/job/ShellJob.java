@@ -17,7 +17,7 @@ import jobWrangler.util.StreamRedirector;
 public class ShellJob extends Job {
 
 	//This is the command that will be executed by the script
-	String command;
+	protected String command;
 	protected File baseDir = new File( System.getProperty("user.dir") );
 	private ProcessBuilder processBuilder = null;
 	private int exitValue = -1; 
@@ -38,6 +38,10 @@ public class ShellJob extends Job {
 		}
 		
 		baseDir = dir;
+	}
+	
+	public String getCommand() {
+		return command;
 	}
 	
 	/**
@@ -85,6 +89,7 @@ public class ShellJob extends Job {
 	}
 	
 	protected void initialize() throws InitializationFailedException {
+		System.out.println("Initializing shell job with command: " + command);
 		processBuilder = new ProcessBuilder("bash", "-c", command);
 		processBuilder.directory(baseDir);
 		processBuilder.redirectErrorStream(true);
@@ -107,6 +112,7 @@ public class ShellJob extends Job {
 	@Override
 	protected void execute() throws ExecutionFailedException {
 		
+		System.out.println("Executing shell job with command: " + command);
 		try {
 			Process proc = processBuilder.start();
 			

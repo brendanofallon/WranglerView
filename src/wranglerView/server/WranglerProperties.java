@@ -10,7 +10,7 @@ import java.io.File;
  */
 public class WranglerProperties {
 
-	protected static File wranglerRoot = new File( System.getProperty("user.home") );
+	protected static File wranglerRoot = new File( System.getProperty("user.home") + "/jobwrangler");
 	protected static File fastQBaseDir = new File( System.getProperty("user.home") + "/fastq_files");
 	
 	protected static String templatesRelativePath = "templates";

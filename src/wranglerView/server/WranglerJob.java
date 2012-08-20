@@ -52,8 +52,8 @@ public abstract class WranglerJob extends ShellJob {
 	 */
 	protected void initialize() throws InitializationFailedException {
 		if (baseDir != null) {
-			boolean ok = baseDir.mkdir();
-			if (! ok ) {
+			baseDir.mkdir();
+			if (! baseDir.exists() ) {
 				throw new InitializationFailedException("Could not create project base directory " + baseDir.getAbsolutePath(), this);
 			}
 		}

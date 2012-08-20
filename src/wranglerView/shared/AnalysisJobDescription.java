@@ -11,8 +11,13 @@ import java.io.Serializable;
  */
 public class AnalysisJobDescription implements Serializable {
 	
-	public String pathToFastQDir = null;
-	public String templateID = null;
-	public String sampleName = null;
+	public String pathToFastQDir = null; //Absolute path to parent directory
+	public String reads1Name = null;	//Name of fastq file containing forward reads
+	public String reads2Name = null;	//Name of fastq file containing reverse reads
+	public String templateID = null;	//Unique ID of template to use for analysis
+	public String sampleName = null;	//Name of sample
+	public String submitter = null;		//Name of submitter
+	public String templateName = null;	//User-readable name of analysis type
+	
 
 }

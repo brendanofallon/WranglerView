@@ -69,7 +69,7 @@ public class WLogger {
 	private static void initialize() {
 		logger = Logger.getLogger(name);
 		
-		String logFilePath = WranglerProperties.getWranglerRoot().getAbsolutePath() + "wrangler.log";
+		String logFilePath = WranglerProperties.getWranglerRoot().getAbsolutePath() + "/wrangler.log";
 		try {
 			FileHandler handler = new FileHandler(logFilePath, 1000, 10, true);
 			handler.setFormatter( new SimpleFormatter() );

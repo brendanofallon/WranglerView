@@ -2,7 +2,6 @@ package wranglerView.client.jobSubmission;
 
 
 import wranglerView.client.JobSubmissionPanel;
-import wranglerView.logging.WLogger;
 import wranglerView.shared.AnalysisJobDescription;
 import wranglerView.shared.FastQDirInfo;
 import wranglerView.shared.TemplateInfo;
@@ -125,8 +124,12 @@ public class JobSettingsPanel {
 		
 		
 		desc.pathToFastQDir = fqInfo.parentDir;
+		desc.reads1Name = fqInfo.reads1;
+		desc.reads2Name = fqInfo.reads2;
 		desc.templateID = selectedTemplate.templateID;
 		desc.sampleName = sampleName; 
+		desc.submitter = submitterIdBox.getText().replace(" ", "_");
+		desc.templateName = selectedTemplate.templateName;
 		
 		submissionService.submitJob(desc, new AsyncCallback<String>() {
 

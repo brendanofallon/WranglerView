@@ -53,17 +53,21 @@ public class FastQDirPanel {
 		VerticalPanel labelsPanel = new VerticalPanel();
 		labelsPanel.getElement().setId("filelabels");
 		
-		HTML topLabel = new HTML("<b>" + dirInfo.parentDir + "</b>");
+		
+		HTML topLabel = new HTML("<b>" + dirInfo.sampleName + "</b>");
 		topLabel.setStylePrimaryName("filelabelheader");
 		labelsPanel.add(topLabel);
 		topLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		labelsPanel.add(new HTML( dirInfo.reads1 ));
-		labelsPanel.add(new HTML( dirInfo.reads2 ));
+		
+		HTML pathLabel = new HTML( dirInfo.parentDir );
+		labelsPanel.add(pathLabel);
+		labelsPanel.add(new HTML( dirInfo.reads1 + " - " + dirInfo.reads1Size));
+		labelsPanel.add(new HTML( dirInfo.reads2 + " - " + dirInfo.reads2Size));
 		labelsPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		for(int i=1; i<labelsPanel.getWidgetCount(); i++) {
 			labelsPanel.getWidget(i).setStylePrimaryName("filelabel");
 		}
-		labelsPanel.setWidth("200px");
+		labelsPanel.setWidth("250px");
 		mainPanel.add(labelsPanel);
 		wrapper.add(mainPanel);
 		

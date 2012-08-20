@@ -23,7 +23,7 @@ public class ToolBar {
 	private void initComponents() {
 		mainPanel = new HorizontalPanel();
 		
-		Image addImage = new Image("images/newfile.png");
+		Image addImage = new Image("images/submitJobButton.png");
 		PushButton button1 = new PushButton( addImage );
 		button1.setStylePrimaryName("toolbarbutton");
 		button1.addClickHandler(new ClickHandler() {
@@ -37,7 +37,7 @@ public class ToolBar {
 		
 		mainPanel.add(button1);
 		
-		Image monitorImage = new Image("images/monitor.png");
+		Image monitorImage = new Image("images/viewQueueButton.png");
 		PushButton button2 = new PushButton( monitorImage );
 		button2.setStylePrimaryName("toolbarbutton");
 		button2.addClickHandler(new ClickHandler() {

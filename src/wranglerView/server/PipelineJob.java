@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import jobWrangler.job.InitializationFailedException;
-import wranglerView.server.template.TemplateRegistry;
+import wranglerView.logging.WLogger;
 
 public class PipelineJob extends WranglerJob {
 	
@@ -18,22 +18,25 @@ public class PipelineJob extends WranglerJob {
 		this.inputFile = inputFile;
 		this.projHome = projHome;
 		this.setBaseDir(projHome);
-		setCommand(javaPath + " " + memoryStr + " -jar pipeline.jar -home " + projHome.getAbsolutePath() + " " + inputFile.getAbsolutePath() );
+		setCommand(javaPath + " " + memoryStr + " -jar pipeline.jar -home " + projHome.getAbsolutePath() + " " + projHome.getAbsolutePath() + "/" + inputFile.getName() );
+		WLogger.info("Creating new Pipeline job with command : " + getCommand());
 	}
 
 	/**
 	 * Copy pipeline to project home
 	 */
 	protected void initialize() throws InitializationFailedException {
+		WLogger.info("Pipelinejob " + getID() + " is attempting to initialize");
 		//Create base directory and initialize process builder with command
 		super.initialize();
 		
 		if (! projHome.exists()) {
 			projHome.mkdir();
 		}
-		
+				
 		//Copy pipeline executable to project home
 		copyPipelineToProjHome();		
+		WLogger.info("Pipelinejob " + getID() + " has initialized successfully");
 	}
 
 
@@ -42,15 +45,12 @@ public class PipelineJob extends WranglerJob {
 	 * @throws InitializationFailedException
 	 */
 	private void copyPipelineToProjHome() throws InitializationFailedException {
-		try {
-			pipelinePath = TemplateRegistry.getRegistry().getTemplateDirectory() + "/pipeline.jar";
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			throw new InitializationFailedException("Could not copy pipeline executable from " + pipelinePath + " to " + projHome.getAbsolutePath(), this);
-		}
 		
+		pipelinePath = WranglerProperties.getWranglerRoot() + "/pipeline.jar";
 		
-		ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", "cp " + pipelinePath + " " + projHome.getAbsolutePath());
+		String com = "cp " + pipelinePath + " " + projHome.getAbsolutePath() + "/pipeline.jar";
+		ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", com);
+		WLogger.info("ProcessBuilder has creating copying job with command : "+ com);
 		
 		try {
 			Process proc = processBuilder.start();

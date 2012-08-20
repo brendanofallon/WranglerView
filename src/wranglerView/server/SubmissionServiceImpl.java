@@ -15,12 +15,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
-import jobWrangler.job.ShellJob;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import test.SleeperJob;
 import wranglerView.client.jobSubmission.SubmissionService;
 import wranglerView.logging.WLogger;
 import wranglerView.server.template.TemplateRegistry;
@@ -40,31 +38,35 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		//System.out.println("Server got job with parent dir: " + jobDesc.pathToFastQDir + "\n AnalysisID: " + jobDesc.templateID + "\n Sample : " + jobDesc.sampleName);
 		WLogger.info("Submitting a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 		
-		System.out.println("Creating job");
 		Job jobToSubmit = buildJob(jobDesc);
 		
 		Dispatcher dispatcher = DispatcherManager.getDispatcher();
 		
-			
-		//ShellJob job = new ShellJob("touch newjobfile.txt", new File( System.getProperty("user.dir")));
-		dispatcher.submitJob(jobToSubmit);		
+		if (jobToSubmit != null)
+			dispatcher.submitJob(jobToSubmit);		
 		
 		return jobToSubmit.getID();
 	}
 
 	private Job buildJob(AnalysisJobDescription jobDesc) {
 		
-		// WranglerJob job = ...job ?
 		String templateID = jobDesc.templateID;
 		TemplateRegistry tReg;
+		
+		WranglerJob job = null;
 		try {
 			tReg = TemplateRegistry.getRegistry();
 			File templateFile = tReg.getFileForID(templateID);
 			
+			//Search for fastq files within 
+			
+			//At some point we should have different job builders for different
+			//types of jobs
 			Map<String, String> subs = new HashMap<String, String>();
 			subs.put("SAMPLE", jobDesc.sampleName);
-			subs.put("INPUTFILE", jobDesc.pathToFastQDir);
-			subs.put("INPUTFILE2", jobDesc.pathToFastQDir);
+			
+			subs.put("INPUTFILE", jobDesc.pathToFastQDir + "/" + jobDesc.reads1Name);
+			subs.put("INPUTFILE2", jobDesc.pathToFastQDir + "/" + jobDesc.reads2Name);
 			
 			Document inputDoc = TemplateTransformer.transformTemplate(new BufferedReader(new FileReader(templateFile)), subs);
 			
@@ -80,22 +82,32 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			
 			String inputFilename = jobDesc.sampleName + "_input.xml";
 			writeInputFile(inputDoc, jobHome, inputFilename);
-			// ....???
+			
+			
+			job = new PipelineJob(jobHome, new File(inputFilename));
+			job.setAnalysisType(jobDesc.templateName);
+			job.setSampleName(jobDesc.sampleName);
+			job.setSubmitter(jobDesc.submitter);
+			
+			WLogger.info("Created new Pipeline job for sample : " + jobDesc.sampleName + " with home: " + jobHome.getAbsolutePath() + " and input filename: " + inputFilename + " job id is: " + job.getID());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			WLogger.severe("Error creating job for sample: " + jobDesc.sampleName + " : " + e.getMessage() );
 			return null;
 		} catch (ParserConfigurationException e) {
+			WLogger.severe("Error creating job for sample: " + jobDesc.sampleName + " : " + e.getMessage() );
 			e.printStackTrace();
 			return null;
 		} catch (SAXException e) {
+			WLogger.severe("Error creating job for sample: " + jobDesc.sampleName + " : " + e.getMessage() );
 			e.printStackTrace();
 			return null;
 		}
 		
-		int length = (int)(30.0*Math.random());
-		ShellJob job = new SleeperJob(length);
-		System.out.println("Creating sleeper job with wait time : " + length);
+//		int length = (int)(30.0*Math.random());
+//		ShellJob job = new SleeperJob(length);
+//		System.out.println("Creating sleeper job with wait time : " + length);
 		
 		return job;
 	}
