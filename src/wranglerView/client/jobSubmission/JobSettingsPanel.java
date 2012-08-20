@@ -2,6 +2,7 @@ package wranglerView.client.jobSubmission;
 
 
 import wranglerView.client.JobSubmissionPanel;
+import wranglerView.logging.WLogger;
 import wranglerView.shared.AnalysisJobDescription;
 import wranglerView.shared.FastQDirInfo;
 import wranglerView.shared.TemplateInfo;
@@ -11,10 +12,12 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CellPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -84,6 +87,10 @@ public class JobSettingsPanel {
 				handleSubmitButtonClick();
 			}
 		});
+		
+		submitSuccessMessage = new HTML("Job submitted successfully");
+		mainPanel.add(submitSuccessMessage);
+		submitSuccessMessage.setVisible(false);
 	}
 
 	protected void setHasUserSampleName() {
@@ -121,24 +128,40 @@ public class JobSettingsPanel {
 		desc.templateID = selectedTemplate.templateID;
 		desc.sampleName = sampleName; 
 		
-		submissionService.submitJob(desc, new AsyncCallback<Void>() {
+		submissionService.submitJob(desc, new AsyncCallback<String>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				System.out.println("Failure, exception is : " + caught.getMessage() );
+				Window.alert("Error submitting job : " + caught.getMessage());
 			}
 
 			@Override
-			public void onSuccess(Void v) {
-				// TODO Auto-generated method stub
-				System.out.println("Success, btw");
+			public void onSuccess(String id) {
+				showSubmitSuccessBox(id);
 			}
 			
 		});
 	}
 
+	protected void showSubmitSuccessBox(String jobID) {
+		if (submitSuccessMessage != null) {
+			submitSuccessMessage.setHTML("<b>Job submitted successfully, job id is: " + jobID + "<b>");
+			submitSuccessMessage.setVisible(true);
+		}
+		
+		Timer timer = new Timer() {
+
+			@Override
+			public void run() {
+				submitSuccessMessage.setVisible(false);
+			}
+			
+		};
+		timer.schedule(10 * 1000);
+	}
+
 	private boolean hasUserSampleID = false;
 	private TextBox submitterIdBox;
 	private TextBox sampleIdBox;
+	private HTML submitSuccessMessage;
 }

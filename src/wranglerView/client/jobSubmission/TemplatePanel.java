@@ -4,6 +4,8 @@ import wranglerView.shared.TemplateInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -61,6 +63,14 @@ public class TemplatePanel {
 				
 			}
 			
+		});
+		
+		wrapper.addMouseDownHandler(new MouseDownHandler() {
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				wrapper.setStyleName("noborder");
+			}
 		});
 		
 	}

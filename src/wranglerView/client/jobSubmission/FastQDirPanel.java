@@ -4,6 +4,8 @@ import wranglerView.shared.FastQDirInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -34,6 +36,8 @@ public class FastQDirPanel {
 		return dirInfo;
 	}
 	
+	
+	
 	private void initComponents() {
 		wrapper = new FocusPanel();
 		mainPanel = new HorizontalPanel();
@@ -63,8 +67,6 @@ public class FastQDirPanel {
 		mainPanel.add(labelsPanel);
 		wrapper.add(mainPanel);
 		
-		
-		
 		wrapper.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -73,6 +75,15 @@ public class FastQDirPanel {
 				
 			}
 			
+		});
+		
+		wrapper.addMouseDownHandler(new MouseDownHandler() {
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				mainPanel.setStyleName("fileselector-selected");
+				wrapper.setStyleName("noborder");
+			}
 		});
 		
 	}
@@ -96,10 +107,5 @@ public class FastQDirPanel {
 	}
 	
 	FocusPanel wrapper;
-	HorizontalPanel mainPanel;
-
-
-
-	
-	
+	HorizontalPanel mainPanel;	
 }

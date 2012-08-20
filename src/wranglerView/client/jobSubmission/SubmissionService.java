@@ -8,6 +8,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("submission")
 public interface SubmissionService extends RemoteService {
 	
-	public void submitJob(AnalysisJobDescription jobDesc);
+	public String submitJob(AnalysisJobDescription jobDesc);
 
 }

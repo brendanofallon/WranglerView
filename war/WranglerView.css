@@ -21,6 +21,10 @@ h1 {
 	font-size: 12pt;
 }
 
+#displayarea {
+	
+}
+
 #toolbar {
 	width: 100%;
 	padding-left: 25px;
@@ -82,26 +86,21 @@ h1 {
 }
 
 
-#leftpanel {
-	position: absolute;
-	width: 35%;
+.leftpanel {
+	width: 350px;
 	height: 500px;
 }
 
-#centerpanel {
-	position: absolute;
-	width: 30%;
+.centerpanel {
+	width: 350px;
 	height: 500px;
-	margin-left: 35%;
 	border-left: solid 1px rgb(200, 200, 200);
 	border-right: solid 1px rgb(200, 200, 200);
 }
 
-#rightpanel {
-	position: absolute;
-	width: 35%;
+.rightpanel {
+	width: 350px;
 	height: 500px;
-	margin-left: 65%;
 	padding: 10px;
 	padding-top: 20px;
 }
@@ -122,11 +121,25 @@ h1 {
 	height: 50px;
 	text-align: left;
 	border-radius: 5px;
-	border: 3px solid green;
+	border: 1px solid green;
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-top: 20px;
 	padding-bottom: 5px;
+	/* Chrome 10+,Safari */
+background : -webkit-linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 34%, rgb(255, 255, 255) 87%);
+
+/* Firefox 4+ */ 
+background : -moz-linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 34%, rgb(255, 255, 255) 87%);
+
+/* Opera */
+background : -o-linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 34%, rgb(255, 255, 255) 87%);
+
+/* IE 10+ */
+background : -ms-linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 34%, rgb(255, 255, 255) 87%); 
+
+/* W3C */
+background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 34%, rgb(255, 255, 255) 87%);
 }
 
 .fileselector {
@@ -145,11 +158,30 @@ h1 {
 	height: 50px;
 	text-align: left;
 	border-radius: 5px;
-	border: 3px solid blue;
 	padding-left: 10px;
 	padding-right: 6px;
 	padding-top: 17px;
 	padding-bottom: 5px;
+	border: 1px solid rgb(90, 122, 250);
+
+/* Chrome 10+,Safari */
+background : -webkit-linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 34%, rgb(255, 255, 255) 87%);
+
+/* Firefox 4+ */ 
+background : -moz-linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 34%, rgb(255, 255, 255) 87%);
+
+/* Opera */
+background : -o-linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 34%, rgb(255, 255, 255) 87%);
+
+/* IE 10+ */
+background : -ms-linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 34%, rgb(255, 255, 255) 87%); 
+
+/* W3C */
+background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 34%, rgb(255, 255, 255) 87%);
+	}
+	
+.noborder {
+	outline: 0;
 }
 
 .filelabelheader {

@@ -36,7 +36,7 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 	public static final String defaultProjectRoot = WranglerProperties.getExecutionDirPath(); //
 	
 	@Override
-	public void submitJob(AnalysisJobDescription jobDesc) throws IllegalArgumentException {
+	public String submitJob(AnalysisJobDescription jobDesc) throws IllegalArgumentException {
 		//System.out.println("Server got job with parent dir: " + jobDesc.pathToFastQDir + "\n AnalysisID: " + jobDesc.templateID + "\n Sample : " + jobDesc.sampleName);
 		WLogger.info("Submitting a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 		
@@ -49,6 +49,7 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		//ShellJob job = new ShellJob("touch newjobfile.txt", new File( System.getProperty("user.dir")));
 		dispatcher.submitJob(jobToSubmit);		
 		
+		return jobToSubmit.getID();
 	}
 
 	private Job buildJob(AnalysisJobDescription jobDesc) {

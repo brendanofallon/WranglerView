@@ -6,6 +6,8 @@ import java.util.List;
 import wranglerView.shared.FastQDirInfo;
 
 import com.google.gwt.user.client.ui.CellPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -86,14 +88,17 @@ public class FastQsPanel {
 	
 	private void initComponents() {
 		mainPanel = new VerticalPanel();
+		scrollPanel = new ScrollPanel();
+		scrollPanel.add(mainPanel);
 	}
 
 
-	public CellPanel getWidget() {
-		return mainPanel;
+	public Panel getWidget() {
+		return scrollPanel;
 	}
 	
 	
+	ScrollPanel scrollPanel;
 	VerticalPanel mainPanel;
 
 	

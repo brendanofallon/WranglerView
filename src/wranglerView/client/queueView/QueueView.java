@@ -72,16 +72,16 @@ public class QueueView {
 		panel.setStylePrimaryName("jobinfo");
 		
 		Image image = null;
-		if (info.status.equalsIgnoreCase("uninitialized") || info.status.equals("initializing")) {
+		if (info.status.equalsIgnoreCase("waiting") || info.status.equals("initializing")) {
 			image = new Image("images/waiting.png");
 		}
-		if (info.status.equalsIgnoreCase("executing")) {
+		if (info.status.equalsIgnoreCase("running")) {
 			image = new Image("images/running.png");
 		}
-		if (info.status.equalsIgnoreCase("finished_success")) {
+		if (info.status.equalsIgnoreCase("Completed without error")) {
 			image = new Image("images/completedOK.png");
 		}
-		if (info.status.equalsIgnoreCase("finished_error")) {
+		if (info.status.equalsIgnoreCase("error")) {
 			image = new Image("images/error1.png");
 		}
 		if (image == null) {

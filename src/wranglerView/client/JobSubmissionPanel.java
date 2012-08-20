@@ -15,14 +15,21 @@ import wranglerView.shared.TemplateInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Wraps a fastq, template, and job settings panel. Together the allow for job submission
+ * @author brendanofallon
+ *
+ */
 public class JobSubmissionPanel {
 
 	public JobSubmissionPanel() {
-		initializeSubmissionPanel();
-		initializeTemplatesPanel();
 		initializeFastQsPanel();
+		initializeTemplatesPanel();
+		initializeSubmissionPanel();
 	}
 	
 	public TemplateInfo getSelectedTemplate() {
@@ -35,15 +42,15 @@ public class JobSubmissionPanel {
 
 
 	private void initializeSubmissionPanel() {
-		RootPanel rightpanel = RootPanel.get("rightpanel");
 		JobSettingsPanel settingsPanel = new JobSettingsPanel(this);
-		rightpanel.add(settingsPanel.getWidget());
+		settingsPanel.getWidget().setStylePrimaryName("rightpanel");
+		hPanel.add(settingsPanel.getWidget());
 	}
 	
 	private void initializeTemplatesPanel() {
-		RootPanel centerPanel = RootPanel.get("centerpanel");
 		templatesPanel = new TemplatesPanel();
-		centerPanel.add(templatesPanel.getWidget());
+		templatesPanel.getWidget().setStylePrimaryName("centerpanel");
+		hPanel.add(templatesPanel.getWidget());
 		
 		templateFetcher.getAvailableTemplates(new AsyncCallback< List<TemplateInfo>>() {
 
@@ -58,19 +65,21 @@ public class JobSubmissionPanel {
 			}
 			
 		});
-		
 	}
 	
-	
+
+	public Widget getWidget() {
+		return hPanel;
+	}
 
 	/**
 	 * Initialize the FastQ panel by making an RPC call to the server to obtain
 	 * the list of FastQDirInfo objects that we will display
 	 */
 	private void initializeFastQsPanel() {
-		RootPanel leftPanel = RootPanel.get("leftpanel");
 		fqsPanel = new FastQsPanel();
-		leftPanel.add(fqsPanel.getWidget());
+		fqsPanel.getWidget().setStylePrimaryName("leftPanel");
+		hPanel.add(fqsPanel.getWidget());
 		
 		fqFetcher.getFastQFolders(new AsyncCallback<List<FastQDirInfo>>() {
 
@@ -104,7 +113,8 @@ public class JobSubmissionPanel {
 			templatesPanel.addTemplate(info);
 		}
 	}
-	
+
+	private HorizontalPanel hPanel = new HorizontalPanel();
 	private TemplateServiceAsync templateFetcher = GWT.create(TemplateService.class);
 	private FastQServiceAsync fqFetcher = GWT.create(FastQService.class);
 	private TemplatesPanel templatesPanel;
