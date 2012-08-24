@@ -46,6 +46,19 @@
     <servlet-name>qSummaryServlet</servlet-name>
     <url-pattern>/wranglerview/queuesummary</url-pattern>
   </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>jobQueryServlet</servlet-name>
+    <servlet-class>wranglerView.server.JobQueryServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>jobQueryServlet</servlet-name>
+    <url-pattern>/wranglerview/jobquery</url-pattern>
+  </servlet-mapping>
+  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>WranglerView.html</welcome-file>

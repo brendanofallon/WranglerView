@@ -80,6 +80,10 @@ public class ShellJob extends Job {
 		this.directOutputToFile = directOutputToFile;
 	}
 
+	public File getBaseDir() {
+		return baseDir;
+	}
+	
 	/**
 	 * Returns the exit value of the process, or -1 if the process has not completed yet
 	 * @return

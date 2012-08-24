@@ -1,6 +1,8 @@
 package wranglerView.client.queueView;
 
 
+import wranglerView.client.QueueStatusPanel;
+import wranglerView.shared.JobQueryResult;
 import wranglerView.shared.QueueSummary;
 import wranglerView.shared.QueueSummary.JobInfo;
 
@@ -14,10 +16,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Main display panel for showing the state of the job queue. We show a list of all jobs 
+ * on the left and details about particular jobs selected by the user on the right
+ * @author brendan
+ *
+ */
 public class QueueView {
 
 	public QueueView() {
@@ -37,6 +45,7 @@ public class QueueView {
 			@Override
 			public void onSuccess(QueueSummary result) {
 				showSummary(result);
+				qStatus.refresh();
 			}
 			
 		});
@@ -46,13 +55,14 @@ public class QueueView {
 	protected void showSummary(QueueSummary summary) {
 		removeAll();
 		
+		mainPanel.add(qStatus.getWidget());
 		if (summary.jobInfo == null || summary.jobInfo.size() == 0) {
-			mainPanel.add(new HTML("<h2> No jobs found in queue </h2>"));
+			jobListPanel.add(new HTML("<h2> No jobs found in queue </h2>"));
 			return;
 		}
 		
 		for(JobInfo info : summary.jobInfo) {
-			mainPanel.add( createJobInfoWidget(info));
+			jobListPanel.add( createJobInfoWidget(info));
 		}
 		
 	}
@@ -62,12 +72,12 @@ public class QueueView {
 	}
 
 	private void removeAll() {
-		while(mainPanel.getWidgetCount() > 0) {
-			mainPanel.remove(0);
+		while(jobListPanel.getWidgetCount() > 0) {
+			jobListPanel.remove(0);
 		}
 	}
 
-	private Widget createJobInfoWidget(JobInfo info) {
+	private Widget createJobInfoWidget(final JobInfo info) {
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setStylePrimaryName("jobinfo");
 		
@@ -93,10 +103,10 @@ public class QueueView {
 		//vp.setStylePrimaryName("infolabel");
 		
 		
-		vp.add(new HTML("Sample : " + info.sampleName + " Status: " + info.status));
+		vp.add(new HTML("Sample : " + info.sampleName));
+		vp.add(new HTML("Status: " + info.status));
 		vp.add(new HTML("Analysis type: " + info.analysisType));
-		vp.add(new Label("Start time: " + info.startTime));
-		vp.add(new Label("Submitter: " + info.submitter));
+		
 		for(int i=0; i<vp.getWidgetCount(); i++) {
 			vp.getWidget(i).setStylePrimaryName("infolabel");
 		}
@@ -104,22 +114,69 @@ public class QueueView {
 		
 		panel.add(vp);
 			
+		Button detailsButton = new Button("Details");
+		panel.add(detailsButton);
+		detailsButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				getQueryForJob(info.jobID);
+			}
+			
+		});
 		
 		return panel;
 	}
 	
 	
 
+	protected void getQueryForJob(String jobID) {
+		jobQueryFetcher.queryJob(jobID, new AsyncCallback<JobQueryResult>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Error getting details for job : " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(JobQueryResult result) {
+				showDetailsPanel(result);
+			}
+			
+		});
+	}
+
+	protected void showDetailsPanel(JobQueryResult result) {
+		while(detailsPanel.getWidgetCount() > 0) {
+			detailsPanel.remove(0);
+		}
+		
+		for(String key : result.statusVals.keySet()) {
+			String value = result.statusVals.get(key);
+			HTML msg = new HTML(key + " : " + value);
+			detailsPanel.add(msg);
+			msg.setStylePrimaryName("detailmessage");
+		}
+	}
+
 	private void initComponents() {
-		mainPanel = new VerticalPanel();
-//		Button refreshButton  = new Button("Refresh list");
-//		refreshButton.addClickHandler(new ClickHandler() {
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				refreshList();
-//			}
-//		});
-//		refreshList();
+		mainPanel = new HorizontalPanel();
+		mainPanel.setWidth("900px");
+		jobListPanel = new VerticalPanel();
+		scrollPanel = new ScrollPanel();
+		scrollPanel.add(jobListPanel);
+		scrollPanel.setWidth("400px");
+		
+		mainPanel.add(scrollPanel);
+		
+		detailsPanel = new VerticalPanel();
+		detailsPanel.setWidth("300px");
+		detailsPanel.setStylePrimaryName("detailspanel");
+		mainPanel.add(detailsPanel);
+		
+		qStatus = new QueueStatusPanel();
+		mainPanel.add(qStatus.getWidget());
+		qStatus.refresh();
 		
 		timer = new Timer() {
 			public void run() {
@@ -134,10 +191,14 @@ public class QueueView {
 
 
 
-
-	private VerticalPanel mainPanel;
+	private VerticalPanel detailsPanel;
+	private HorizontalPanel mainPanel;
+	private ScrollPanel scrollPanel;
+	private VerticalPanel jobListPanel;
+	private QueueStatusPanel qStatus;
 	
 	private QueueSummaryServiceAsync qSummaryFetcher = GWT.create(QueueSummaryService.class);
+	private JobQueryServiceAsync jobQueryFetcher = GWT.create(JobQueryService.class);
 
 	Timer timer;
 	

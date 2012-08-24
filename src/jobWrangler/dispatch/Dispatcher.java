@@ -9,6 +9,7 @@ import jobWrangler.executor.Executor;
 import jobWrangler.executor.ExecutorEvent;
 import jobWrangler.executor.ExecutorListener;
 import jobWrangler.job.Job;
+import wranglerView.logging.WLogger;
 
 /**
  * Monitors one or more Executors, maintains a list of jobs that are waiting to be
@@ -57,8 +58,8 @@ public class Dispatcher implements ExecutorListener {
 			throw new IllegalStateException("Could not add job to queue!"); 
 		}
 		
-		System.out.println("Submitting job with id:" + job.getID() + " q size is now : " + getQueueSize());
-		
+		//System.out.println("Submitting job with id:" + job.getID() + " q size is now : " + getQueueSize());
+		WLogger.info("Submitting new job with id: " + job.getID());
 		pollExecutors();
 	}
 	
@@ -84,7 +85,7 @@ public class Dispatcher implements ExecutorListener {
 	 */
 	public synchronized boolean pollExecutors() {
 		
-		System.out.println("Polling, current state is : " + this.toString());
+		//System.out.println("Polling, current state is : " + this.toString());
 		
 		if (getQueueSize()==0)
 			return false;
@@ -149,7 +150,8 @@ public class Dispatcher implements ExecutorListener {
 	
 	@Override
 	public void executorUpdated(ExecutorEvent evt) {
-		System.out.println("Executor updated, event type is: " + evt.type + " job is:" + evt.job.getID());
+		//System.out.println("Executor updated, event type is: " + evt.type + " job is:" + evt.job.getID());
+		WLogger.info("Executor update, type: " + evt.type + " job:" + evt.job.getID() );
 		if (evt.type == ExecutorEvent.EventType.JOB_FINISHED || evt.type == ExecutorEvent.EventType.JOB_ERROR) {
 			Job job = evt.job;
 			if (! completedJobs.contains(job)) 

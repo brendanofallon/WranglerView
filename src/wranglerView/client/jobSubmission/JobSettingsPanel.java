@@ -2,6 +2,7 @@ package wranglerView.client.jobSubmission;
 
 
 import wranglerView.client.JobSubmissionPanel;
+import wranglerView.client.QueueStatusPanel;
 import wranglerView.shared.AnalysisJobDescription;
 import wranglerView.shared.FastQDirInfo;
 import wranglerView.shared.TemplateInfo;
@@ -15,9 +16,10 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CellPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -29,6 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class JobSettingsPanel {
 
+	ScrollPanel scrollPane;
 	VerticalPanel mainPanel;
 	JobSubmissionPanel submissionPanel;
 	
@@ -39,8 +42,8 @@ public class JobSettingsPanel {
 		initComponents();
 	}
 	
-	public CellPanel getWidget() {
-		return mainPanel;
+	public Panel getWidget() {
+		return scrollPane;
 	}
 
 	/**
@@ -56,8 +59,15 @@ public class JobSettingsPanel {
 	
 	private void initComponents() {
 		mainPanel = new VerticalPanel();
+		scrollPane = new ScrollPanel();
+		scrollPane.add(mainPanel);
 		
-		Label sampleIDLabel = new Label("Enter Sample ID:");
+		
+		qPanel = new QueueStatusPanel();
+		mainPanel.add(qPanel.getWidget());
+		qPanel.refresh();
+		
+		Label sampleIDLabel = new HTML("<b>Enter Sample ID:</b>");
 		sampleIdBox = new TextBox();
 		sampleIdBox.addChangeHandler(new ChangeHandler() {
 
@@ -72,7 +82,7 @@ public class JobSettingsPanel {
 		mainPanel.add(sampleIdBox);
 		
 		
-		Label submitterLabel = new Label("Enter Submitter (e.g. your name):");
+		Label submitterLabel = new HTML("<b>Enter Submitter (e.g. your name): </b>");
 		submitterIdBox = new TextBox();
 		mainPanel.add(submitterLabel);
 		mainPanel.add(submitterIdBox);
@@ -141,6 +151,7 @@ public class JobSettingsPanel {
 			@Override
 			public void onSuccess(String id) {
 				showSubmitSuccessBox(id);
+				qPanel.refresh();
 			}
 			
 		});
@@ -163,6 +174,7 @@ public class JobSettingsPanel {
 		timer.schedule(10 * 1000);
 	}
 
+	private QueueStatusPanel qPanel;
 	private boolean hasUserSampleID = false;
 	private TextBox submitterIdBox;
 	private TextBox sampleIdBox;

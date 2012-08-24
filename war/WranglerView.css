@@ -103,6 +103,7 @@ h1 {
 	height: 500px;
 	padding: 10px;
 	padding-top: 20px;
+	border-right: solid 2px rgb(200, 200, 200);
 }
 
 .templatemain {
@@ -225,6 +226,31 @@ background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 
   	padding-left: 10px;
 }
 	
+	
+.qstatus {
+	width: 320px;
+	height: 70px;
+}
+
+.qlabel {
+	text-align: right;
+	font: 'Droid Sans', Arial, sans-serif;
+  	font-size:8pt;
+}
+
+.detailspanel {
+	font: 'Droid Sans', Arial, sans-serif;
+  	font-size:10pt;
+  	padding-left: 10px;
+  	padding-top: 25px;
+}
+
+.detailmessage {
+	font: 'Droid Sans', Arial, sans-serif;
+  	font-size:10pt;
+  	padding-top: 4px;
+}
+
 #button {
 	width: 200px;
 	height: 50px;

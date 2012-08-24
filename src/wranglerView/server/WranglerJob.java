@@ -19,8 +19,6 @@ public abstract class WranglerJob extends ShellJob {
 		super("");	
 	}
 
-
-
 	public String getSampleName() {
 		return sampleName;
 	}
