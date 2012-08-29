@@ -11,6 +11,9 @@ import java.io.Serializable;
  */
 public class AnalysisJobDescription implements Serializable {
 	
+	public enum AnalysisStyle {BRENDAN, MARC};
+	
+	public AnalysisStyle analysisStyle = null;
 	public String pathToFastQDir = null; //Absolute path to parent directory
 	public String reads1Name = null;	//Name of fastq file containing forward reads
 	public String reads2Name = null;	//Name of fastq file containing reverse reads

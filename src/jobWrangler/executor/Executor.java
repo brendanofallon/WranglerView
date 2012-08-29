@@ -43,6 +43,11 @@ public abstract class Executor {
 	 */
 	public abstract void runJob(Job job);
 	
+	/**
+	 * Attempt to immediately terminate the given job
+	 * @param job
+	 */
+	public abstract void killJob(Job job);
 	
 	public void addListener(ExecutorListener l) {
 		listeners.add(l);

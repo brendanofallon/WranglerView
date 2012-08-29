@@ -75,7 +75,6 @@ public class JobMonitor implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		//System.out.println("Monitor is polling, current job " + job.getID() + " state is : " + job.getJobState());
 		if (previousState != job.getJobState()) {
 			fireJobUpdate();
 		}

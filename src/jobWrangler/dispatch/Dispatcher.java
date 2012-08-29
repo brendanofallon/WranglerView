@@ -1,6 +1,7 @@
 package jobWrangler.dispatch;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -9,6 +10,7 @@ import jobWrangler.executor.Executor;
 import jobWrangler.executor.ExecutorEvent;
 import jobWrangler.executor.ExecutorListener;
 import jobWrangler.job.Job;
+import jobWrangler.job.Job.JobState;
 import wranglerView.logging.WLogger;
 
 /**
@@ -47,6 +49,33 @@ public class Dispatcher implements ExecutorListener {
 	}
 	
 	/**
+	 * Return the job associated with the given id
+	 * @param id
+	 * @return
+	 */
+	public Job getJobForID(String id) {
+		for(Job job : getQueuedJobs()) {
+			if (job.getID().equals(id)) {
+				return job;
+			}
+		}
+		
+		for(Job job : getRunningJobs()) {
+			if (job.getID().equals(id)) {
+				return job;
+			}
+		}
+		
+		for(Job job : getCompletedJobs()) {
+			if (job.getID().equals(id)) {
+				return job;
+			}
+		}
+	
+		return null;
+	}
+	
+	/**
 	 * Add a new job to the queue. Initially this job will be waiting, but will at some point
 	 * begin executing when an executor becomes available
 	 * @param job
@@ -61,6 +90,41 @@ public class Dispatcher implements ExecutorListener {
 		//System.out.println("Submitting job with id:" + job.getID() + " q size is now : " + getQueueSize());
 		WLogger.info("Submitting new job with id: " + job.getID());
 		pollExecutors();
+	}
+	
+	/**
+	 * Removed a queued but not executing job from the queue. This has no effect is the
+	 * job is running or has completed. 
+	 * @param job
+	 * @return
+	 */
+	public boolean removeWaitingJob(Job job) {
+		return queue.remove(job); 
+	}
+	
+	/**
+	 * Attempt to kill a running job. If the job is not running no action is taken 
+	 * @param job
+	 * @return
+	 */
+	public void requestKillJob(Job job) {
+		if (job.getJobState() != JobState.EXECUTING) {
+			WLogger.warn("Request to kill job with id: " + job.getID() + " but job state is : " + job.getJobState());
+			return;
+		}
+		
+		boolean found = false;
+		for(Executor exec : executors) {
+			if (exec.getJobs().contains(job)) {
+				found = true;
+				WLogger.info("Request to kill job with id: " + job.getID() + " found executor and is attempting to terminate");
+				exec.killJob(job);
+			}
+		}
+		
+		if (!found) {
+			WLogger.warn("Request to kill job with id: " + job.getID() + " but was not found in any executor");
+		}
 	}
 	
 	/**
@@ -215,6 +279,16 @@ public class Dispatcher implements ExecutorListener {
 	}
 	
 	/**
+	 * Return a newly allocated list of all jobs in the completed area
+	 * @return
+	 */
+	public List<Job> getCompletedJobs() {
+		List<Job> jobs = new ArrayList<Job>();
+		jobs.addAll( completedJobs );
+		return jobs;
+	}
+	
+	/**
 	 * Returns a (newly instantiated) list of jobs which aer all jobs
 	 * waiting to be executed
 	 * @return
@@ -222,6 +296,7 @@ public class Dispatcher implements ExecutorListener {
 	public List<Job> getQueuedJobs() {
 		List<Job> jobs = new ArrayList<Job>();
 		jobs.addAll( queue );
+		Collections.reverse( jobs ); 
 		return jobs;
 	}
 	

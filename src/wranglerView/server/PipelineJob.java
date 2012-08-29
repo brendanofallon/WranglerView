@@ -10,7 +10,7 @@ public class PipelineJob extends WranglerJob {
 	
 	final File inputFile;
 	final File projHome;
-	final String javaPath = " java ";
+	final String javaPath = "java ";
 	final String memoryStr = " -Xmx8g ";
 	private String pipelinePath = null; //Gets set during initialization
 	
@@ -18,7 +18,8 @@ public class PipelineJob extends WranglerJob {
 		this.inputFile = inputFile;
 		this.projHome = projHome;
 		this.setBaseDir(projHome);
-		setCommand(javaPath + " " + memoryStr + " -jar pipeline.jar -home " + projHome.getAbsolutePath() + " " + projHome.getAbsolutePath() + "/" + inputFile.getName() );
+		String propertiesPath = WranglerProperties.getWranglerRoot() + "/pipeline_properties.xml";
+		setCommand(javaPath + " " + memoryStr + " -jar pipeline.jar -props " + propertiesPath + " -home " + projHome.getAbsolutePath() + " " + projHome.getAbsolutePath() + "/" + inputFile.getName() );
 		WLogger.info("Creating new Pipeline job with command : " + getCommand());
 	}
 

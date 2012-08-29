@@ -54,9 +54,10 @@ h1 {
 }
 
 .toolbarbutton {
+	outline: 0px;
 	width: 300px;
 	height: 55px;
-	font:'Droid Sans', Arial, sans-serif;
+	font-family:'Droid Sans', Arial, sans-serif;
   	font-size:12pt;
   	margin-top: 0px;
   	margin-left: 5px;
@@ -68,12 +69,14 @@ h1 {
 }
 .toolbarbutton-down-hovering
 {
+	outline: 0px;
 	border-radius: 5px;
 	border: 2px solid gray;
     background-color       :   rgb(100, 100, 100);
 }
 .toolbarbutton-up-hovering
 {
+	outline: 0px;
 	margin-top: 0px;
   	margin-left: 5px;
   	margin-right: 5px;
@@ -85,6 +88,13 @@ h1 {
     border: 2px solid gray;
 }
 
+.fqfocuspanel {
+	
+}
+
+.fqfocuspanel-hovering {
+	background-color       :   rgb(230, 230, 230);
+}
 
 .leftpanel {
 	width: 350px;
@@ -103,7 +113,6 @@ h1 {
 	height: 500px;
 	padding: 10px;
 	padding-top: 20px;
-	border-right: solid 2px rgb(200, 200, 200);
 }
 
 .templatemain {
@@ -154,6 +163,18 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 	border-bottom: 1px solid rgb(220, 222, 222);
 }
 
+.fileselector-up-hovering {
+	width: 350px;
+	height: 50px;
+	background: gray;
+}
+
+.fileselector-down-hovering {
+	width: 350px;
+	height: 50px;
+	background: gray;
+}
+
 .fileselector-selected {
 	width: 350px;
 	height: 50px;
@@ -182,12 +203,113 @@ background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 
 	}
 	
 .noborder {
+	font-family: 'Droid Sans', Arial, sans-serif;
+  	font-size:10pt;
 	outline: 0;
 }
 
+.jobbutton {
+	font-family: 'Droid Sans', Arial, sans-serif;
+  	font-size: 8pt;
+  	margin: 2px;
+  	padding: 3px;
+	background: white;
+	border-radius: 3px;
+	outline: 0px;
+	border: 1px solid rgb(212, 212, 212); 	
+	/* Chrome 10+,Safari */
+background : -webkit-linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255) 87%);
+
+/* Firefox 4+ */ 
+background : -moz-linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255) 87%);
+
+/* Opera */
+background : -o-linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255) 87%);
+
+/* IE 10+ */
+background : -ms-linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255) 87%); 
+
+/* W3C */
+background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255) 87%);
+}
+
+.jobbutton-red {
+	font-family: 'Droid Sans', Arial, sans-serif;
+  	font-size: 8pt;
+  	margin: 2px;
+  	padding: 3px;
+	background: white;
+	border-radius: 3px;
+	outline: 0px;
+	border: 1px solid rgb(212, 212, 212); 	
+	/* Chrome 10+,Safari */
+	background : -webkit-linear-gradient(bottom, rgb(176, 52, 52) 22%, rgb(255, 143, 143) 63%);
+
+	/* Firefox 4+ */ 
+	background : -moz-linear-gradient(bottom, rgb(176, 52, 52) 22%, rgb(255, 143, 143) 63%);
+
+	/* Opera */
+	background : -o-linear-gradient(bottom, rgb(176, 52, 52) 22%, rgb(255, 143, 143) 63%);
+
+	/* IE 10+ */
+	background : -ms-linear-gradient(bottom, rgb(176, 52, 52) 22%, rgb(255, 143, 143) 63%); 
+
+	/* W3C */
+	background : -linear-gradient(bottom, rgb(176, 52, 52) 22%, rgb(255, 143, 143) 63%);
+}
+
+.jobbutton-up-hovering {
+	font-family: 'Droid Sans', Arial, sans-serif;
+  	font-size:8pt;
+	outline: 0px;
+	margin: 2px;
+	padding: 3px;
+	border: 1px solid gray;
+	border-radius: 3px;
+		/* Chrome 10+,Safari */
+background : -webkit-linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255) 65%);
+
+/* Firefox 4+ */ 
+background : -moz-linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255) 65%);
+
+/* Opera */
+background : -o-linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255) 65%);
+
+/* IE 10+ */
+background : -ms-linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255) 65%); 
+
+/* W3C */
+background : -linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255) 65%);
+}
+
+.jobbutton-down-hovering {
+	font-family: 'Droid Sans', Arial, sans-serif;
+  	font-size:8pt;
+	outline: 0px;
+	margin: 2px;
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 3px;
+		
+	/* Chrome 10+,Safari */
+background : -webkit-linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86%);
+
+/* Firefox 4+ */ 
+background : -moz-linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86%);
+
+/* Opera */
+background : -o-linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86%);
+
+/* IE 10+ */
+background : -ms-linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86%); 
+
+/* W3C */
+background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86%);
+}
+
 .filelabelheader {
-	font:'Droid Sans', Arial, sans-serif;
-  	font-size:12pt;
+	font-family:'Droid Sans', Arial, sans-serif;
+  	font-size:11pt;
 }
 
 .jobinfo {
@@ -202,7 +324,7 @@ background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 
 }
 
 .infolabel {
-	font:'Droid Sans', Arial, sans-serif;
+	font-family:'Droid Sans', Arial, sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -221,7 +343,7 @@ background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 
 }
 
 .filelabel {
-	font: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Droid Sans', Arial, sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -239,14 +361,14 @@ background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 
 }
 
 .detailspanel {
-	font: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Droid Sans', Arial, sans-serif;
   	font-size:10pt;
   	padding-left: 10px;
   	padding-top: 25px;
 }
 
 .detailmessage {
-	font: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Droid Sans', Arial, sans-serif;
   	font-size:10pt;
   	padding-top: 4px;
 }
@@ -290,5 +412,17 @@ background : -linear-gradient(bottom, rgb(90, 122, 250) 01%, rgb(212, 219, 255) 
 	border-top: 1px solid rgb(200, 200, 200);
 	font-size: 12px;
 	
+}
+
+.dialog {
+	position: absolute;
+	width: 400px;
+	height:300px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0px 0x 10px #202020;
+	-webkit-box-shadow: 0px 0px 10px #202020;
+	box-shadow: 0px 0px 10px #202020;
+	text-align:center;
 }
 

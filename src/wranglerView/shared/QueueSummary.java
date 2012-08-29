@@ -20,6 +20,7 @@ public class QueueSummary implements Serializable {
 		public String jobID = null;
 		public String submitter = null;
 		public String startTime = null;
+		public String creationTime = null;
 		public String endTime = null;
 		public String status = null;
 		public String errorMsg = null;

@@ -26,6 +26,7 @@ public class TemplateServiceImpl extends RemoteServiceServlet implements Templat
 		TemplateRegistry tReg;
 		try {
 			tReg = TemplateRegistry.getRegistry();
+			tReg.scanDirectory();
 			return tReg.getAvailableTemplates();
 		} catch (IOException e) {
 			e.printStackTrace();

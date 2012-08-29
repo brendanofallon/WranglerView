@@ -7,6 +7,7 @@ import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
 import jobWrangler.job.JobListener;
 import jobWrangler.job.JobMonitor;
+import wranglerView.logging.WLogger;
 
 /**
  * This type of executor runs only a single job at a time
@@ -71,21 +72,36 @@ public class SingleJobExecutor extends Executor implements JobListener {
 	 */
 	private void releaseJob() {
 		if (runner == null) {
+			WLogger.warn("ERROR: Release Job was called, but runner is null");
 			throw new IllegalStateException("Huh? Release job has been called, but runner is null");
 		}
 		else {
 			if (runner.isDone()) {
-				System.out.println("Running job " + runner.job.getID() + " has finished and thread is done, releasing");
+				//System.out.println("Running job " + runner.job.getID() + " has finished and thread is done, releasing");
 				runner = null;
 			}
 			else {
 				runner.cancel(true);
-				System.out.println("Running job " + runner.job.getID() + " has finished and but thread is not done, canceling thread...");
+				//System.out.println("Running job " + runner.job.getID() + " has finished and but thread is not done, canceling thread...");
 				runner = null;
 			}
 		}
 	}
 
+	@Override
+	public void killJob(Job job) {
+		if (runner != null) {
+			if (runner.getJob() == job) {
+				WLogger.info("SingleJobExecutor is killing job with id: " + job.getID() );
+				job.killJob();
+				runner.cancel(true);
+			}
+		}
+		else {
+			WLogger.warn("SingleJobExecutor has no runner, cannot try to kill job " + job.getID());
+		}
+	}
+	
 	@Override
 	public int getJobCount() {
 		if (getCurrentJob()==null)
@@ -102,5 +118,7 @@ public class SingleJobExecutor extends Executor implements JobListener {
 			list.add( getCurrentJob() );
 		return list;
 	}
+
+
 
 }

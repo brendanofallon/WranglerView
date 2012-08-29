@@ -43,14 +43,8 @@ public final class SendEmail {
 		if (from != null)
 			msg.setFrom(new InternetAddress(from));
 
-		msg.setRecipients(Message.RecipientType.TO,
+		msg.setRecipients(Message.RecipientType.TO, 
 				InternetAddress.parse(to, false));
-//		if (cc != null)
-//			msg.setRecipients(Message.RecipientType.CC,
-//					InternetAddress.parse(cc, false));
-//		if (bcc != null)
-//			msg.setRecipients(Message.RecipientType.BCC,
-//					InternetAddress.parse(bcc, false));
 
 		msg.setSubject(subject);
 

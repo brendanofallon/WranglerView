@@ -66,7 +66,8 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 			
 			result.statusVals.put("Submitter", wJob.getSubmitter() );
 			result.statusVals.put("Sample", wJob.getSampleName() );
-			result.statusVals.put("Analysis type", wJob.getAnalysisType() );			
+			result.statusVals.put("Analysis type", wJob.getAnalysisType() );	
+			result.statusVals.put("Submission time", wJob.getCreationDate().toString());
 		}
 		
 
@@ -89,7 +90,7 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 	}
 
 	private void readStatusFile(Map<String, String> vals, File baseDir) {
-		File statusFile = new File(baseDir.getAbsolutePath() + "wrangler.status.txt");
+		File statusFile = new File(baseDir.getAbsolutePath() + "/wrangler.status.txt");
 		if (statusFile != null) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(statusFile));

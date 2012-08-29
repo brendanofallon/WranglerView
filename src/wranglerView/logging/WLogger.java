@@ -71,7 +71,7 @@ public class WLogger {
 		
 		String logFilePath = WranglerProperties.getWranglerRoot().getAbsolutePath() + "/wrangler.log";
 		try {
-			FileHandler handler = new FileHandler(logFilePath, 1000, 10, true);
+			FileHandler handler = new FileHandler(logFilePath, 10000, 1, true);
 			handler.setFormatter( new SimpleFormatter() );
 			logger.addHandler(handler);
 			

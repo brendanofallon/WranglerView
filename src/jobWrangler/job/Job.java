@@ -1,8 +1,6 @@
 package jobWrangler.job;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import jobWrangler.util.IDGenerator;
 
@@ -96,6 +94,10 @@ public abstract class Job {
 	 */
 	protected void cleanUp() {
 		//Called when execution has completed, default is no-op
+	}
+	
+	public void killJob() {
+		//Called prior to forcible termination of the job. Do some cleanup here if need be
 	}
 	
 	/**

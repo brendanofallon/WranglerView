@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import jobWrangler.util.StreamRedirector;
+import wranglerView.logging.WLogger;
 
 
 /**
@@ -20,6 +21,7 @@ public class ShellJob extends Job {
 	protected String command;
 	protected File baseDir = new File( System.getProperty("user.dir") );
 	private ProcessBuilder processBuilder = null;
+	private Process proc = null; //Created when we actually begin process, in execute() method
 	private int exitValue = -1; 
 	private boolean directOutputToFile = true;
 	private File outputFile = null; //File that will contain all output when the process is run
@@ -113,12 +115,19 @@ public class ShellJob extends Job {
 		return outputFile;
 	}
 	
+	public void killJob() {
+		if (proc != null) {
+			WLogger.info("Destroying process with command : " + command);
+			proc.destroy();
+		}
+	}
+	
 	@Override
 	protected void execute() throws ExecutionFailedException {
 		
 		System.out.println("Executing shell job with command: " + command);
 		try {
-			Process proc = processBuilder.start();
+			proc = processBuilder.start();
 			
 			StreamRedirector streamWriter = null;
 			

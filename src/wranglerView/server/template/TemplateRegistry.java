@@ -68,7 +68,7 @@ public class TemplateRegistry {
 	 * @throws IOException 
 	 * 
 	 */
-	private void scanDirectory() throws IOException {
+	public void scanDirectory() throws IOException {
 		if (! templateDir.exists()) {
 			WLogger.severe( "Template directory " + templateDir.getAbsolutePath() + " does not exist!" );
 			throw new IOException("Template directory " + templateDir.getAbsolutePath() + " does not exist");
@@ -84,9 +84,14 @@ public class TemplateRegistry {
 		
 		File[] files = templateDir.listFiles();
 		for(int i=0; i<files.length; i++) {
-			if (files[i].getName().endsWith(".xml")) {
+			
+			//Parse Brendan-style templates
+			if (files[i].getName().endsWith(".xml")
+					|| files[i].getName().endsWith(".cnf")) {
 				TemplateInfo info = parseInfoForFile(files[i]);
 			
+				
+				
 				if (info != null) {
 					if (templates.get(info.templateID) != null) {
 						throw new IOException("Conflicting template ids found: " + info.templateID);
@@ -97,6 +102,9 @@ public class TemplateRegistry {
 					WLogger.info("Creating new analysis template with name: " + info.templateName + " and id: " + info.templateID);
 				}
 			}
+			
+			
+			
 		}
 		
 	}
@@ -122,6 +130,7 @@ public class TemplateRegistry {
 				String name = line.replace("Analysis name", "").replace(":", "");
 				name = name.replace("<!--", "");
 				name = name.replace("-->", "");
+				name = name.replace("#", "");
 				name = name.trim();
 				info.templateName = name;
 				hasName = true;
@@ -131,6 +140,7 @@ public class TemplateRegistry {
 				String desc = line.replace("Analysis description", "").replace(":", "");
 				desc = desc.replace("<!--", "");
 				desc = desc.replace("-->", "");
+				desc = desc.replace("#", "");
 				desc = desc.trim();
 				info.description = desc;
 				hasDesc = true;
@@ -140,6 +150,7 @@ public class TemplateRegistry {
 				String id = line.replace("Analysis ID", "").replace(":", "");
 				id = id.replace("<!--", "");
 				id = id.replace("-->", "");
+				id = id.replace("#", "");
 				id = id.trim();
 				info.templateID = id;
 				hasID = true;
@@ -150,6 +161,13 @@ public class TemplateRegistry {
 			}
 			
 			line = reader.readLine();
+		}
+		
+		if (file.getName().endsWith("xml")) {
+			info.isMarcAnalysis = false;
+		}
+		if (file.getName().endsWith("cnf")) {
+			info.isMarcAnalysis = true;
 		}
 		
 		reader.close();

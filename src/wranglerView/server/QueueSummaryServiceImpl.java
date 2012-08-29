@@ -58,7 +58,7 @@ public class QueueSummaryServiceImpl  extends RemoteServiceServlet implements Qu
 			info.sampleName = wj.getSampleName();
 			info.analysisType = wj.getAnalysisType();
 			info.submitter = wj.getSubmitter();
-			
+			info.creationTime = "" + wj.getCreationDate();
 		}
 		
 
