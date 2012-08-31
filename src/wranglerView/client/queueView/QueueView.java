@@ -7,9 +7,9 @@ import wranglerView.shared.JobModifyResult;
 import wranglerView.shared.JobModifyResult.ResultType;
 import wranglerView.shared.JobQueryResult;
 import wranglerView.shared.QueueSummary;
-import wranglerView.shared.QueueSummary.JobInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -60,11 +60,11 @@ public class QueueView {
 			return;
 		}
 		
-		for(JobInfo info : summary.jobInfo) {
-			SingleJobPanel jobPanel = new SingleJobPanel(info, this);
-			jobListPanel.add( jobPanel.getWidget() );
-		}
+		treeModel.refreshData(summary);
+		jobListPanel.add(jobTree);
 		
+		if (recentDetails != null)
+			showDetailsPanel(recentDetails);
 	}
 	
 	public Widget getWidget() {
@@ -135,6 +135,7 @@ public class QueueView {
 	 * @param result
 	 */
 	protected void showDetailsPanel(JobQueryResult result) {
+		recentDetails = result;
 		while(detailsPanel.getWidgetCount() > 0) {
 			detailsPanel.remove(0);
 		}
@@ -213,6 +214,8 @@ public class QueueView {
 		scrollPanel.add(jobListPanel);
 		scrollPanel.setWidth("400px");
 		
+		jobTree = new CellTree(treeModel, null);
+		
 		mainPanel.add(scrollPanel);
 		
 		detailsPanel = new VerticalPanel();
@@ -242,7 +245,9 @@ public class QueueView {
 		String target;
 	}
 
-
+	private JobTreeView treeModel = new JobTreeView();
+	private CellTree jobTree = null;
+	private JobQueryResult recentDetails = null;
 	private VerticalPanel detailsPanel;
 	private HorizontalPanel mainPanel;
 	private ScrollPanel scrollPanel;

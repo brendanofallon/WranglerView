@@ -285,6 +285,7 @@ public class Dispatcher implements ExecutorListener {
 	public List<Job> getCompletedJobs() {
 		List<Job> jobs = new ArrayList<Job>();
 		jobs.addAll( completedJobs );
+		Collections.reverse(jobs); //Makes newer jobs be on top in WranglerView
 		return jobs;
 	}
 	
@@ -296,7 +297,7 @@ public class Dispatcher implements ExecutorListener {
 	public List<Job> getQueuedJobs() {
 		List<Job> jobs = new ArrayList<Job>();
 		jobs.addAll( queue );
-		Collections.reverse( jobs ); 
+		Collections.reverse( jobs ); //Makes newer jobs be on top in WranglerView 
 		return jobs;
 	}
 	
