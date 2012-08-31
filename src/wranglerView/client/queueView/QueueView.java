@@ -129,17 +129,80 @@ public class QueueView {
 		});
 	}
 
+	/**
+	 * Clear all elements from details panel, then parse values in the 
+	 * given result statusVals and add them to the details panel 
+	 * @param result
+	 */
 	protected void showDetailsPanel(JobQueryResult result) {
 		while(detailsPanel.getWidgetCount() > 0) {
 			detailsPanel.remove(0);
 		}
 		
+		//PARSE SPECIAL-CASE KEYS FIRST AND REMOVE THEM, 
+		//THEN ADD 'EM BACK AT THE END
+		Widget vcfWidget = parseStatusKey("Final VCF", result.statusVals.get("Final VCF"));
+		if (vcfWidget != null) {
+			result.statusVals.remove("Final VCF");
+		}
+		
+		Widget bamWidget = parseStatusKey("Final BAM", result.statusVals.get("Final BAM"));
+		if (bamWidget != null) {
+			result.statusVals.remove("Final BAM");
+		}
+		
+		Widget qcWidget = parseStatusKey("QC report", result.statusVals.get("QC report"));
+		if (qcWidget != null) {
+			result.statusVals.remove("QC report");
+		}
+		
+		
+		
 		for(String key : result.statusVals.keySet()) {
 			String value = result.statusVals.get(key);
-			HTML msg = new HTML(key + " : " + value);
-			detailsPanel.add(msg);
-			msg.setStylePrimaryName("detailmessage");
+			Widget wig = parseStatusKey(key, value);
+			//HTML msg = new HTML(key + " : " + value);
+			detailsPanel.add(wig);
+			//msg.setStylePrimaryName("detailmessage");
 		}
+		
+		if (bamWidget != null)
+			detailsPanel.add(bamWidget);
+		
+		if (vcfWidget != null)
+			detailsPanel.add(vcfWidget);
+		
+		if (qcWidget != null)
+			detailsPanel.add(qcWidget);
+		
+	}
+
+	/**
+	 * Create a single widget that reflects the given key and value
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	private Widget parseStatusKey(String key, String value) {
+		if (value == null)
+			return null;
+		
+		Widget wig = null;
+		
+		//A few special-case keys
+		if (key.equals("Final VCF")) {
+			wig = new HTML("Final variants file : <a href=\"" + value + "\"> Download </a>");
+		}
+		if (key.equals("QC report")) {
+			wig = new HTML("QC Metrics : <a href=\"" + value + "\"> View metrics </a>");
+		}
+		if (key.equals("Final BAM")) {
+			wig = new HTML("Final BAM : <a href=\"" + value + "\"> Download </a>");
+		}
+		
+		if (wig == null)
+			wig = new HTML(key + " : " + value);
+		return wig;
 	}
 
 	private void initComponents() {
@@ -153,7 +216,7 @@ public class QueueView {
 		mainPanel.add(scrollPanel);
 		
 		detailsPanel = new VerticalPanel();
-		detailsPanel.setWidth("300px");
+		detailsPanel.setWidth("350px");
 		detailsPanel.setStylePrimaryName("detailspanel");
 		mainPanel.add(detailsPanel);
 		
@@ -172,6 +235,12 @@ public class QueueView {
 		
 	}
 
+	
+	class StatusLink {
+		int number;
+		String text;
+		String target;
+	}
 
 
 	private VerticalPanel detailsPanel;

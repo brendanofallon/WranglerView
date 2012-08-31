@@ -48,9 +48,7 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 		if (result == null) {
 			WLogger.warn("Could not find any job for id: " + id);
 		}
-		else {
-			WLogger.info("Found job for id " + id + ", returning result");
-		}
+
 		
 		return result;
 	}
