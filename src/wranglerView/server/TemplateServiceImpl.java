@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import wranglerView.client.jobSubmission.TemplateService;
+import wranglerView.logging.WLogger;
 import wranglerView.server.template.TemplateRegistry;
 import wranglerView.shared.TemplateInfo;
 
@@ -26,11 +27,17 @@ public class TemplateServiceImpl extends RemoteServiceServlet implements Templat
 		TemplateRegistry tReg;
 		try {
 			tReg = TemplateRegistry.getRegistry();
-			return tReg.getAvailableTemplates();
+			
+			List<TemplateInfo> templates = tReg.getAvailableTemplates();
+			
+			return templates;
 		} catch (IOException e) {
+			WLogger.warn("Error reading templates from template registry: " + e.getMessage() );
 			e.printStackTrace();
 		}
 		
+		
+		WLogger.warn("Template service is returning empty template list from");
 		 
 		return new ArrayList<TemplateInfo>();
 	}

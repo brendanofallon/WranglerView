@@ -3,8 +3,10 @@ package wranglerView.client;
 import wranglerView.client.queueView.QueueView;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -12,6 +14,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class WranglerView implements EntryPoint {
 	
+	
+	public static final boolean DEBUG = true;
 	/**
 	 * This is the entry point method.
 	 */
@@ -20,6 +24,13 @@ public class WranglerView implements EntryPoint {
 		RootPanel mainPanel = RootPanel.get("displayarea");
 		mainPanel.add( mainArea );
 		intializeToolbar();
+		
+		if (DEBUG) {
+			RootPanel debugArea = RootPanel.get("debugarea");	
+			debugArea.add(debugPanel);
+			debugPanel.add(new HTML("<h3><center>Debug mode is : ON </center></h3>"));
+		}
+		
 		showJobSubmissionPanel();
 
 	}
@@ -59,4 +70,5 @@ public class WranglerView implements EntryPoint {
 
 	private JobSubmissionPanel jobSubmissionPanel = null;
 	SimplePanel mainArea = new SimplePanel();
+	VerticalPanel debugPanel = new VerticalPanel();
 }
