@@ -57,7 +57,16 @@
     <servlet-name>jobQueryServlet</servlet-name>
     <url-pattern>/wranglerview/jobquery</url-pattern>
   </servlet-mapping>
+
+    <servlet>
+    <servlet-name>jobModifyServlet</servlet-name>
+    <servlet-class>wranglerView.server.JobModifyServiceImpl</servlet-class>
+  </servlet>
   
+  <servlet-mapping>
+    <servlet-name>jobModifyServlet</servlet-name>
+    <url-pattern>/wranglerview/jobmodify</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

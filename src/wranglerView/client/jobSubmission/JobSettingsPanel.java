@@ -4,6 +4,7 @@ package wranglerView.client.jobSubmission;
 import wranglerView.client.JobSubmissionPanel;
 import wranglerView.client.QueueStatusPanel;
 import wranglerView.shared.AnalysisJobDescription;
+import wranglerView.shared.AnalysisJobDescription.AnalysisStyle;
 import wranglerView.shared.FastQDirInfo;
 import wranglerView.shared.TemplateInfo;
 
@@ -132,6 +133,13 @@ public class JobSettingsPanel {
 		}
 		sampleName = sampleName.replace(" ", "_");
 		
+		
+		if (selectedTemplate.isMarcAnalysis) {
+			desc.analysisStyle = AnalysisStyle.MARC;
+		}
+		else {
+			desc.analysisStyle = AnalysisStyle.BRENDAN;
+		}
 		
 		desc.pathToFastQDir = fqInfo.parentDir;
 		desc.reads1Name = fqInfo.reads1;

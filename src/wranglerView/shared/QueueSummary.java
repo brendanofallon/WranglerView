@@ -15,11 +15,23 @@ public class QueueSummary implements Serializable {
 	public List<JobInfo> jobInfo = null;
 	
 	public static class JobInfo implements Serializable {
+		
+		public JobInfo() { 
+			//blank on purpose
+		}
+		
+		public JobInfo(String sampleName, String analysisType, String submitter) {
+			this.sampleName = sampleName;
+			this.analysisType = analysisType;
+			this.submitter = submitter;
+		}
+		
 		public String sampleName = null;
 		public String analysisType = null;
 		public String jobID = null;
 		public String submitter = null;
 		public String startTime = null;
+		public String creationTime = null;
 		public String endTime = null;
 		public String status = null;
 		public String errorMsg = null;

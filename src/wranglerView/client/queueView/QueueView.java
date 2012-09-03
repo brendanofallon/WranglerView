@@ -2,20 +2,19 @@ package wranglerView.client.queueView;
 
 
 import wranglerView.client.QueueStatusPanel;
+import wranglerView.shared.JobModifyRequest;
+import wranglerView.shared.JobModifyResult;
+import wranglerView.shared.JobModifyResult.ResultType;
 import wranglerView.shared.JobQueryResult;
 import wranglerView.shared.QueueSummary;
-import wranglerView.shared.QueueSummary.JobInfo;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -61,10 +60,11 @@ public class QueueView {
 			return;
 		}
 		
-		for(JobInfo info : summary.jobInfo) {
-			jobListPanel.add( createJobInfoWidget(info));
-		}
+		treeModel.refreshData(summary);
+		jobListPanel.add(jobTree);
 		
+		if (recentDetails != null)
+			showDetailsPanel(recentDetails);
 	}
 	
 	public Widget getWidget() {
@@ -76,59 +76,6 @@ public class QueueView {
 			jobListPanel.remove(0);
 		}
 	}
-
-	private Widget createJobInfoWidget(final JobInfo info) {
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setStylePrimaryName("jobinfo");
-		
-		Image image = null;
-		if (info.status.equalsIgnoreCase("waiting") || info.status.equals("initializing")) {
-			image = new Image("images/waiting.png");
-		}
-		if (info.status.equalsIgnoreCase("running")) {
-			image = new Image("images/running.png");
-		}
-		if (info.status.equalsIgnoreCase("Completed without error")) {
-			image = new Image("images/completedOK.png");
-		}
-		if (info.status.equalsIgnoreCase("error")) {
-			image = new Image("images/error1.png");
-		}
-		if (image == null) {
-			image = new Image("images/questionmark.png");
-		}
-		panel.add(image);
-		System.out.println("Status of job " + info.sampleName + " is :" + info.status);
-		VerticalPanel vp = new VerticalPanel();
-		//vp.setStylePrimaryName("infolabel");
-		
-		
-		vp.add(new HTML("Sample : " + info.sampleName));
-		vp.add(new HTML("Status: " + info.status));
-		vp.add(new HTML("Analysis type: " + info.analysisType));
-		
-		for(int i=0; i<vp.getWidgetCount(); i++) {
-			vp.getWidget(i).setStylePrimaryName("infolabel");
-		}
-		
-		
-		panel.add(vp);
-			
-		Button detailsButton = new Button("Details");
-		panel.add(detailsButton);
-		detailsButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				getQueryForJob(info.jobID);
-			}
-			
-		});
-		
-		return panel;
-	}
-	
-	
 
 	protected void getQueryForJob(String jobID) {
 		jobQueryFetcher.queryJob(jobID, new AsyncCallback<JobQueryResult>() {
@@ -145,18 +92,118 @@ public class QueueView {
 			
 		});
 	}
+	
+	/**
+	 * Initiates a new call to the server to cancel the job with the requested id
+	 * @param jobID
+	 */
+	public void cancelJob(final String jobID, final String sampleName, boolean confirm) {
+		JobModifyRequest req = new JobModifyRequest();
+		req.setJobID(jobID);
+		req.setType(JobModifyRequest.Type.DELETE);
+		
+		if (confirm) {
+			boolean ok = Window.confirm("Terminate job for sample " + sampleName + "?");
+			if (!ok) {
+				return;
+			}
+		}
+		
+		jobModifyFetcher.modifyJob(req, new AsyncCallback<JobModifyResult>() {
 
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Could not delete job " + jobID + "\n" + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(JobModifyResult result) {
+				if (result.getType() == ResultType.OK) {
+					refreshList();
+				}
+				else {
+					Window.alert("Could not delete job " + jobID + "\n" + result.getErrorMessage());
+				}
+			}
+			
+		});
+	}
+
+	/**
+	 * Clear all elements from details panel, then parse values in the 
+	 * given result statusVals and add them to the details panel 
+	 * @param result
+	 */
 	protected void showDetailsPanel(JobQueryResult result) {
+		recentDetails = result;
 		while(detailsPanel.getWidgetCount() > 0) {
 			detailsPanel.remove(0);
 		}
 		
+		//PARSE SPECIAL-CASE KEYS FIRST AND REMOVE THEM, 
+		//THEN ADD 'EM BACK AT THE END
+		Widget vcfWidget = parseStatusKey("Final VCF", result.statusVals.get("Final VCF"));
+		if (vcfWidget != null) {
+			result.statusVals.remove("Final VCF");
+		}
+		
+		Widget bamWidget = parseStatusKey("Final BAM", result.statusVals.get("Final BAM"));
+		if (bamWidget != null) {
+			result.statusVals.remove("Final BAM");
+		}
+		
+		Widget qcWidget = parseStatusKey("QC report", result.statusVals.get("QC report"));
+		if (qcWidget != null) {
+			result.statusVals.remove("QC report");
+		}
+		
+		
+		
 		for(String key : result.statusVals.keySet()) {
 			String value = result.statusVals.get(key);
-			HTML msg = new HTML(key + " : " + value);
-			detailsPanel.add(msg);
-			msg.setStylePrimaryName("detailmessage");
+			Widget wig = parseStatusKey(key, value);
+			//HTML msg = new HTML(key + " : " + value);
+			detailsPanel.add(wig);
+			//msg.setStylePrimaryName("detailmessage");
 		}
+		
+		if (bamWidget != null)
+			detailsPanel.add(bamWidget);
+		
+		if (vcfWidget != null)
+			detailsPanel.add(vcfWidget);
+		
+		if (qcWidget != null)
+			detailsPanel.add(qcWidget);
+		
+	}
+
+	/**
+	 * Create a single widget that reflects the given key and value
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	private Widget parseStatusKey(String key, String value) {
+		if (value == null)
+			return null;
+		
+		Widget wig = null;
+		
+		//A few special-case keys
+		if (key.equals("Final VCF")) {
+			wig = new HTML("Final variants file : <a href=\"" + value + "\"> Download </a>");
+		}
+		if (key.equals("QC report")) {
+			wig = new HTML("QC Metrics : <a href=\"" + value + "\"> View metrics </a>");
+		}
+		if (key.equals("Final BAM")) {
+			wig = new HTML("Final BAM : <a href=\"" + value + "\"> Download </a>");
+		}
+		
+		if (wig == null)
+			wig = new HTML(key + " : " + value);
+		return wig;
 	}
 
 	private void initComponents() {
@@ -167,10 +214,12 @@ public class QueueView {
 		scrollPanel.add(jobListPanel);
 		scrollPanel.setWidth("400px");
 		
+		jobTree = new CellTree(treeModel, null);
+		
 		mainPanel.add(scrollPanel);
 		
 		detailsPanel = new VerticalPanel();
-		detailsPanel.setWidth("300px");
+		detailsPanel.setWidth("350px");
 		detailsPanel.setStylePrimaryName("detailspanel");
 		mainPanel.add(detailsPanel);
 		
@@ -189,8 +238,16 @@ public class QueueView {
 		
 	}
 
+	
+	class StatusLink {
+		int number;
+		String text;
+		String target;
+	}
 
-
+	private JobTreeView treeModel = new JobTreeView();
+	private CellTree jobTree = null;
+	private JobQueryResult recentDetails = null;
 	private VerticalPanel detailsPanel;
 	private HorizontalPanel mainPanel;
 	private ScrollPanel scrollPanel;
@@ -199,7 +256,10 @@ public class QueueView {
 	
 	private QueueSummaryServiceAsync qSummaryFetcher = GWT.create(QueueSummaryService.class);
 	private JobQueryServiceAsync jobQueryFetcher = GWT.create(JobQueryService.class);
+	private JobModifyServiceAsync jobModifyFetcher = GWT.create(JobModifyService.class);
 
 	Timer timer;
+
+	
 	
 }

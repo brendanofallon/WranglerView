@@ -1,7 +1,9 @@
 package wranglerView.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * These objects are passed from server to client to present in the list
@@ -11,6 +13,7 @@ import java.util.Date;
  */
 public class FastQDirInfo implements Serializable {
 
+	
 	public String sampleName = null;
 	public String parentDir = null;
 	public String reads1 = null;
@@ -19,4 +22,6 @@ public class FastQDirInfo implements Serializable {
 	public Date reads2ModifiedTime = null;
 	public String reads1Size = null;
 	public String reads2Size = null;
+	
+	public List<FastQDirInfo> children = new ArrayList<FastQDirInfo>();
 }

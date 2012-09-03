@@ -38,8 +38,14 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		//System.out.println("Server got job with parent dir: " + jobDesc.pathToFastQDir + "\n AnalysisID: " + jobDesc.templateID + "\n Sample : " + jobDesc.sampleName);
 		WLogger.info("Submitting a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 		
-		Job jobToSubmit = buildJob(jobDesc);
-		
+		Job jobToSubmit = null;
+		if (jobDesc.analysisStyle == AnalysisJobDescription.AnalysisStyle.BRENDAN)
+			jobToSubmit = buildBrendanJob(jobDesc);
+			
+		if (jobDesc.analysisStyle == AnalysisJobDescription.AnalysisStyle.MARC)
+			jobToSubmit = buildMarcJob(jobDesc);
+
+			
 		Dispatcher dispatcher = DispatcherManager.getDispatcher();
 		
 		if (jobToSubmit != null)
@@ -48,7 +54,54 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		return jobToSubmit.getID();
 	}
 
-	private Job buildJob(AnalysisJobDescription jobDesc) {
+	private Job buildMarcJob(AnalysisJobDescription jobDesc) {
+		String templateID = jobDesc.templateID;
+		TemplateRegistry tReg;
+		WranglerJob job = null;
+		try {
+			tReg = TemplateRegistry.getRegistry();
+			File templateFile = tReg.getFileForID(templateID);
+			
+			String projHomeName = jobDesc.sampleName + "-" + ("" + System.currentTimeMillis()).substring(5);
+			File jobHome = new File(defaultProjectRoot + "/" + projHomeName);
+			if (jobHome.exists()) {
+				throw new IllegalArgumentException("Yikes, project home " + jobHome.getAbsolutePath() + " already exists!");
+			}
+			else {
+				jobHome.mkdir();
+			}
+
+			String fastq1 = jobDesc.pathToFastQDir + "/" + jobDesc.reads1Name;
+			String fastq2 = jobDesc.pathToFastQDir + "/" + jobDesc.reads2Name;
+			
+			job = new MarcJob(jobHome, 
+					templateFile.getAbsolutePath(), 
+					jobDesc.sampleName,
+					jobDesc.submitter,
+					fastq1,
+					fastq2);
+			
+			job.setAnalysisType(jobDesc.templateName);
+			job.setSampleName(jobDesc.sampleName);
+			job.setSubmitter(jobDesc.submitter);
+			
+			WLogger.info("Created new Marc job for sample : " + jobDesc.sampleName + " with home: " + jobHome.getAbsolutePath() + " and config file: " + templateFile.getName() + " job id is: " + job.getID());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			WLogger.severe("Error Marc creating job for sample: " + jobDesc.sampleName + " : " + e.getMessage() );
+			return null;
+		}
+		
+		return job;			
+	}
+		
+	/**
+	 * Construct a Brendan-style Pipeline job from the given analysis description object 	
+	 * @param jobDesc
+	 * @return
+	 */
+	private Job buildBrendanJob(AnalysisJobDescription jobDesc) {
 		
 		String templateID = jobDesc.templateID;
 		TemplateRegistry tReg;
@@ -104,10 +157,6 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			e.printStackTrace();
 			return null;
 		}
-		
-//		int length = (int)(30.0*Math.random());
-//		ShellJob job = new SleeperJob(length);
-//		System.out.println("Creating sleeper job with wait time : " + length);
 		
 		return job;
 	}

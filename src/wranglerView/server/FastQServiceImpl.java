@@ -16,7 +16,7 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 
 	public static final String defaultFastQRoot = WranglerProperties.getFastQBaseDir().getAbsolutePath(); //
 	
-	static DecimalFormat formatter = new DecimalFormat("#,##0.00");
+	static DecimalFormat formatter = new DecimalFormat("#,##0.0");
 	
 	@Override
 	public List<FastQDirInfo> getFastQFolders() {
@@ -42,7 +42,6 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 			}
 		}
 		
-		
 		return fqInfoList;
 	}
 	
@@ -62,21 +61,52 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 		FastQDirInfo info = new FastQDirInfo();
 		info.parentDir = dir.getAbsolutePath();
 		info.sampleName = dir.getName();
+		if (containsFastQs(dir)) {
+			readFastQFiles(info, dir);
+			return info;
+		}
+		else {	
+			//See if I'm a dir, if so, make a new FastQDirInfo with children that are my subdirs
+			for(int i=0; i<files.length; i++) {
+				if (files[i].isDirectory()) {
+					FastQDirInfo kidInfo = buildInfo(files[i]);
+					if (kidInfo != null)
+						info.children.add( kidInfo );
+				}
+			}
+		}
+		
+		return info;
+	}
+	
+	/**
+	 * Read files in the given directory, looking for things that seem like fastq files,
+	 * and then fill in information in the info object
+	 * @param info
+	 * @param file
+	 */
+	private void readFastQFiles(FastQDirInfo info, File file) {
+		if (! file.isDirectory()) {
+			throw new IllegalArgumentException("File must be a directory");
+
+		}
+		
+		File[] files = file.listFiles();
 		for(int i=0; i<files.length; i++) {
-			if ( looksLikeFastQ(files[i])) {
+			if (looksLikeFastQ(files[i])) {
 				if (info.reads1 == null) {
-					info.reads1 = files[i].getName();
-					info.reads1ModifiedTime = new Date(files[i].lastModified());
-					long bytes = files[i].length();
+					info.reads1 = file.getName();
+					info.reads1ModifiedTime = new Date(file.lastModified());
+					long bytes = file.length();
 					double sizeMb = (double)bytes / (1024.0 * 1024.0);
-					info.reads1Size = formatter.format(sizeMb) + "MB";
+					info.reads1Size = formatter.format(sizeMb) + "Mb";
 				}else {
 					if (info.reads2 == null) {
-						info.reads2 = files[i].getName();
-						info.reads2ModifiedTime = new Date(files[i].lastModified());
-						long bytes = files[i].length();
+						info.reads2 = file.getName();
+						info.reads2ModifiedTime = new Date(file.lastModified());
+						long bytes = file.length();
 						double sizeMb = (double)bytes / (1024.0 * 1024.0);
-						info.reads2Size = formatter.format(sizeMb) + "MB";
+						info.reads2Size = formatter.format(sizeMb) + "Mb";
 					}
 					else {
 						//Yikes! Too many reads files in this directory...
@@ -85,8 +115,26 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 			}
 		}
 		
+	}
+	
+	/**
+	 * Returns true if the file contains a few things that look like fastq files
+	 * @param file
+	 * @return
+	 */
+	private boolean containsFastQs(File file) {
+		if (! file.isDirectory()) {
+			return false;
+		}
 		
-		return info;
+		File[] files = file.listFiles();
+		for(int i=0; i<files.length; i++) {
+			if ( looksLikeFastQ(files[i] )) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 

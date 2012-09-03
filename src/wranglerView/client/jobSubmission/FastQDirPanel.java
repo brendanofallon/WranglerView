@@ -6,6 +6,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -29,20 +33,19 @@ public class FastQDirPanel {
 		this.dirInfo = info;
 		this.parentPanel = parent;
 		initComponents();
-		
 	}
 	
 	public FastQDirInfo getFqInfo() {
 		return dirInfo;
 	}
 	
-	
-	
 	private void initComponents() {
 		wrapper = new FocusPanel();
+		//wrapper.setStylePrimaryName("fqfocuspanel");
+		wrapper.setStylePrimaryName("noboder");
 		mainPanel = new HorizontalPanel();
 		mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		mainPanel.setStyleName("fileselector");
+		mainPanel.setStylePrimaryName("fileselector");
 		
 		Image folderImage = new Image("images/folder.png");
 		folderImage.setSize("36px", "36px");
@@ -59,8 +62,10 @@ public class FastQDirPanel {
 		labelsPanel.add(topLabel);
 		topLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		
-		HTML pathLabel = new HTML( dirInfo.parentDir );
-		labelsPanel.add(pathLabel);
+//		HTML pathLabel = new HTML( dirInfo.parentDir );
+//		labelsPanel.add(pathLabel);
+		HTML timeLabel = new HTML( dirInfo.reads1ModifiedTime.toString() );
+		labelsPanel.add(timeLabel);
 		labelsPanel.add(new HTML( dirInfo.reads1 + " - " + dirInfo.reads1Size));
 		labelsPanel.add(new HTML( dirInfo.reads2 + " - " + dirInfo.reads2Size));
 		labelsPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -71,12 +76,20 @@ public class FastQDirPanel {
 		mainPanel.add(labelsPanel);
 		wrapper.add(mainPanel);
 		
-		wrapper.addClickHandler(new ClickHandler() {
+		wrapper.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				handleClick();
-				
+			public void onMouseOver(MouseOverEvent event) {
+				wrapper.setStylePrimaryName("fqfocuspanel-hovering");
+			} 
+			
+		});
+
+		wrapper.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				wrapper.setStylePrimaryName("fqfocuspanel");
 			}
 			
 		});
@@ -85,7 +98,7 @@ public class FastQDirPanel {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				mainPanel.setStyleName("fileselector-selected");
+				handleClick();
 				wrapper.setStyleName("noborder");
 			}
 		});
@@ -104,6 +117,7 @@ public class FastQDirPanel {
 		else {
 			mainPanel.setStyleName("fileselector");
 		}
+		wrapper.setStyleName("noborder");
 	}
 
 	public Panel getWidget() {

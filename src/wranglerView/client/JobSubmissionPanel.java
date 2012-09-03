@@ -103,8 +103,9 @@ public class JobSubmissionPanel {
 	 * @param fqDirList
 	 */
 	protected void addFastQDirs(List<FastQDirInfo> fqDirList) {
-		for(FastQDirInfo info : fqDirList) {
-			fqsPanel.addFQInfo(info);
+		
+		if (fqDirList != null && fqDirList.size()>0) {
+			fqsPanel.setFQInfoRoot(fqDirList);
 		}
 	}
 

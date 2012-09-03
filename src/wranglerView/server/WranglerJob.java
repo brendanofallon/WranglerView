@@ -1,5 +1,7 @@
 package wranglerView.server;
 
+import java.util.Date;
+
 import jobWrangler.job.InitializationFailedException;
 import jobWrangler.job.ShellJob;
 
@@ -14,13 +16,19 @@ public abstract class WranglerJob extends ShellJob {
 	String sampleName = null;
 	String analysisType = null;
 	String submitter = null;
+	final Date creationDate;
 	
 	public WranglerJob() {
 		super("");	
+		creationDate = new Date();
 	}
 
 	public String getSampleName() {
 		return sampleName;
+	}
+	
+	public Date getCreationDate() {
+		return creationDate;
 	}
 	
 	public void setSampleName(String sampleName) {

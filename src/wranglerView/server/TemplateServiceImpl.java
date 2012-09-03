@@ -27,17 +27,15 @@ public class TemplateServiceImpl extends RemoteServiceServlet implements Templat
 		TemplateRegistry tReg;
 		try {
 			tReg = TemplateRegistry.getRegistry();
-			
-			List<TemplateInfo> templates = tReg.getAvailableTemplates();
-			
-			return templates;
+			tReg.scanDirectory();
+			return tReg.getAvailableTemplates();
 		} catch (IOException e) {
 			WLogger.warn("Error reading templates from template registry: " + e.getMessage() );
 			e.printStackTrace();
 		}
 		
 		
-		WLogger.warn("Template service is returning empty template list from");
+		WLogger.warn("Template service is returning empty template list");
 		 
 		return new ArrayList<TemplateInfo>();
 	}
