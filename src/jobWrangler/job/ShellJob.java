@@ -97,6 +97,10 @@ public class ShellJob extends Job {
 	protected void initialize() throws InitializationFailedException {
 		System.out.println("Initializing shell job with command: " + command);
 		processBuilder = new ProcessBuilder("bash", "-c", command);
+		
+		System.out.println("Creating directory : " + baseDir.getAbsolutePath());
+		baseDir.mkdir();
+		
 		processBuilder.directory(baseDir);
 		processBuilder.redirectErrorStream(true);
 		if (directOutputToFile) {

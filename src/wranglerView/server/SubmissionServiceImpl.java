@@ -15,10 +15,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
+import jobWrangler.job.ShellJob;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import test.ExplodingJob;
+import test.SleeperJob;
 import wranglerView.client.jobSubmission.SubmissionService;
 import wranglerView.logging.WLogger;
 import wranglerView.server.template.TemplateRegistry;
@@ -35,7 +38,6 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 	
 	@Override
 	public String submitJob(AnalysisJobDescription jobDesc) throws IllegalArgumentException {
-		//System.out.println("Server got job with parent dir: " + jobDesc.pathToFastQDir + "\n AnalysisID: " + jobDesc.templateID + "\n Sample : " + jobDesc.sampleName);
 		WLogger.info("Submitting a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 		
 		Job jobToSubmit = null;
@@ -44,14 +46,31 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			
 		if (jobDesc.analysisStyle == AnalysisJobDescription.AnalysisStyle.MARC)
 			jobToSubmit = buildMarcJob(jobDesc);
-
+		
+		//A few debugging jobs...
+		if (jobDesc.analysisStyle == AnalysisJobDescription.AnalysisStyle.EXPLODE_JOB) {
+			String projHomeName = jobDesc.sampleName + "-" + ("" + System.currentTimeMillis()).substring(5);
+			ExplodingJob exJob = new ExplodingJob();
+			exJob.setBaseDir( new File(defaultProjectRoot + "/" + projHomeName) );
+			jobToSubmit = exJob;
+			
+		}
+		if (jobDesc.analysisStyle == AnalysisJobDescription.AnalysisStyle.WAIT_JOB) {
+			jobToSubmit = new SleeperJob();
+		}
 			
 		Dispatcher dispatcher = DispatcherManager.getDispatcher();
 		
 		if (jobToSubmit != null)
 			dispatcher.submitJob(jobToSubmit);		
 		
-		return jobToSubmit.getID();
+		
+		String homeDir = "unknown";
+		if(jobToSubmit instanceof ShellJob) {
+			homeDir = ((ShellJob)jobToSubmit).getBaseDir().getName();
+		}
+		
+		return homeDir;
 	}
 
 	private Job buildMarcJob(AnalysisJobDescription jobDesc) {

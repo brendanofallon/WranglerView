@@ -17,9 +17,12 @@ h1 {
 	width: 1000px;
 	height: 700px;
 	background-color: white;
-	font-family:'Droid Sans', Arial, sans-serif; 
-	/* font-family: 'Source Sans Pro', sans-serif; */ 
+	font-family:'Lato', Arial, sans-serif; 
 	font-size: 12pt;
+}
+
+body {
+	font-family:'Lato', Arial, sans-serif;
 }
 
 #displayarea {
@@ -58,7 +61,7 @@ h1 {
 	outline: 0px;
 	width: 300px;
 	height: 55px;
-	font-family:'Droid Sans', Arial, sans-serif;
+	font-family:'Lato', Arial, sans-serif;
   	font-size:12pt;
   	margin-top: 0px;
   	margin-left: 5px;
@@ -89,6 +92,7 @@ h1 {
     border: 2px solid gray;
 }
 
+
 .fqfocuspanel {
 	outline: 0;
 }
@@ -99,8 +103,11 @@ h1 {
 }
 
 .fastqtreelabel {
-	border-top: 1px solid black;
+	vertical-align: text-top;
+	border: 0px;
+	margin: 0px;
 }
+
 
 .leftpanel {
 	width: 350px;
@@ -211,7 +218,7 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 }
 
 .jobbutton {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size: 8pt;
   	margin: 2px;
   	padding: 3px;
@@ -236,7 +243,7 @@ background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255)
 }
 
 .jobbutton-red {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size: 8pt;
   	margin: 2px;
   	padding: 3px;
@@ -261,7 +268,7 @@ background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255)
 }
 
 .jobbutton-up-hovering {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size:8pt;
 	outline: 0px;
 	margin: 2px;
@@ -285,7 +292,7 @@ background : -linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255)
 }
 
 .jobbutton-down-hovering {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size:8pt;
 	outline: 0px;
 	margin: 2px;
@@ -310,7 +317,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .filelabelheader {
-	font-family:'Droid Sans', Arial, sans-serif;
+	font-family:'Lato', Arial, sans-serif;
   	font-size:10pt;
 }
 
@@ -326,7 +333,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .infolabel {
-	font-family:'Droid Sans', Arial, sans-serif;
+	font-family:'Lato', Arial, sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -345,7 +352,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .filelabel {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -358,19 +365,19 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 
 .qlabel {
 	text-align: right;
-	font: 'Droid Sans', Arial, sans-serif;
+	font: 'Lato', Arial, sans-serif;
   	font-size:8pt;
 }
 
 .detailspanel {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size:10pt;
   	padding-left: 10px;
   	padding-top: 25px;
 }
 
 .detailmessage {
-	font-family: 'Droid Sans', Arial, sans-serif;
+	font-family: 'Lato', Arial, sans-serif;
   	font-size:10pt;
   	padding-top: 4px;
 }
@@ -426,5 +433,13 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 	-webkit-box-shadow: 0px 0px 10px #202020;
 	box-shadow: 0px 0px 10px #202020;
 	text-align:center;
+}
+
+.error {
+	font-family: 'Lato', Arial, sans-serif;
+  	font-size:14pt;
+  	text-color : red;
+  	padding-top: 4px;
+  	padding-bottom: 4px;
 }
 

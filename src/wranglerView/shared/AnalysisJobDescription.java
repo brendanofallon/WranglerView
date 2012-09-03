@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class AnalysisJobDescription implements Serializable {
 	
-	public enum AnalysisStyle {BRENDAN, MARC};
+	public enum AnalysisStyle {BRENDAN, MARC, EXPLODE_JOB, WAIT_JOB};
 	
 	public AnalysisStyle analysisStyle = null;
 	public String pathToFastQDir = null; //Absolute path to parent directory

@@ -3,6 +3,7 @@ package wranglerView.client.jobSubmission;
 
 import wranglerView.client.JobSubmissionPanel;
 import wranglerView.client.QueueStatusPanel;
+import wranglerView.client.WranglerView;
 import wranglerView.shared.AnalysisJobDescription;
 import wranglerView.shared.AnalysisJobDescription.AnalysisStyle;
 import wranglerView.shared.FastQDirInfo;
@@ -69,6 +70,7 @@ public class JobSettingsPanel {
 		qPanel.refresh();
 		
 		Label sampleIDLabel = new HTML("<b>Enter Sample ID:</b>");
+		sampleIDLabel.setStyleName("filelabel");
 		sampleIdBox = new TextBox();
 		sampleIdBox.addChangeHandler(new ChangeHandler() {
 
@@ -84,6 +86,7 @@ public class JobSettingsPanel {
 		
 		
 		Label submitterLabel = new HTML("<b>Enter Submitter (e.g. your name): </b>");
+		submitterLabel.setStyleName("filelabel");
 		submitterIdBox = new TextBox();
 		mainPanel.add(submitterLabel);
 		mainPanel.add(submitterIdBox);
@@ -97,6 +100,18 @@ public class JobSettingsPanel {
 				handleSubmitButtonClick();
 			}
 		});
+		
+		if (WranglerView.DEBUG) {
+			Button submitExplodingJobButton = new Button("Submit exploding job");
+			mainPanel.add(submitExplodingJobButton);
+			submitExplodingJobButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					handleSubmitExplodeButtonClick();
+				}
+			});	
+		}
 		
 		submitSuccessMessage = new HTML("Job submitted successfully");
 		mainPanel.add(submitSuccessMessage);
@@ -165,9 +180,32 @@ public class JobSettingsPanel {
 		});
 	}
 
+	
+	protected void handleSubmitExplodeButtonClick() {
+		AnalysisJobDescription desc = new AnalysisJobDescription();
+		desc.analysisStyle = AnalysisJobDescription.AnalysisStyle.EXPLODE_JOB;
+		desc.submitter = submitterIdBox.getText().replace(" ", "_");
+		String sampleName = sampleIdBox.getText().trim();
+		desc.sampleName = sampleName;
+		
+		submissionService.submitJob(desc, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Error submitting job : " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(String id) {
+				showSubmitSuccessBox(id);
+				qPanel.refresh();
+			}
+		});
+	}
+	
 	protected void showSubmitSuccessBox(String jobID) {
 		if (submitSuccessMessage != null) {
-			submitSuccessMessage.setHTML("<b>Job submitted successfully, job id is: " + jobID + "<b>");
+			submitSuccessMessage.setHTML("<b>Job submitted successfully, job home directory is: " + jobID + "<b>");
 			submitSuccessMessage.setVisible(true);
 		}
 		

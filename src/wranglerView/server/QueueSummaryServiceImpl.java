@@ -77,7 +77,7 @@ public class QueueSummaryServiceImpl  extends RemoteServiceServlet implements Qu
 		
 		info.jobID = job.getID();
 		if (job.getException() != null) {
-			WLogger.warn("Queue summary found a job with an exception set..\n job id: " + job.getID() + "\n exception msg: " + job.getException().getMessage());
+			//WLogger.warn("Queue summary found a job with an exception set..\n job id: " + job.getID() + "\n exception msg: " + job.getException().getMessage());
 			info.errorMsg = job.getException().getLocalizedMessage();
 		}
 				

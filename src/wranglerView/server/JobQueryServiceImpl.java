@@ -23,7 +23,7 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 	@Override
 	public JobQueryResult queryJob(String id) {
 		
-		WLogger.info("Attempting to query job id: " + id);
+		//WLogger.info("Attempting to query job id: " + id);
 		Dispatcher dispatcher = DispatcherManager.getDispatcher();
 		JobQueryResult result = null;
 		
@@ -82,6 +82,7 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 				readStatusFile(result.statusVals, shJob.getBaseDir());
 			}
 		}
+		
 		
 		
 		return result;

@@ -7,6 +7,7 @@ import wranglerView.shared.JobModifyResult;
 import wranglerView.shared.JobModifyResult.ResultType;
 import wranglerView.shared.JobQueryResult;
 import wranglerView.shared.QueueSummary;
+import wranglerView.shared.QueueSummary.JobInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTree;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -60,8 +62,10 @@ public class QueueView {
 			return;
 		}
 		
-		treeModel.refreshData(summary);
-		jobListPanel.add(jobTree);
+//		treeModel.refreshData(summary);
+		for(JobInfo info : summary.jobInfo) {
+			jobListPanel.add( (new SingleJobPanel(info, this)).getWidget() );
+		}
 		
 		if (recentDetails != null)
 			showDetailsPanel(recentDetails);
@@ -140,6 +144,15 @@ public class QueueView {
 			detailsPanel.remove(0);
 		}
 		
+		
+		//Check to see if there are errors
+		if (result.statusVals.get("error") != null) {
+			String message = result.statusVals.get("error");
+			Label errorLabel = new Label("ERROR : " + message);
+			errorLabel.setStyleName("error", true);
+			detailsPanel.add(errorLabel);
+		}
+		
 		//PARSE SPECIAL-CASE KEYS FIRST AND REMOVE THEM, 
 		//THEN ADD 'EM BACK AT THE END
 		Widget vcfWidget = parseStatusKey("Final VCF", result.statusVals.get("Final VCF"));
@@ -156,7 +169,6 @@ public class QueueView {
 		if (qcWidget != null) {
 			result.statusVals.remove("QC report");
 		}
-		
 		
 		
 		for(String key : result.statusVals.keySet()) {
@@ -214,7 +226,7 @@ public class QueueView {
 		scrollPanel.add(jobListPanel);
 		scrollPanel.setWidth("400px");
 		
-		jobTree = new CellTree(treeModel, null);
+		//jobTree = new CellTree(treeModel, null);
 		
 		mainPanel.add(scrollPanel);
 		
@@ -245,8 +257,8 @@ public class QueueView {
 		String target;
 	}
 
-	private JobTreeView treeModel = new JobTreeView();
-	private CellTree jobTree = null;
+	//private JobTreeView treeModel = new JobTreeView();
+	//private CellTree jobTree = null;
 	private JobQueryResult recentDetails = null;
 	private VerticalPanel detailsPanel;
 	private HorizontalPanel mainPanel;
@@ -259,7 +271,5 @@ public class QueueView {
 	private JobModifyServiceAsync jobModifyFetcher = GWT.create(JobModifyService.class);
 
 	Timer timer;
-
-	
 	
 }
