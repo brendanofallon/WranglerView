@@ -111,6 +111,17 @@ public class JobSettingsPanel {
 					handleSubmitExplodeButtonClick();
 				}
 			});	
+			
+			
+			Button submitSleeperJobButton = new Button("Submit sleeper job");
+			mainPanel.add(submitSleeperJobButton);
+			submitSleeperJobButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					handleSubmitSleeperButtonClick();
+				}
+			});	
 		}
 		
 		submitSuccessMessage = new HTML("Job submitted successfully");
@@ -181,9 +192,37 @@ public class JobSettingsPanel {
 	}
 
 	
+	/**
+	 * Special debug function to submit an 'exploding job'
+	 */
 	protected void handleSubmitExplodeButtonClick() {
 		AnalysisJobDescription desc = new AnalysisJobDescription();
 		desc.analysisStyle = AnalysisJobDescription.AnalysisStyle.EXPLODE_JOB;
+		desc.submitter = submitterIdBox.getText().replace(" ", "_");
+		String sampleName = sampleIdBox.getText().trim();
+		desc.sampleName = sampleName;
+		
+		submissionService.submitJob(desc, new AsyncCallback<String>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Error submitting job : " + caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(String id) {
+				showSubmitSuccessBox(id);
+				qPanel.refresh();
+			}
+		});
+	}
+	
+	/**
+	 * Special debug function to submit a sleeper job
+	 */
+	protected void handleSubmitSleeperButtonClick() {
+		AnalysisJobDescription desc = new AnalysisJobDescription();
+		desc.analysisStyle = AnalysisJobDescription.AnalysisStyle.WAIT_JOB;
 		desc.submitter = submitterIdBox.getText().replace(" ", "_");
 		String sampleName = sampleIdBox.getText().trim();
 		desc.sampleName = sampleName;
