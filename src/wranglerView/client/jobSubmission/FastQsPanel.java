@@ -3,6 +3,7 @@ package wranglerView.client.jobSubmission;
 import java.util.ArrayList;
 import java.util.List;
 
+import wranglerView.client.JobSubmissionPanel;
 import wranglerView.shared.FastQDirInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -24,8 +25,10 @@ public class FastQsPanel {
 	private List<FastQDirPanel> fqPanels = null;
 	private List<FastQDirInfo> topLevelFQInfos = null;
 	private FastQDirInfo selectedFQInfo = null;
+	private JobSubmissionPanel parentPanel = null;
 	
-	public FastQsPanel() {
+	public FastQsPanel(JobSubmissionPanel parentPanel) {
+		this.parentPanel = parentPanel;
 		initComponents();
 	}
 	
@@ -42,10 +45,10 @@ public class FastQsPanel {
 	public void setSelectedPanel(FastQDirPanel selectedPanel) {
 		
 		for(FastQDirPanel fqPanel : fqPanels) {
-			System.out.println("Setting selected panel for :" + fqPanel.getFqInfo().sampleName);
 			if (fqPanel == selectedPanel) {
 				fqPanel.setSelected(true);
 				this.selectedFQInfo = fqPanel.getFqInfo();
+				parentPanel.setSelectedFastQ(selectedFQInfo);
 			}
 			else {
 				fqPanel.setSelected(false);
@@ -106,10 +109,12 @@ public class FastQsPanel {
 	private void initComponents() {
 		//mainPanel = new VerticalPanel();
 		tree = new Tree(images);
-		tree.setWidth("420px");
+		tree.setAnimationEnabled(true);
+		
 		scrollPanel = new ScrollPanel();
 		scrollPanel.add(tree);
 		scrollPanel.setWidth("420px");
+		
 	}
 
 

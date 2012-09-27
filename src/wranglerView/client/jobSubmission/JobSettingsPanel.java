@@ -264,4 +264,6 @@ public class JobSettingsPanel {
 	private TextBox submitterIdBox;
 	private TextBox sampleIdBox;
 	private HTML submitSuccessMessage;
+
+
 }

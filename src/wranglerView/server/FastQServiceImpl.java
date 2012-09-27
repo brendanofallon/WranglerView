@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import wranglerView.client.jobSubmission.FastQService;
+import wranglerView.logging.WLogger;
 import wranglerView.shared.FastQDirInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -14,20 +15,30 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class FastQServiceImpl extends RemoteServiceServlet implements FastQService {
 
-	public static final String defaultFastQRoot = WranglerProperties.getFastQBaseDir().getAbsolutePath(); //
+	public static final String defaultFastQRoot = WranglerProperties.getFastQBaseDir().getAbsolutePath();
 	
-	static DecimalFormat formatter = new DecimalFormat("#,##0.0");
+	static final DecimalFormat formatter = new DecimalFormat("#,##0.0");
 	
 	@Override
 	public List<FastQDirInfo> getFastQFolders() {
 		File root = getRootFolder();
 		
+		WLogger.info("FastQ root dir at path :" + root.getAbsolutePath() + " is initializing");
+		
 		if (!root.exists() ) {
-			throw new IllegalArgumentException("Root directory " + root.getAbsolutePath() + " does not exist");
+			WLogger.severe("FastQ root dir at path :" + root.getAbsolutePath() + " does not exist");
+			throw new IllegalArgumentException("FastQ Root directory " + root.getAbsolutePath() + " does not exist");
 		}
-		if (! root.isDirectory()) {
-			throw new IllegalArgumentException("Root directory " + root.getAbsolutePath() + " is not a directory");
+		
+		if (! root.canRead()) {
+			WLogger.severe("FastQ Root dir at path :" + root.getAbsolutePath() + " exists but cannot be read");
+			throw new IllegalArgumentException("FastQ Root directory " + root.getAbsolutePath() + " exists but cannot be read");
 		}
+		
+//		if (! root.isDirectory()) {
+//			WLogger.severe("FastQ Root dir at path :" + root.getAbsolutePath() + " is not a directory");
+//			throw new IllegalArgumentException("FastQ Root directory " + root.getAbsolutePath() + " is not a directory");
+//		}
 		
 		List<FastQDirInfo> fqInfoList = new ArrayList<FastQDirInfo>();
 		File[] files = root.listFiles();
@@ -95,16 +106,15 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 		for(int i=0; i<files.length; i++) {
 			if (looksLikeFastQ(files[i])) {
 				if (info.reads1 == null) {
-					info.reads1 = file.getName();
-					info.reads1ModifiedTime = new Date(file.lastModified());
-					long bytes = file.length();
+					info.reads1 = files[i].getName();
+					info.modifiedTime = new Date(files[i].lastModified()).toString();
+					long bytes = files[i].length();
 					double sizeMb = (double)bytes / (1024.0 * 1024.0);
 					info.reads1Size = formatter.format(sizeMb) + "Mb";
 				}else {
 					if (info.reads2 == null) {
-						info.reads2 = file.getName();
-						info.reads2ModifiedTime = new Date(file.lastModified());
-						long bytes = file.length();
+						info.reads2 = files[i].getName();
+						long bytes = files[i].length();
 						double sizeMb = (double)bytes / (1024.0 * 1024.0);
 						info.reads2Size = formatter.format(sizeMb) + "Mb";
 					}

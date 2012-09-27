@@ -5,7 +5,17 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->  
+  <!-- Servlets -->
+    <servlet>
+    <servlet-name>authServlet</servlet-name>
+    <servlet-class>wranglerView.server.AuthServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>authServlet</servlet-name>
+    <url-pattern>/wranglerview/auth</url-pattern>
+  </servlet-mapping>
+    
   <servlet>
     <servlet-name>submissionServlet</servlet-name>
     <servlet-class>wranglerView.server.SubmissionServiceImpl</servlet-class>
@@ -16,7 +26,7 @@
     <url-pattern>/wranglerview/submission</url-pattern>
   </servlet-mapping>
   
-    <servlet>
+  <servlet>
     <servlet-name>templateServlet</servlet-name>
     <servlet-class>wranglerView.server.TemplateServiceImpl</servlet-class>
   </servlet>

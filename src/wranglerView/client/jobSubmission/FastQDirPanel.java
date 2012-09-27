@@ -2,8 +2,6 @@ package wranglerView.client.jobSubmission;
 
 import wranglerView.shared.FastQDirInfo;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -42,7 +40,7 @@ public class FastQDirPanel {
 	private void initComponents() {
 		wrapper = new FocusPanel();
 		//wrapper.setStylePrimaryName("fqfocuspanel");
-		wrapper.setStylePrimaryName("noboder");
+		wrapper.setStylePrimaryName("noborder");
 		mainPanel = new HorizontalPanel();
 		mainPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		mainPanel.setStylePrimaryName("fileselector");
@@ -64,10 +62,10 @@ public class FastQDirPanel {
 		
 //		HTML pathLabel = new HTML( dirInfo.parentDir );
 //		labelsPanel.add(pathLabel);
-		HTML timeLabel = new HTML( dirInfo.reads1ModifiedTime.toString() );
+		HTML timeLabel = new HTML(  dirInfo.modifiedTime );
 		labelsPanel.add(timeLabel);
-		labelsPanel.add(new HTML( dirInfo.reads1 + " - " + dirInfo.reads1Size));
-		labelsPanel.add(new HTML( dirInfo.reads2 + " - " + dirInfo.reads2Size));
+		labelsPanel.add(new HTML( shortenLongStr(dirInfo.reads1, 20) + " - " + dirInfo.reads1Size));
+		labelsPanel.add(new HTML( shortenLongStr(dirInfo.reads2, 20) + " - " + dirInfo.reads2Size));
 		labelsPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		for(int i=1; i<labelsPanel.getWidgetCount(); i++) {
 			labelsPanel.getWidget(i).setStylePrimaryName("filelabel");
@@ -105,6 +103,16 @@ public class FastQDirPanel {
 		
 	}
 
+	private static String shortenLongStr(String str, int length) {
+		if (str.length() <= length)
+			return str;
+		else {
+			int firstLength = length-4;
+			int lastPart = 4;
+			return str.substring(0, firstLength) + "..." + str.substring(str.length()-lastPart);
+		}
+	}
+	
 	protected void handleClick() {
 		parentPanel.setSelectedPanel(this);
 	}

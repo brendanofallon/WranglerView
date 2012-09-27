@@ -7,7 +7,6 @@ import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
 import wranglerView.client.queueView.QueueSummaryService;
-import wranglerView.logging.WLogger;
 import wranglerView.shared.QueueSummary;
 import wranglerView.shared.QueueSummary.JobInfo;
 
@@ -95,7 +94,7 @@ public class QueueSummaryServiceImpl  extends RemoteServiceServlet implements Qu
 			return "Running";
 		}
 		if (state == JobState.FINISHED_SUCCESS) {
-			return "Completed without error";
+			return "Completed";
 		}
 		if (state == JobState.FINISHED_ERROR) {
 			return "Error";

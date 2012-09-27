@@ -43,7 +43,7 @@ public class SingleJobPanel {
 		if (info.status.equalsIgnoreCase("running")) {
 			image = new Image("images/running.png");
 		}
-		if (info.status.equalsIgnoreCase("Completed without error")) {
+		if (info.status.equalsIgnoreCase("Completed")) {
 			image = new Image("images/completedOK.png");
 		}
 		if (info.status.equalsIgnoreCase("error")) {

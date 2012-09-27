@@ -1,11 +1,7 @@
 package wranglerView.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import wranglerView.client.TreePanel.JobCategory;
 import wranglerView.client.queueView.QueueView;
-import wranglerView.shared.QueueSummary.JobInfo;
+import wranglerView.shared.AuthToken;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.HTML;
@@ -20,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class WranglerView implements EntryPoint {
 	
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	/**
 	 * This is the entry point method.
 	 */
@@ -36,18 +32,27 @@ public class WranglerView implements EntryPoint {
 			debugPanel.add(new HTML("<h3><center>Debug mode is : ON </center></h3>"));
 		}
 		
-		showJobSubmissionPanel();
+		showLoginPanel();
+		
+		//showJobSubmissionPanel();
 
 	}
 	
-	void showJobSubmissionPanel() {
+	private void showLoginPanel() {
+		clearPanel();
+		LoginPanel panel = new LoginPanel();
+		mainArea.setWidget( panel.getWidget() );
+		
+	}
+
+	void showJobSubmissionPanel(AuthToken token) {
 		clearPanel();
 		jobSubmissionPanel = new JobSubmissionPanel();
 		mainArea.setWidget( jobSubmissionPanel.getWidget() );		
 	}
 	
 	
-	void showQueueViewPanel() {
+	void showQueueViewPanel(AuthToken token) {
 		clearPanel();
 		QueueView qvPanel = new QueueView();
 		mainArea.add( qvPanel.getWidget() );

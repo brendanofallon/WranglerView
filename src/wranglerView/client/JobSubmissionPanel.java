@@ -16,7 +16,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -42,7 +41,7 @@ public class JobSubmissionPanel {
 
 
 	private void initializeSubmissionPanel() {
-		JobSettingsPanel settingsPanel = new JobSettingsPanel(this);
+		settingsPanel = new JobSettingsPanel(this);
 		settingsPanel.getWidget().setStylePrimaryName("rightpanel");
 		hPanel.add(settingsPanel.getWidget());
 	}
@@ -77,7 +76,7 @@ public class JobSubmissionPanel {
 	 * the list of FastQDirInfo objects that we will display
 	 */
 	private void initializeFastQsPanel() {
-		fqsPanel = new FastQsPanel();
+		fqsPanel = new FastQsPanel(this);
 		fqsPanel.getWidget().setStylePrimaryName("leftPanel");
 		hPanel.add(fqsPanel.getWidget());
 		
@@ -95,6 +94,11 @@ public class JobSubmissionPanel {
 			
 		});
 		
+	}
+
+	public void setSelectedFastQ(FastQDirInfo selectedFQInfo) {
+		if (settingsPanel != null)
+			settingsPanel.suggestSampleID(selectedFQInfo.sampleName);
 	}
 	
 	/**
@@ -120,4 +124,6 @@ public class JobSubmissionPanel {
 	private FastQServiceAsync fqFetcher = GWT.create(FastQService.class);
 	private TemplatesPanel templatesPanel;
 	private FastQsPanel fqsPanel;
+	private JobSettingsPanel settingsPanel;
+	
 }
