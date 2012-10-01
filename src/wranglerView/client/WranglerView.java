@@ -40,20 +40,24 @@ public class WranglerView implements EntryPoint {
 	
 	private void showLoginPanel() {
 		clearPanel();
-		LoginPanel panel = new LoginPanel();
+		LoginPanel panel = new LoginPanel(this);
 		mainArea.setWidget( panel.getWidget() );
 		
 	}
 
 	void showJobSubmissionPanel(AuthToken token) {
 		clearPanel();
-		jobSubmissionPanel = new JobSubmissionPanel();
+		if (toolbar != null)
+			toolbar.setAuthToken(token);
+		jobSubmissionPanel = new JobSubmissionPanel(token);
 		mainArea.setWidget( jobSubmissionPanel.getWidget() );		
 	}
 	
 	
 	void showQueueViewPanel(AuthToken token) {
 		clearPanel();
+		if (toolbar != null)
+			toolbar.setAuthToken(token);
 		QueueView qvPanel = new QueueView();
 		mainArea.add( qvPanel.getWidget() );
 		qvPanel.refreshList();
@@ -61,7 +65,8 @@ public class WranglerView implements EntryPoint {
 
 	private void intializeToolbar() {
 		RootPanel toolbarPanel = RootPanel.get("toolbar");
-		ToolBar toolbar = new ToolBar(this);
+		if (toolbar == null)
+			toolbar = new ToolBar(this);
 		toolbarPanel.add(toolbar.getWidget());
 	}
 	
@@ -72,7 +77,7 @@ public class WranglerView implements EntryPoint {
 		
 	}
 	
-
+	ToolBar toolbar;
 	private JobSubmissionPanel jobSubmissionPanel = null;
 	SimplePanel mainArea = new SimplePanel();
 	VerticalPanel debugPanel = new VerticalPanel();

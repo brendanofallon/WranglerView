@@ -36,11 +36,13 @@ public class JobSettingsPanel {
 	ScrollPanel scrollPane;
 	VerticalPanel mainPanel;
 	JobSubmissionPanel submissionPanel;
+	private String submitterID = null;
 	
 	private final SubmissionServiceAsync submissionService = GWT.create(SubmissionService.class);
 	
 	public JobSettingsPanel(JobSubmissionPanel submissionPanel) {
 		this.submissionPanel = submissionPanel;
+		submitterID = submissionPanel.getAuthToken().getUsername();
 		initComponents();
 	}
 	
@@ -85,11 +87,9 @@ public class JobSettingsPanel {
 		mainPanel.add(sampleIdBox);
 		
 		
-		Label submitterLabel = new HTML("<b>Enter Submitter (e.g. your name): </b>");
+		Label submitterLabel = new HTML("<b>Submitter : " + submitterID + "</b>");
 		submitterLabel.setStyleName("filelabel");
-		submitterIdBox = new TextBox();
 		mainPanel.add(submitterLabel);
-		mainPanel.add(submitterIdBox);
 		
 		Button submitJobButton = new Button("Submit job");
 		mainPanel.add(submitJobButton);
@@ -172,7 +172,7 @@ public class JobSettingsPanel {
 		desc.reads2Name = fqInfo.reads2;
 		desc.templateID = selectedTemplate.templateID;
 		desc.sampleName = sampleName; 
-		desc.submitter = submitterIdBox.getText().replace(" ", "_");
+		desc.submitter = submitterID;
 		desc.templateName = selectedTemplate.templateName;
 		
 		submissionService.submitJob(desc, new AsyncCallback<String>() {
@@ -198,7 +198,7 @@ public class JobSettingsPanel {
 	protected void handleSubmitExplodeButtonClick() {
 		AnalysisJobDescription desc = new AnalysisJobDescription();
 		desc.analysisStyle = AnalysisJobDescription.AnalysisStyle.EXPLODE_JOB;
-		desc.submitter = submitterIdBox.getText().replace(" ", "_");
+		desc.submitter = submitterID;
 		String sampleName = sampleIdBox.getText().trim();
 		desc.sampleName = sampleName;
 		
@@ -223,7 +223,7 @@ public class JobSettingsPanel {
 	protected void handleSubmitSleeperButtonClick() {
 		AnalysisJobDescription desc = new AnalysisJobDescription();
 		desc.analysisStyle = AnalysisJobDescription.AnalysisStyle.WAIT_JOB;
-		desc.submitter = submitterIdBox.getText().replace(" ", "_");
+		desc.submitter = submitterID;
 		String sampleName = sampleIdBox.getText().trim();
 		desc.sampleName = sampleName;
 		
@@ -261,7 +261,6 @@ public class JobSettingsPanel {
 
 	private QueueStatusPanel qPanel;
 	private boolean hasUserSampleID = false;
-	private TextBox submitterIdBox;
 	private TextBox sampleIdBox;
 	private HTML submitSuccessMessage;
 

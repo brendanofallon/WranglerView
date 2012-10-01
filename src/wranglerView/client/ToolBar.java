@@ -1,5 +1,7 @@
 package wranglerView.client;
 
+import wranglerView.shared.AuthToken;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -10,10 +12,15 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolBar {
 	
 	final WranglerView mainView;
+	private AuthToken token;
 
 	public ToolBar(WranglerView view) {
 		this.mainView = view;
 		initComponents();
+	}
+	
+	public void setAuthToken(AuthToken tok) {
+		this.token = tok;
 	}
 	
 	public Widget getWidget() {
@@ -30,7 +37,8 @@ public class ToolBar {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				mainView.showJobSubmissionPanel();
+				showSubmissionPanel();
+				
 			}
 			
 		});
@@ -44,12 +52,21 @@ public class ToolBar {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				mainView.showQueueViewPanel();
+				showQueuePanel();
+				
 			}
 			
 		});
 		mainPanel.add(button2);
 	}
 	
+	protected void showQueuePanel() {
+		mainView.showQueueViewPanel(token);
+	}
+
+	protected void showSubmissionPanel() {
+		mainView.showJobSubmissionPanel(token);
+	}
+
 	private HorizontalPanel mainPanel;
 }

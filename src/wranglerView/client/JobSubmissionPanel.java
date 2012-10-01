@@ -9,6 +9,7 @@ import wranglerView.client.jobSubmission.JobSettingsPanel;
 import wranglerView.client.jobSubmission.TemplateService;
 import wranglerView.client.jobSubmission.TemplateServiceAsync;
 import wranglerView.client.jobSubmission.TemplatesPanel;
+import wranglerView.shared.AuthToken;
 import wranglerView.shared.FastQDirInfo;
 import wranglerView.shared.TemplateInfo;
 
@@ -25,7 +26,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class JobSubmissionPanel {
 
-	public JobSubmissionPanel() {
+	final AuthToken token;
+	
+	public JobSubmissionPanel(AuthToken tok) {
+		this.token = tok;
 		initializeFastQsPanel();
 		initializeTemplatesPanel();
 		initializeSubmissionPanel();
@@ -39,10 +43,14 @@ public class JobSubmissionPanel {
 		return fqsPanel.getSelectedFQInfo();
 	}
 
+	public AuthToken getAuthToken() {
+		return token;
+	}
 
 	private void initializeSubmissionPanel() {
 		settingsPanel = new JobSettingsPanel(this);
 		settingsPanel.getWidget().setStylePrimaryName("rightpanel");
+		
 		hPanel.add(settingsPanel.getWidget());
 	}
 	

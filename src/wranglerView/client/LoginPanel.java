@@ -20,9 +20,10 @@ public class LoginPanel {
 	private VerticalPanel mainPanel;
 	private TextBox usernameField;
 	private PasswordTextBox passwordField;
+	private WranglerView mainView;
 	
-	
-	public LoginPanel() {
+	public LoginPanel(WranglerView mainView) {
+		this.mainView = mainView;
 		initComponents();
 	}
 	
@@ -74,9 +75,12 @@ public class LoginPanel {
 			}
 
 			@Override
-			public void onSuccess(AuthToken result) {
-				if (result != null) {
-					System.out.println("User " + username + " authenticated successfully!");
+			public void onSuccess(AuthToken token) {
+				if (token != null) {
+					mainView.showJobSubmissionPanel(token);
+				}
+				else {
+					mainPanel.add(accessDeniedLabel);
 				}
 			}
 			
@@ -88,5 +92,6 @@ public class LoginPanel {
 	}
 	
 	
+	private HTML accessDeniedLabel = new HTML("<b>Incorrect username / password, please try again</b>");
 	private final AuthServiceAsync authService = GWT.create(AuthService.class);
 }
