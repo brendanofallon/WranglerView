@@ -60,6 +60,15 @@ public class PasswordStore {
 		return map;
 	}
 	
+	public static void main(String[] args) {
+		if (args.length==0) {
+			System.out.println("Enter a password to hash");
+			return;
+		}
+		String hashed = BCrypt.hashpw(args[0], BCrypt.gensalt());
+		System.out.println( hashed );
+	}
+	
 
 }
 

@@ -3,7 +3,7 @@
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-family:'Source Sans Pro', Arial, sans-serif;
+  font-family:'Gudea', Arial, sans-serif;
   font-size: 2em;
   font-weight: bold;
   color: #777777;
@@ -12,11 +12,11 @@ h1 {
 }
 
 h2 {
-	 font-family:'Source Sans Pro', Arial, sans-serif;
+	 font-family:'Gudea', Arial, sans-serif;
 }
 
 h3 {
-	 font-family:'Source Sans Pro', Arial, sans-serif;
+	 font-family:'Gudea', Arial, sans-serif;
 }
 
 #mainarea
@@ -26,12 +26,12 @@ h3 {
 	width: 1000px;
 	height: 700px;
 	background-color: white;
-	font-family:'Source Sans Pro', Arial, sans-serif; 
+	font-family:'Gudea', Arial, sans-serif; 
 	font-size: 12pt;
 }
 
 body {
-	font-family:'Source Sans Pro', Arial, sans-serif;
+	font-family:'Gudea', Arial, sans-serif;
 }
 
 #displayarea {
@@ -74,7 +74,7 @@ body {
 	outline: 0px;
 	width: 300px;
 	height: 55px;
-	font-family:'Source Sans Pro', Arial, sans-serif;
+	font-family:'Gudea', Arial, sans-serif;
   	font-size:12pt;
   	margin-top: 0px;
   	margin-left: 5px;
@@ -235,7 +235,7 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 }
 
 .joblistheader {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
 	font-size: 12pt;
 	padding-left:10px;
 	padding-right:20px;
@@ -249,7 +249,24 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
   border-left: 1px solid gray;
   border-right: 1px solid gray;
   border-bottom: 1px solid white;
-  border-radius: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  
+/* Chrome 10+,Safari */
+background : -webkit-linear-gradient(bottom, rgb(255, 255, 255) 72%, rgb(204, 204, 204) 99%);
+
+/* Firefox 4+ */ 
+background : -moz-linear-gradient(bottom, rgb(255, 255, 255) 72%, rgb(204, 204, 204) 99%);
+
+/* Opera */
+background : -o-linear-gradient(bottom, rgb(255, 255, 255) 72%, rgb(204, 204, 204) 99%);
+
+/* IE 10+ */
+background : -ms-linear-gradient(bottom, rgb(255, 255, 255) 72%, rgb(204, 204, 204) 99%); 
+
+/* W3C */
+background : -linear-gradient(bottom, rgb(255, 255, 255) 72%, rgb(204, 204, 204) 99%);
+
 }
 
 .joblistpanel .tab {
@@ -259,7 +276,7 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 }
 
 .jobbutton {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size: 8pt;
   	cursor:pointer;
   	margin: 2px;
@@ -285,7 +302,7 @@ background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255)
 }
 
 .jobbutton-red {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size: 8pt;
   	cursor:pointer;
   	margin: 2px;
@@ -311,7 +328,7 @@ background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255)
 }
 
 .jobbutton-up-hovering {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size:8pt;
 	outline: 0px;
 	margin: 2px;
@@ -335,7 +352,7 @@ background : -linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255)
 }
 
 .jobbutton-down-hovering {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size:8pt;
 	outline: 0px;
 	margin: 2px;
@@ -360,7 +377,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .filelabelheader {
-	font-family:'Source Sans Pro', Arial, sans-serif;
+	font-family:'Gudea', Arial, sans-serif;
   	font-size:10pt;
 }
 
@@ -376,7 +393,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .infolabel {
-	font-family:'Source Sans Pro', Arial, sans-serif;
+	font-family:'Gudea', Arial, sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -395,7 +412,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .filelabel {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -408,19 +425,19 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 
 .qlabel {
 	text-align: right;
-	font: 'Source Sans Pro', Arial, sans-serif;
+	font: 'Gudea', Arial, sans-serif;
   	font-size:8pt;
 }
 
 .detailspanel {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size:10pt;
   	padding-left: 10px;
   	padding-top: 25px;
 }
 
 .detailmessage {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size:10pt;
   	padding-top: 4px;
 }
@@ -479,7 +496,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .error {
-	font-family: 'Source Sans Pro', Arial, sans-serif;
+	font-family: 'Gudea', Arial, sans-serif;
   	font-size:14pt;
   	text-color : red;
   	padding-top: 4px;

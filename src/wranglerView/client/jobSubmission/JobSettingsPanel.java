@@ -70,6 +70,11 @@ public class JobSettingsPanel {
 		qPanel = new QueueStatusPanel();
 		mainPanel.add(qPanel.getWidget());
 		qPanel.refresh();
+
+		
+		Label submitterLabel = new HTML("<h2>Submitter : " + submitterID + "</h2>");
+		submitterLabel.setStyleName("filelabel");
+		mainPanel.add(submitterLabel);
 		
 		Label sampleIDLabel = new HTML("<b>Enter Sample ID:</b>");
 		sampleIDLabel.setStyleName("filelabel");
@@ -83,13 +88,21 @@ public class JobSettingsPanel {
 		});
 		sampleIdBox.setText("enter sample id");
 		
+		
+		Label destDirLabel = new HTML("<b>Enter destination dir:</b>");
+		destDirLabel.setStyleName("filelabel");
+		
+		destinationDirBox = new TextBox();
+		destinationDirBox.setText("Enter name");
+		
+		mainPanel.add(destDirLabel);
+		mainPanel.add(destinationDirBox);
+		
 		mainPanel.add(sampleIDLabel);
 		mainPanel.add(sampleIdBox);
 		
 		
-		Label submitterLabel = new HTML("<b>Submitter : " + submitterID + "</b>");
-		submitterLabel.setStyleName("filelabel");
-		mainPanel.add(submitterLabel);
+
 		
 		Button submitJobButton = new Button("Submit job");
 		mainPanel.add(submitJobButton);
@@ -167,6 +180,7 @@ public class JobSettingsPanel {
 			desc.analysisStyle = AnalysisStyle.BRENDAN;
 		}
 		
+		desc.destDirName = destinationDirBox.getText().replace(" ", "_").replace("/", "_");
 		desc.pathToFastQDir = fqInfo.parentDir;
 		desc.reads1Name = fqInfo.reads1;
 		desc.reads2Name = fqInfo.reads2;
@@ -262,6 +276,7 @@ public class JobSettingsPanel {
 	private QueueStatusPanel qPanel;
 	private boolean hasUserSampleID = false;
 	private TextBox sampleIdBox;
+	private TextBox destinationDirBox;
 	private HTML submitSuccessMessage;
 
 

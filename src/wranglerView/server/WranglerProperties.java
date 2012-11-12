@@ -11,6 +11,8 @@ import java.io.File;
 public class WranglerProperties {
 
 	protected static File wranglerRoot = new File( System.getProperty("user.home") + "/jobwrangler");
+	
+	//protected static File fastQBaseDir = new File("/mnt/storage1/fastq_for_parsing/fastqs_for_scheduler");
 	protected static File fastQBaseDir = new File( System.getProperty("user.home") + "/fastq_files");
 	
 	protected static String templatesRelativePath = "templates";

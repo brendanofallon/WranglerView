@@ -38,7 +38,7 @@ public class WranglerView implements EntryPoint {
 
 	}
 	
-	private void showLoginPanel() {
+	void showLoginPanel() {
 		clearPanel();
 		LoginPanel panel = new LoginPanel(this);
 		mainArea.setWidget( panel.getWidget() );

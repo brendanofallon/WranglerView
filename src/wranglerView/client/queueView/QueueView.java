@@ -1,6 +1,9 @@
 package wranglerView.client.queueView;
 
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import wranglerView.client.QueueStatusPanel;
 import wranglerView.shared.JobModifyRequest;
 import wranglerView.shared.JobModifyResult;
@@ -54,11 +57,25 @@ public class QueueView {
 		});
 	}
 	
+	class SubmissionTimeSorter implements Comparator<JobInfo> {
+
+		@Override
+		public int compare(JobInfo a0, JobInfo a1) {
+			if (a0.creationTime == a1.creationTime) {
+				return 0;
+			}
+			
+			return a0.creationTime < a1.creationTime ? 1 : -1;
+		}
+		
+	}
 	
 	protected void showSummary(QueueSummary summary) {
 		removeAll();
 		
 		mainPanel.add(qStatus.getWidget());
+		
+		Collections.sort(summary.jobInfo, new SubmissionTimeSorter());
 		
 		for(JobInfo info : summary.jobInfo) {
 			Widget w = (new SingleJobPanel(info, this)).getWidget();
@@ -223,6 +240,10 @@ public class QueueView {
 			detailsPanel.add(wig);
 		}
 		
+		
+		if (annoVarsWidget != null)
+			detailsPanel.add(annoVarsWidget);
+		
 		if (bamWidget != null)
 			detailsPanel.add(bamWidget);
 		
@@ -231,6 +252,8 @@ public class QueueView {
 		
 		if (qcWidget != null)
 			detailsPanel.add(qcWidget);
+		
+		
 		
 	}
 

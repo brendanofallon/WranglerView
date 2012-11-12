@@ -55,8 +55,6 @@ public class SingleJobPanel {
 		panel.add(image);
 		System.out.println("Status of job " + info.sampleName + " is :" + info.status);
 		VerticalPanel vp = new VerticalPanel();
-		//vp.setStylePrimaryName("infolabel");
-		
 		
 		vp.add(new HTML("Sample : " + info.sampleName));
 		vp.add(new HTML("Status: " + info.status));

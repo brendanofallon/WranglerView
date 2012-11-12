@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolBar {
 	
 	final WranglerView mainView;
-	private AuthToken token;
+	private AuthToken token = null;
 
 	public ToolBar(WranglerView view) {
 		this.mainView = view;
@@ -61,11 +61,19 @@ public class ToolBar {
 	}
 	
 	protected void showQueuePanel() {
-		mainView.showQueueViewPanel(token);
+		if (token != null)
+			mainView.showQueueViewPanel(token);
+		else {
+			mainView.showLoginPanel();
+		}
 	}
 
 	protected void showSubmissionPanel() {
-		mainView.showJobSubmissionPanel(token);
+		if (token != null)
+			mainView.showJobSubmissionPanel(token);
+		else {
+			mainView.showLoginPanel();
+		}
 	}
 
 	private HorizontalPanel mainPanel;

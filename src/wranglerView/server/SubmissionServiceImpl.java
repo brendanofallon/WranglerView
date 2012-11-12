@@ -139,6 +139,7 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			
 			subs.put("INPUTFILE", jobDesc.pathToFastQDir + "/" + jobDesc.reads1Name);
 			subs.put("INPUTFILE2", jobDesc.pathToFastQDir + "/" + jobDesc.reads2Name);
+			subs.put("DESTDIR", jobDesc.destDirName);
 			
 			Document inputDoc = TemplateTransformer.transformTemplate(new BufferedReader(new FileReader(templateFile)), subs);
 			

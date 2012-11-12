@@ -104,6 +104,9 @@ public class FastQDirPanel {
 	}
 
 	private static String shortenLongStr(String str, int length) {
+		if (str == null) {
+			return "no info";
+		}
 		if (str.length() <= length)
 			return str;
 		else {
