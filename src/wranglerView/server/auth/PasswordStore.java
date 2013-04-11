@@ -40,6 +40,7 @@ public class PasswordStore {
 	}
 
 	private static Map<String, String> loadPasswordFile() throws IOException {
+		WLogger.info("Loading password file from : " + pathToPasswordFile);
 		BufferedReader reader = new BufferedReader(new FileReader(pathToPasswordFile));
 		String line = reader.readLine();
 		Map<String, String> map = new HashMap<String, String>();

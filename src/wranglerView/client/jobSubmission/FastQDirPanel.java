@@ -8,13 +8,14 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Draws a simple panel with some info about a fastQ-containing directory
@@ -51,22 +52,22 @@ public class FastQDirPanel {
 		
 		mainPanel.add(folderImage);
 		
-		VerticalPanel labelsPanel = new VerticalPanel();
+		FlowPanel labelsPanel = new FlowPanel();
 		labelsPanel.getElement().setId("filelabels");
 		
 		
-		HTML topLabel = new HTML("<b>" + dirInfo.sampleName + "</b>");
+		HTML topLabel = new HTML("<b>" + dirInfo.sampleName + "</b> : " + dirInfo.modifiedTime);
 		topLabel.setStylePrimaryName("filelabelheader");
 		labelsPanel.add(topLabel);
 		topLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		
-//		HTML pathLabel = new HTML( dirInfo.parentDir );
-//		labelsPanel.add(pathLabel);
-		HTML timeLabel = new HTML(  dirInfo.modifiedTime );
-		labelsPanel.add(timeLabel);
-		labelsPanel.add(new HTML( shortenLongStr(dirInfo.reads1, 20) + " - " + dirInfo.reads1Size));
-		labelsPanel.add(new HTML( shortenLongStr(dirInfo.reads2, 20) + " - " + dirInfo.reads2Size));
-		labelsPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		if (dirInfo.totalFQs != 2) {
+			HTML warning = new HTML("<b>WARNING: Folder contains " + dirInfo.totalFQs + " fastq files!</b>");
+			warning.setStylePrimaryName("error");
+			labelsPanel.add(warning);
+		}
+		labelsPanel.add(new Label( shortenLongStr(dirInfo.reads1, 20) + " - " + dirInfo.reads1Size));
+		labelsPanel.add(new Label( shortenLongStr(dirInfo.reads2, 20) + " - " + dirInfo.reads2Size));
+		//labelsPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		for(int i=1; i<labelsPanel.getWidgetCount(); i++) {
 			labelsPanel.getWidget(i).setStylePrimaryName("filelabel");
 		}
@@ -97,8 +98,9 @@ public class FastQDirPanel {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				handleClick();
-				wrapper.setStyleName("noborder");
+				wrapper.setStylePrimaryName("no-border");
 			}
+			
 		});
 		
 	}
@@ -123,10 +125,11 @@ public class FastQDirPanel {
 	public void setSelected(boolean b) {
 		this.selected = b;
 		if (selected) {
-			mainPanel.setStyleName("fileselector-selected");
+			System.out.println("Setting style to fileselector-selected");
+			mainPanel.setStylePrimaryName("fileselector-selected");
 		}
 		else {
-			mainPanel.setStyleName("fileselector");
+			mainPanel.setStylePrimaryName("fileselector");
 		}
 		wrapper.setStyleName("noborder");
 	}

@@ -140,11 +140,14 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			subs.put("INPUTFILE", jobDesc.pathToFastQDir + "/" + jobDesc.reads1Name);
 			subs.put("INPUTFILE2", jobDesc.pathToFastQDir + "/" + jobDesc.reads2Name);
 			subs.put("DESTDIR", jobDesc.destDirName);
+			subs.put("SUBMITTER", jobDesc.submitter);
+			subs.put("ANALYSIS_TYPE", jobDesc.templateName);
+			
 			
 			Document inputDoc = TemplateTransformer.transformTemplate(new BufferedReader(new FileReader(templateFile)), subs);
 			
 			
-			String projHomeName = jobDesc.sampleName + "-" + ("" + System.currentTimeMillis()).substring(5);
+			String projHomeName = jobDesc.destDirName + "-" + ("" + System.currentTimeMillis()).substring(5);
 			File jobHome = new File(defaultProjectRoot + "/" + projHomeName);
 			if (jobHome.exists()) {
 				throw new IllegalArgumentException("Yikes, project home " + jobHome.getAbsolutePath() + " already exists!");

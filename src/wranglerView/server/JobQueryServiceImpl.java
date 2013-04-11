@@ -59,6 +59,7 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 		
 		result.status = job.getJobState().name();
 		
+		
 		if (job instanceof WranglerJob) {
 			WranglerJob wJob = (WranglerJob)job;
 			
@@ -90,6 +91,12 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 
 	private void readStatusFile(Map<String, String> vals, File baseDir) {
 		File statusFile = new File(baseDir.getAbsolutePath() + "/wrangler.status.txt");
+		if (! statusFile.exists()) {
+			WLogger.warn("Could not find job status file for job in directory " + baseDir.getAbsolutePath());
+			vals.put("warning", "No status information found");
+			return;
+		}
+		
 		if (statusFile != null) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(statusFile));

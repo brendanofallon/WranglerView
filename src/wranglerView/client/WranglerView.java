@@ -24,6 +24,7 @@ public class WranglerView implements EntryPoint {
 	
 		RootPanel mainPanel = RootPanel.get("displayarea");
 		mainPanel.add( mainArea );
+		mainArea.setStylePrimaryName("mainarea");
 		intializeToolbar();
 		
 		if (DEBUG) {
@@ -33,9 +34,6 @@ public class WranglerView implements EntryPoint {
 		}
 		
 		showLoginPanel();
-		
-		//showJobSubmissionPanel();
-
 	}
 	
 	void showLoginPanel() {

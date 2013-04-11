@@ -1,7 +1,9 @@
 package wranglerView.server;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 	public static final String defaultFastQRoot = WranglerProperties.getFastQBaseDir().getAbsolutePath();
 	
 	static final DecimalFormat formatter = new DecimalFormat("#,##0.0");
+	static final DateFormat df = new SimpleDateFormat("hh:mm MMM/dd/yyyy");
 	
 	@Override
 	public List<FastQDirInfo> getFastQFolders() {
@@ -103,11 +106,13 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 		}
 		
 		File[] files = file.listFiles();
+		int totalFQsFound = 0;
 		for(int i=0; i<files.length; i++) {
 			if (looksLikeFastQ(files[i])) {
+				totalFQsFound++;
 				if (info.reads1 == null) {
 					info.reads1 = files[i].getName();
-					info.modifiedTime = new Date(files[i].lastModified()).toString();
+					info.modifiedTime = df.format(new Date(files[i].lastModified()));
 					long bytes = files[i].length();
 					double sizeMb = (double)bytes / (1024.0 * 1024.0);
 					info.reads1Size = formatter.format(sizeMb) + "Mb";
@@ -124,7 +129,7 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 				}
 			}
 		}
-		
+		info.totalFQs = totalFQsFound;
 	}
 	
 	/**

@@ -20,6 +20,7 @@ public class FastQDirInfo implements Serializable {
 	public String modifiedTime = null;
 	public String reads1Size = null;
 	public String reads2Size = null;
+	public int totalFQs = 0;
 	
 	public List<FastQDirInfo> children = new ArrayList<FastQDirInfo>();
 }

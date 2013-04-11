@@ -98,33 +98,22 @@ public class FastQsPanel {
 			
 		}
 	}
-	/**
-	 * Remove all widgets from main panel
-	 */
-	private void removeAll() {
-		tree.removeItems();
-
-	}
+	
 	
 	private void initComponents() {
-		//mainPanel = new VerticalPanel();
 		tree = new Tree(images);
-		tree.setAnimationEnabled(true);
-		
-		scrollPanel = new ScrollPanel();
-		scrollPanel.add(tree);
-		scrollPanel.setWidth("420px");
-		
+		treePanel.add(tree);
+		treePanel.setWidth("420px");
 	}
 
 
 	public Panel getWidget() {
-		return scrollPanel;
+		return treePanel;
 	}
 	
 	
 	Tree tree;
-	ScrollPanel scrollPanel;
+	ScrollPanel treePanel = new ScrollPanel();
 	
 	interface MyTreeImages extends Tree.Resources {
 		

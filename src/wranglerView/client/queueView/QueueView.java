@@ -19,9 +19,11 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -290,7 +292,7 @@ public class QueueView {
 
 	private void initComponents() {
 		mainPanel = new HorizontalPanel();
-		mainPanel.setWidth("900px");
+		mainPanel.setWidth("860px");
 		jobListPanel = new TabLayoutPanel(2.0, Unit.EM);
 		jobListPanel.setStylePrimaryName("joblistpanel");
 		jobListPanel.addSelectionHandler(new SelectionHandler<Integer>() {
@@ -299,11 +301,22 @@ public class QueueView {
 			}
 		});
 
-		completedJobsPanel = new VerticalPanel();
+		
+		completedJobsPanel = new FlowPanel();
+		ScrollPanel completedSP = new ScrollPanel( completedJobsPanel );
+		completedSP.setWidth("420px");
+		completedSP.setHeight("800px");
 		completedJobsPanel.setWidth("420px");
-		runningJobsPanel = new VerticalPanel();
+		
+		runningJobsPanel = new FlowPanel();
 		runningJobsPanel.setWidth("420px");
-		waitingJobsPanel = new VerticalPanel();
+		runningJobsPanel.setHeight("800px");
+		
+		
+		waitingJobsPanel = new FlowPanel();
+		ScrollPanel waitingSP = new ScrollPanel(  waitingJobsPanel );
+		waitingSP.setWidth("420px");
+		waitingSP.setHeight("800px");
 		waitingJobsPanel.setWidth("420px");
 		
 		HTML header = new HTML("Running");
@@ -313,17 +326,18 @@ public class QueueView {
 		
 		header = new HTML("Waiting");
 		header.setStylePrimaryName("joblistheader");
-		jobListPanel.add(waitingJobsPanel, header);
+		jobListPanel.add(waitingSP, header);
 		
 		header = new HTML("Completed");
 		header.setStylePrimaryName("joblistheader");
-		jobListPanel.add(completedJobsPanel, header);
-		jobListPanel.setWidth("420px");		
-		jobListPanel.setHeight("800px");
+		jobListPanel.add(completedSP, header);
+
 		
 		jobListPanel.selectTab(0);
 		
 		mainPanel.add(jobListPanel);
+		
+		
 		
 		detailsPanel = new VerticalPanel();
 		detailsPanel.setWidth("350px");
@@ -375,9 +389,9 @@ public class QueueView {
 	//private JobTreeView treeModel = new JobTreeView();
 	//private CellTree jobTree = null;
 	
-	private VerticalPanel completedJobsPanel;
-	private VerticalPanel runningJobsPanel;
-	private VerticalPanel waitingJobsPanel;
+	private FlowPanel completedJobsPanel;
+	private FlowPanel runningJobsPanel;
+	private FlowPanel waitingJobsPanel;
 	
 	private String recentDetailsID = null;
 	private VerticalPanel detailsPanel;

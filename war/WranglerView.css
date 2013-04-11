@@ -3,7 +3,7 @@
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-family:'Gudea', Arial, sans-serif;
+  font-family:'Open Sans', Arial, sans-serif;
   font-size: 2em;
   font-weight: bold;
   color: #777777;
@@ -12,26 +12,24 @@ h1 {
 }
 
 h2 {
-	 font-family:'Gudea', Arial, sans-serif;
+	 font-family:'Open Sans', Arial, sans-serif;
 }
 
 h3 {
-	 font-family:'Gudea', Arial, sans-serif;
+	 font-family:'Open Sans', Arial, sans-serif;
 }
 
-#mainarea
+.mainarea
 {
-	position: absolute;
+	margin-top: 50px;
 	text-align: center;
-	width: 1000px;
-	height: 700px;
 	background-color: white;
-	font-family:'Gudea', Arial, sans-serif; 
+	font-family:'Open Sans', Arial, sans-serif; 
 	font-size: 12pt;
 }
 
 body {
-	font-family:'Gudea', Arial, sans-serif;
+	font-family:'Open Sans', Arial, sans-serif;
 }
 
 #displayarea {
@@ -43,6 +41,25 @@ body {
 }
 
 #toolbar {
+        outline: 0px;
+        margin: -16px -10px;
+        padding: 0px;
+        width: 120%;
+        height: 60px;
+	padding-top: 5px;
+	border-bottom: 1px solid gray;
+        -moz-box-shadow: 0px 0x 10px #202020;
+        -webkit-box-shadow: 0px 0px 10px #202020;
+        box-shadow: 0px 0px 10px #202020;
+        background : -webkit-linear-gradient(bottom, rgb(142, 142, 142) 10%, rgb(194, 188, 184) 77%);
+        background : -moz-linear-gradient(bottom, rgb(142, 142, 142) 10%, rgb(194, 188, 194) 77%);
+        background : -o-linear-gradient(bottom, rgb(142, 142, 142) 10%, rgb(194, 188, 194) 77%);
+        background : -ms-linear-gradient(bottom, rgb(142, 142, 142) 10%, rgb(194, 188, 194) 77%); 
+        background : -linear-gradient(bottom, rgb(142, 142, 142) 10%, rgb(194, 188, 194) 77%);
+}
+
+
+#toolbar-old {
 	width: 100%;
 	padding-left: 25px;
 	padding-top: 5px;
@@ -73,8 +90,8 @@ body {
 .toolbarbutton {
 	outline: 0px;
 	width: 300px;
-	height: 55px;
-	font-family:'Gudea', Arial, sans-serif;
+	height: 50px;
+	font-family:'Open Sans', Arial, sans-serif;
   	font-size:12pt;
   	margin-top: 0px;
   	margin-left: 5px;
@@ -116,6 +133,8 @@ body {
 }
 
 .fastqtreelabel {
+	font-family: 'Open Sans', Arial, sans-serif;
+  	font-size:10pt;
 	vertical-align: text-top;
 	border: 0px;
 	margin: 0px;
@@ -181,7 +200,9 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 
 .fileselector {
 	width: 350px;
-	height: 50px;
+	height: 45px;
+	margin: 0px;
+	padding: 0px;
 	text-align: left;
 	padding-left: 10px;
 	padding-right: 6px;
@@ -192,7 +213,9 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 
 .fileselector-up-hovering {
 	width: 350px;
-	height: 50px;
+	height: 45px;
+	margin: 0px;
+	padding: 0px;
 	background: gray;
 }
 
@@ -231,15 +254,17 @@ background : -linear-gradient(bottom, rgb(60, 158, 67) 01%, rgb(145, 191, 156) 3
 }
 
 .joblistpanel {
-	
+	width: 450px;
+	height: 800px;
 }
 
 .joblistheader {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
 	font-size: 12pt;
 	padding-left:10px;
 	padding-right:20px;
 	cursor: default;
+	border-bottom: 1px solid gray;
 }
 
 .joblistpanel .tab-selected {
@@ -276,7 +301,7 @@ background : -linear-gradient(bottom, rgb(255, 255, 255) 72%, rgb(204, 204, 204)
 }
 
 .jobbutton {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size: 8pt;
   	cursor:pointer;
   	margin: 2px;
@@ -302,7 +327,7 @@ background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255)
 }
 
 .jobbutton-red {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size: 8pt;
   	cursor:pointer;
   	margin: 2px;
@@ -328,7 +353,7 @@ background : -linear-gradient(bottom, rgb(212, 212, 212) 14%, rgb(255, 255, 255)
 }
 
 .jobbutton-up-hovering {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size:8pt;
 	outline: 0px;
 	margin: 2px;
@@ -352,7 +377,7 @@ background : -linear-gradient(bottom, rgb(161, 161, 161) 05%, rgb(255, 255, 255)
 }
 
 .jobbutton-down-hovering {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size:8pt;
 	outline: 0px;
 	margin: 2px;
@@ -377,8 +402,8 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .filelabelheader {
-	font-family:'Gudea', Arial, sans-serif;
-  	font-size:10pt;
+	font-family:'Open Sans', sans-serif;
+  	font-size:9pt;
 }
 
 .jobinfo {
@@ -393,7 +418,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .infolabel {
-	font-family:'Gudea', Arial, sans-serif;
+	font-family:'Open Sans', sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
@@ -409,35 +434,38 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 	margin: 0px;
 	padding: 0px;
 	padding-left:10px;
+	font-family: 'Open Sans', sans-serif;
+  	font-size:9pt;
 }
 
 .filelabel {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', sans-serif;
   	font-size:9pt;
   	padding-left: 10px;
 }
 	
 	
 .qstatus {
-	width: 280px;
+	width: 110px;
 	height: 70px;
+	margin-left: 120px;
 }
 
 .qlabel {
 	text-align: right;
-	font: 'Gudea', Arial, sans-serif;
+	font: 'Open Sans', Arial, sans-serif;
   	font-size:8pt;
 }
 
 .detailspanel {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size:10pt;
   	padding-left: 10px;
   	padding-top: 25px;
 }
 
 .detailmessage {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size:10pt;
   	padding-top: 4px;
 }
@@ -496,7 +524,7 @@ background : -linear-gradient(top, rgb(161, 161, 161) 22%, rgb(255, 255, 255) 86
 }
 
 .error {
-	font-family: 'Gudea', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
   	font-size:14pt;
   	text-color : red;
   	padding-top: 4px;

@@ -57,6 +57,7 @@ public class JobSettingsPanel {
 	public void suggestSampleID(String suggestedID) {
 		if (! hasUserSampleID) {
 			sampleIdBox.setText(suggestedID);
+			destinationDirBox.setText(suggestedID.replace(" ", "_"));
 			hasUserSampleID = false;
 		}
 	}

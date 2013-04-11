@@ -95,10 +95,9 @@ public class ShellJob extends Job {
 	}
 	
 	protected void initialize() throws InitializationFailedException {
-		System.out.println("Initializing shell job with command: " + command);
+		WLogger.info("Initializing shell job with command: " + command);
 		processBuilder = new ProcessBuilder("bash", "-c", command);
 		
-		System.out.println("Creating directory : " + baseDir.getAbsolutePath());
 		baseDir.mkdir();
 		
 		processBuilder.directory(baseDir);
@@ -129,7 +128,7 @@ public class ShellJob extends Job {
 	@Override
 	protected void execute() throws ExecutionFailedException {
 		
-		System.out.println("Executing shell job with command: " + command);
+		WLogger.info("Executing shell job with command: " + command);
 		try {
 			proc = processBuilder.start();
 			
@@ -144,6 +143,10 @@ public class ShellJob extends Job {
 			
 			if (directOutputToFile) 
 				streamWriter.join();
+			
+			if (exitValue != 0) {
+				throw new ExecutionFailedException("Job failure, unknown reason", this);
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
