@@ -32,9 +32,46 @@ body {
 	font-family:'Open Sans', Arial, sans-serif;
 }
 
-#displayarea {
-	
+
+.loginpanel {
+	margin-left: 70px;
+	margin-top: 70px;
+	width: 560px;
+	height: 500px;
+	background-image : url('images/loginPanel.png');
+	background-repeat: no-repeat;	
 }
+
+.loginbutton {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 13pt;
+	margin-left: 30px;
+}
+
+.usernamefield {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12pt;
+	position: relative;
+	background-color: transparent;
+	border: 0px;
+	top: 152px;
+	left: 88px;
+	height: 30px;
+	width: 300px;
+}
+
+.passwordfield {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 12pt;
+	position: relative;
+	background-color: transparent;
+	top: 55px;
+	border: 0px;
+	left: 88px;
+	height: 30px;
+	width: 300px;
+}
+
 
 .vertaligncenter {
 	margin-top: 5px;

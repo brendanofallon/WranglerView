@@ -276,7 +276,7 @@ public class QueueView {
 			wig = new HTML("Final variants file : <a href=\"" + value + "\"> Download </a>");
 		}
 		if (key.equals("QC report")) {
-			wig = new HTML("QC Metrics : <a href=\"" + value + "\"> View metrics </a>");
+			wig = new HTML("QC Metrics : <a href=\"" + value + "\" target=\"_blank\"> View metrics </a>");
 		}
 		if (key.equals("Final BAM")) {
 			wig = new HTML("Final BAM : <a href=\"" + value + "\"> Download </a>");
