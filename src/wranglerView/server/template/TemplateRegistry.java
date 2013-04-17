@@ -65,6 +65,15 @@ public class TemplateRegistry {
 	}
 	
 	/**
+	 * Obtain the TemplateInfo object associated with the given ID
+	 * @param templateID
+	 * @return
+	 */
+	public TemplateInfo getInfoForID(String templateID) {
+		return templates.get(templateID);
+	}
+	
+	/**
 	 * @throws IOException 
 	 * 
 	 */
@@ -123,6 +132,7 @@ public class TemplateRegistry {
 		boolean hasName = false;
 		boolean hasDesc = false;
 		boolean hasID = false;
+		boolean hasVersion = false;
 		
 		while(line != null) {
 			
@@ -156,7 +166,17 @@ public class TemplateRegistry {
 				hasID = true;
 			}
 			
-			if (hasName && hasID && hasDesc) {
+			if (line.contains("Version")) {
+				String id = line.replace("Version", "").replace(":", "");
+				id = id.replace("<!--", "");
+				id = id.replace("-->", "");
+				id = id.replace("#", "");
+				id = id.trim();
+				info.version = id;
+				hasVersion = true;
+			}
+			
+			if (hasName && hasID && hasDesc && hasVersion) {
 				break;
 			}
 			

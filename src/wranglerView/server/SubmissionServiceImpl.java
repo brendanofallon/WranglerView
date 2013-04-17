@@ -27,6 +27,7 @@ import wranglerView.logging.WLogger;
 import wranglerView.server.template.TemplateRegistry;
 import wranglerView.server.template.TemplateTransformer;
 import wranglerView.shared.AnalysisJobDescription;
+import wranglerView.shared.TemplateInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
@@ -129,7 +130,7 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 		try {
 			tReg = TemplateRegistry.getRegistry();
 			File templateFile = tReg.getFileForID(templateID);
-			
+			TemplateInfo info = tReg.getInfoForID(jobDesc.templateID);
 			//Search for fastq files within 
 			
 			//At some point we should have different job builders for different
@@ -141,7 +142,7 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 			subs.put("INPUTFILE2", jobDesc.pathToFastQDir + "/" + jobDesc.reads2Name);
 			subs.put("DESTDIR", jobDesc.destDirName);
 			subs.put("SUBMITTER", jobDesc.submitter);
-			subs.put("ANALYSIS_TYPE", jobDesc.templateName);
+			subs.put("ANALYSIS_TYPE", jobDesc.templateName + " (v. " + info.version + ")");
 			
 			
 			Document inputDoc = TemplateTransformer.transformTemplate(new BufferedReader(new FileReader(templateFile)), subs);

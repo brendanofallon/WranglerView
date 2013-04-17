@@ -45,7 +45,7 @@ public class TemplatePanel {
 		VerticalPanel labelsPanel = new VerticalPanel();
 		labelsPanel.getElement().setId("templatemain");
 		
-		HTML topLabel = new HTML("<b>" + templateInfo.templateName + "</b>");
+		HTML topLabel = new HTML("<b>" + templateInfo.templateName + "</b> (v. " + templateInfo.version + ")");
 		topLabel.setStylePrimaryName("filelabelheader");
 		labelsPanel.add(topLabel);
 		labelsPanel.add(new HTML( templateInfo.description ));
