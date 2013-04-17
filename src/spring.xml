@@ -8,9 +8,15 @@
 	    <property name="pathToPasswordFile" value="/home/brendan/jobwrangler/jw.passwd" />
 	</bean>
 	
-    
+    <!--  Serves up lists of templates -->
     <bean name="templateHandler" class="wranglerView.server.template.DirTemplateSource">
 	    <property name="templateDir" value="/home/brendan/jobwrangler/templates" />
+	</bean>
+	
+    
+    <bean name="jobBuilder" class="wranglerView.server.jobSubmission.PipelineJobBuilder">
+	    <property name="workingDir" value="/home/brendan/jobwrangler/wrangler-jobs" />
+	    <property name="templateSource" ref="templateHandler" />
 	</bean>
     
 

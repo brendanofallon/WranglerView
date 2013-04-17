@@ -2,8 +2,10 @@ package wranglerView.server.template;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,8 +59,8 @@ public class DirTemplateSource implements TemplateReqHandler {
 	 * @param templateID
 	 * @return
 	 */
-	public File getFileForID(String templateID) {
-		return templateFiles.get(templateID);	
+	public InputStream getTemplateForID(String templateID) throws IOException {
+		return new FileInputStream(templateFiles.get(templateID));	
 	}
 	
 	/**
