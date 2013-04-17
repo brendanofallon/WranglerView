@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import jobWrangler.dispatch.Dispatcher;
+import jobWrangler.dispatch.BasicDispatcher;
 import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
 import jobWrangler.job.ShellJob;
@@ -24,7 +24,7 @@ public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQue
 	public JobQueryResult queryJob(String id) {
 		
 		//WLogger.info("Attempting to query job id: " + id);
-		Dispatcher dispatcher = DispatcherManager.getDispatcher();
+		BasicDispatcher dispatcher = DispatcherManager.getDispatcher();
 		JobQueryResult result = null;
 		
 		for(Job job : dispatcher.getQueuedJobs()) {

@@ -13,10 +13,19 @@
 	    <property name="templateDir" value="/home/brendan/jobwrangler/templates" />
 	</bean>
 	
-    
+
+    <!--  Mechanism for creating new Jobs from the info that the user (client) supplies -->
     <bean name="jobBuilder" class="wranglerView.server.jobSubmission.PipelineJobBuilder">
 	    <property name="workingDir" value="/home/brendan/jobwrangler/wrangler-jobs" />
 	    <property name="templateSource" ref="templateHandler" />
+	</bean>
+	
+    <bean name="dispatcher" class="jobWrangler.dispatch.BasicDispatcher">
+	    <property name="executors">
+	    	<list>
+	    	   <bean name="singleExecutor" class="jobWrangler.executor.SingleJobExecutor" /> 
+	    	</list>    
+	    </property> 
 	</bean>
     
 

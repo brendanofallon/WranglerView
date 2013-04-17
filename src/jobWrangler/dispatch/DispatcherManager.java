@@ -15,16 +15,16 @@ import jobWrangler.executor.SingleJobExecutor;
 public class DispatcherManager {
 
 	
-	private static Dispatcher dispatcher = null;
+	private static BasicDispatcher dispatcher = null;
 	
 	/**
 	 * Obtain a reference to the primary Dispatcher instance. If one has not been created
 	 * it will be instantiated, then returned. 
 	 * @return
 	 */
-	public static Dispatcher getDispatcher() {
+	public static BasicDispatcher getDispatcher() {
 		if (dispatcher == null) {
-			dispatcher = new Dispatcher();
+			dispatcher = new BasicDispatcher();
 			intializeDispatcher();
 		}
 		

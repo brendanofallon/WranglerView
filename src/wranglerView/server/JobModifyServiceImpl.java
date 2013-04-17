@@ -1,6 +1,6 @@
 package wranglerView.server;
 
-import jobWrangler.dispatch.Dispatcher;
+import jobWrangler.dispatch.BasicDispatcher;
 import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
@@ -23,7 +23,7 @@ public class JobModifyServiceImpl extends RemoteServiceServlet implements JobMod
 	public JobModifyResult modifyJob(JobModifyRequest req) {
 		JobModifyResult result = new JobModifyResult();
 		
-		Dispatcher dispatcher = DispatcherManager.getDispatcher();
+		BasicDispatcher dispatcher = DispatcherManager.getDispatcher();
 		Job job = dispatcher.getJobForID(req.getID());
 		
 		if (job == null) {

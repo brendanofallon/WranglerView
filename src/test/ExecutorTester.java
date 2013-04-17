@@ -1,6 +1,6 @@
 package test;
 
-import jobWrangler.dispatch.Dispatcher;
+import jobWrangler.dispatch.BasicDispatcher;
 import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.executor.AbstractExecutor;
 import jobWrangler.executor.SingleJobExecutor;
@@ -11,7 +11,7 @@ public class ExecutorTester {
 
 	public static void main(String[] args) {
 		
-		Dispatcher dispatch = DispatcherManager.getDispatcher();
+		BasicDispatcher dispatch = DispatcherManager.getDispatcher();
 		AbstractExecutor exec = new SingleJobExecutor();
 		dispatch.addExecutor(exec);
 		

@@ -2,7 +2,7 @@ package wranglerView.server;
 
 import java.util.ArrayList;
 
-import jobWrangler.dispatch.Dispatcher;
+import jobWrangler.dispatch.BasicDispatcher;
 import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
@@ -26,7 +26,7 @@ public class QueueSummaryServiceImpl  extends RemoteServiceServlet implements Qu
 		QueueSummary summary = new QueueSummary();
 		summary.jobInfo = new ArrayList<JobInfo>();
 		
-		Dispatcher dispatcher = DispatcherManager.getDispatcher();
+		BasicDispatcher dispatcher = DispatcherManager.getDispatcher();
 		
 		for(Job job : dispatcher.getQueuedJobs()) {
 			summary.jobInfo.add( makeJobInfo(job) );

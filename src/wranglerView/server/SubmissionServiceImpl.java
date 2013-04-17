@@ -1,7 +1,6 @@
 package wranglerView.server;
 
 import jobWrangler.dispatch.Dispatcher;
-import jobWrangler.dispatch.DispatcherManager;
 import jobWrangler.job.Job;
 import jobWrangler.job.ShellJob;
 
@@ -15,22 +14,33 @@ import wranglerView.shared.AnalysisJobDescription;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+/**
+ * Turns an AnalysisJobDescription into a Job and then submits it to a Dispatcher. 
+ * @author brendan
+ *
+ */
 public class SubmissionServiceImpl extends RemoteServiceServlet implements SubmissionService{
 
 	public static final String defaultProjectRoot = WranglerProperties.getExecutionDirPath(); //
 	
 	private JobBuilder builder = null;
-	
+	private Dispatcher dispatcher = null;
 	
 	
 	public JobBuilder getBuilder() {
 		return builder;
 	}
 
-
-
 	public void setBuilder(JobBuilder builder) {
 		this.builder = builder;
+	}
+
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
 	}
 
 
@@ -39,24 +49,31 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 	public String submitJob(AnalysisJobDescription jobDesc) throws IllegalArgumentException {
 		WLogger.info("Submitting a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 	
-		
 		if (builder == null) {
 			String path = "spring.xml";
 			WLogger.info("Loading spring config from " + path);
 			ApplicationContext context = new ClassPathXmlApplicationContext(path);
 			builder = (JobBuilder) context.getBean("jobBuilder");
 		}	
+
+		if (dispatcher == null) {	
+			String path = "spring.xml";
+			ApplicationContext context = new ClassPathXmlApplicationContext(path);
+			dispatcher = (Dispatcher) context.getBean("dispatcher");
+		}
+		
+		
 		
 		Job jobToSubmit = null;
 		if (builder != null) {
 			jobToSubmit = builder.createJob(jobDesc);
 		}
 		
+		if (jobToSubmit == null) {
+			throw new IllegalArgumentException("Error creating job, jobBuilder did not create a valid job");
+		}
 		
-			
-		Dispatcher dispatcher = DispatcherManager.getDispatcher();
-		
-		if (jobToSubmit != null)
+		if (jobToSubmit != null && dispatcher != null)
 			dispatcher.submitJob(jobToSubmit);		
 		
 		
