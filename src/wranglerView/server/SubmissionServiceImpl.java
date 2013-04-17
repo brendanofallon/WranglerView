@@ -24,7 +24,7 @@ import test.ExplodingJob;
 import test.SleeperJob;
 import wranglerView.client.jobSubmission.SubmissionService;
 import wranglerView.logging.WLogger;
-import wranglerView.server.template.TemplateRegistry;
+import wranglerView.server.template.DirTemplateSource;
 import wranglerView.server.template.TemplateTransformer;
 import wranglerView.shared.AnalysisJobDescription;
 import wranglerView.shared.TemplateInfo;
@@ -76,10 +76,10 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 
 	private Job buildMarcJob(AnalysisJobDescription jobDesc) {
 		String templateID = jobDesc.templateID;
-		TemplateRegistry tReg;
+		DirTemplateSource tReg;
 		WranglerJob job = null;
 		try {
-			tReg = TemplateRegistry.getRegistry();
+			tReg = DirTemplateSource.getRegistry();
 			File templateFile = tReg.getFileForID(templateID);
 			
 			String projHomeName = jobDesc.sampleName + "-" + ("" + System.currentTimeMillis()).substring(5);
@@ -124,11 +124,11 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 	private Job buildBrendanJob(AnalysisJobDescription jobDesc) {
 		
 		String templateID = jobDesc.templateID;
-		TemplateRegistry tReg;
+		DirTemplateSource tReg;
 		
 		WranglerJob job = null;
 		try {
-			tReg = TemplateRegistry.getRegistry();
+			tReg = DirTemplateSource.getRegistry();
 			File templateFile = tReg.getFileForID(templateID);
 			TemplateInfo info = tReg.getInfoForID(jobDesc.templateID);
 			//Search for fastq files within 

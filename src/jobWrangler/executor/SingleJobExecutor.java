@@ -14,7 +14,7 @@ import wranglerView.logging.WLogger;
  * @author brendanofallon
  *
  */
-public class SingleJobExecutor extends Executor implements JobListener {
+public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 
 	private RunningJob runner = null;
 	

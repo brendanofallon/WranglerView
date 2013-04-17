@@ -2,7 +2,7 @@ package test;
 
 import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.dispatch.DispatcherManager;
-import jobWrangler.executor.Executor;
+import jobWrangler.executor.AbstractExecutor;
 import jobWrangler.executor.SingleJobExecutor;
 import jobWrangler.job.Job;
 
@@ -12,7 +12,7 @@ public class ExecutorTester {
 	public static void main(String[] args) {
 		
 		Dispatcher dispatch = DispatcherManager.getDispatcher();
-		Executor exec = new SingleJobExecutor();
+		AbstractExecutor exec = new SingleJobExecutor();
 		dispatch.addExecutor(exec);
 		
 		DebugListener listener = new DebugListener();

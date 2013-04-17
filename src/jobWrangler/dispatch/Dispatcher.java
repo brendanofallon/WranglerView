@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import jobWrangler.executor.AbstractExecutor;
 import jobWrangler.executor.Executor;
 import jobWrangler.executor.ExecutorEvent;
 import jobWrangler.executor.ExecutorListener;
@@ -131,7 +132,7 @@ public class Dispatcher implements ExecutorListener {
 	 * to run jobs
 	 * @param exec
 	 */
-	public void addExecutor(Executor exec) {
+	public void addExecutor(AbstractExecutor exec) {
 		if (executors.contains(exec))
 			throw new IllegalStateException("Dispatcher already contains the given executor, cannot add it again");
 		executors.add(exec);

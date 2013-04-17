@@ -1,8 +1,11 @@
 package wranglerView.server;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import wranglerView.client.AuthService;
 import wranglerView.logging.WLogger;
-import wranglerView.server.auth.PasswordStore;
+import wranglerView.server.auth.AuthenticatorHandler;
 import wranglerView.shared.AuthToken;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -14,21 +17,33 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class AuthServiceImpl extends RemoteServiceServlet implements AuthService {
 
+	AuthenticatorHandler authenticator = null;
+	
 	@Override
 	public AuthToken authenticate(String username, String password) {
-	
+
 		WLogger.info("Authentication attempt for user: " + username );
-		boolean authOK = PasswordStore.checkPassword(username, password);
-		if (authOK) {
-			WLogger.info("User: " + username + " authenticated successfully");
-			AuthToken token = new AuthToken();
-			token.setUsername(username);
-			token.setStartTime(System.currentTimeMillis());
+
+		//If the authenticator has not been initialized, try to initialize it. 
+		if (authenticator == null) {
+			String path = "spring.xml";
+			WLogger.info("Loading spring config from " + path);
+			ApplicationContext context = new ClassPathXmlApplicationContext(path);
+			authenticator = (AuthenticatorHandler) context.getBean("authenticator");
+		}	
+			
+		if (authenticator != null) {
+			AuthToken token = authenticator.attemptLogin(username, password);
+			
+			if (token != null) {
+				WLogger.info("User: " + username + " authenticated successfully");
+			}
+			else {
+				WLogger.info("User: " + username + " access denied");	
+			}
 			return token;
 		}
-		else {
-			WLogger.info("User: " + username + " access denied");
-		}
+		
 		return null;
 	}
 

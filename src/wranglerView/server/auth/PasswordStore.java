@@ -7,23 +7,48 @@ import java.util.HashMap;
 import java.util.Map;
 
 import wranglerView.logging.WLogger;
-import wranglerView.server.WranglerProperties;
+import wranglerView.shared.AuthToken;
 
 /**
  * Interface to a password file. We use jBCrypt to encrypt passwords
  * @author brendan
  *
  */
-public class PasswordStore {
+public class PasswordStore implements AuthenticatorHandler {
 
-	private static final String passwordFilename = "jw.passwd";
-	private static final String pathToPasswordFile = WranglerProperties.getWranglerRoot() + "/" + passwordFilename;
+	private String pathToPasswordFile = null;
 	
 	public PasswordStore() {
 		
 	}
 	
-	public static boolean checkPassword(String username, String candidatePassword) {
+	
+
+	public String getPathToPasswordFile() {
+		return pathToPasswordFile;
+	}
+
+
+
+	public void setPathToPasswordFile(String pathToPasswordFile) {
+		this.pathToPasswordFile = pathToPasswordFile;
+	}
+
+
+
+	@Override
+	public AuthToken attemptLogin(String username, String password) {
+		boolean ok = checkPassword(username, password);
+		if (ok) {
+			AuthToken token = new AuthToken();
+			token.setUsername(username);
+			token.setStartTime(System.currentTimeMillis());
+			return token;
+		}
+		return null;
+	}
+	
+	private boolean checkPassword(String username, String candidatePassword) {
 		try {
 			Map<String, String> passwords = loadPasswordFile();
 			String hashed = passwords.get(username);
@@ -39,7 +64,7 @@ public class PasswordStore {
 		}	
 	}
 
-	private static Map<String, String> loadPasswordFile() throws IOException {
+	private Map<String, String> loadPasswordFile() throws IOException {
 		WLogger.info("Loading password file from : " + pathToPasswordFile);
 		BufferedReader reader = new BufferedReader(new FileReader(pathToPasswordFile));
 		String line = reader.readLine();
@@ -69,6 +94,7 @@ public class PasswordStore {
 		String hashed = BCrypt.hashpw(args[0], BCrypt.gensalt());
 		System.out.println( hashed );
 	}
+
 	
 
 }

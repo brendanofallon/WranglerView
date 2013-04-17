@@ -13,40 +13,37 @@ import wranglerView.logging.WLogger;
 import wranglerView.server.WranglerProperties;
 import wranglerView.shared.TemplateInfo;
 
-public class TemplateRegistry {
+/**
+ * Reads templates from a directory. 
+ * @author brendan
+ *
+ */
+public class DirTemplateSource implements TemplateReqHandler {
 
 	public static final String defaultTemplateDir = WranglerProperties.getTemplatesPath();
 	private File templateDir;
 	private Map<String, TemplateInfo> templates;
 	private Map<String, File> templateFiles;
 	
-	private static TemplateRegistry registry = null;
-	
-	public static TemplateRegistry getRegistry() throws IOException {
-		if (registry == null)  {
-			registry = new TemplateRegistry();
-		}
-		
-		return registry;
-	}
-	
-	public static TemplateRegistry getRegistry(File templateDir) throws IOException {
-		if (registry == null)
-			registry = new TemplateRegistry(templateDir);
-		
-		return registry;
-	}
-	
-	private TemplateRegistry() throws IOException {
+	public DirTemplateSource() throws IOException {
 		this(new File(defaultTemplateDir));
 	}
 	
-	private TemplateRegistry(File templateDir) throws IOException {
+	public DirTemplateSource(File templateDir) throws IOException {
 		WLogger.info("Creating new TemplateRegistry object with template dir: " + templateDir);
 		this.templateDir = templateDir;
-		scanDirectory();
+		scanTemplates();
 	}
 	
+	public void setTemplateDir(File templateDir) {
+		this.templateDir = templateDir;
+		try {
+			scanTemplates();
+		} catch (IOException e) {
+			WLogger.severe("Error reading template directory: " + templateDir + " : " + e.getLocalizedMessage());
+		}
+	}
+
 	/**
 	 * Return the directory File used to search for templates
 	 * @return
@@ -77,7 +74,7 @@ public class TemplateRegistry {
 	 * @throws IOException 
 	 * 
 	 */
-	public void scanDirectory() throws IOException {
+	public void scanTemplates() throws IOException {
 		if (! templateDir.exists()) {
 			WLogger.severe( "Template directory " + templateDir.getAbsolutePath() + " does not exist!" );
 			throw new IOException("Template directory " + templateDir.getAbsolutePath() + " does not exist");
@@ -108,7 +105,7 @@ public class TemplateRegistry {
 					
 					templates.put(info.templateID, info);
 					templateFiles.put(info.templateID, files[i]);
-					WLogger.info("Creating new analysis template with name: " + info.templateName + " and id: " + info.templateID);
+					//WLogger.info("Creating new analysis template with name: " + info.templateName + " and id: " + info.templateID);
 				}
 			}
 			
@@ -203,4 +200,5 @@ public class TemplateRegistry {
 		list.addAll( templates.values() );
 		return list;
 	}
+
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--  Handles login attempts -->
+    <bean name="authenticator" class="wranglerView.server.auth.PasswordStore">
+	    <property name="pathToPasswordFile" value="/home/brendan/jobwrangler/jw.passwd" />
+	</bean>
+	
+    
+    <bean name="templateHandler" class="wranglerView.server.template.DirTemplateSource">
+	    <property name="templateDir" value="/home/brendan/jobwrangler/templates" />
+	</bean>
+    
+
+</beans>
