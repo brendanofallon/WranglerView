@@ -8,7 +8,7 @@
   <!-- Servlets -->
     <servlet>
     <servlet-name>authServlet</servlet-name>
-    <servlet-class>wranglerView.server.AuthServiceImpl</servlet-class>
+    <servlet-class>wranglerView.server.auth.AuthServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -18,7 +18,7 @@
     
   <servlet>
     <servlet-name>submissionServlet</servlet-name>
-    <servlet-class>wranglerView.server.SubmissionServiceImpl</servlet-class>
+    <servlet-class>wranglerView.server.jobSubmission.SubmissionServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -28,7 +28,7 @@
   
   <servlet>
     <servlet-name>templateServlet</servlet-name>
-    <servlet-class>wranglerView.server.TemplateServiceImpl</servlet-class>
+    <servlet-class>wranglerView.server.template.TemplateServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -60,7 +60,7 @@
   
   <servlet>
     <servlet-name>jobQueryServlet</servlet-name>
-    <servlet-class>wranglerView.server.JobQueryServiceImpl</servlet-class>
+    <servlet-class>wranglerView.server.jobInfo.JobQueryServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -70,7 +70,7 @@
 
     <servlet>
     <servlet-name>jobModifyServlet</servlet-name>
-    <servlet-class>wranglerView.server.JobModifyServiceImpl</servlet-class>
+    <servlet-class>wranglerView.server.jobInfo.JobModifyServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>

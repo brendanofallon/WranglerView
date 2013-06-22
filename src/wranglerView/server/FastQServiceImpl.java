@@ -38,11 +38,6 @@ public class FastQServiceImpl extends RemoteServiceServlet implements FastQServi
 			throw new IllegalArgumentException("FastQ Root directory " + root.getAbsolutePath() + " exists but cannot be read");
 		}
 		
-//		if (! root.isDirectory()) {
-//			WLogger.severe("FastQ Root dir at path :" + root.getAbsolutePath() + " is not a directory");
-//			throw new IllegalArgumentException("FastQ Root directory " + root.getAbsolutePath() + " is not a directory");
-//		}
-		
 		List<FastQDirInfo> fqInfoList = new ArrayList<FastQDirInfo>();
 		File[] files = root.listFiles();
 		for(int i=0; i<files.length; i++) {

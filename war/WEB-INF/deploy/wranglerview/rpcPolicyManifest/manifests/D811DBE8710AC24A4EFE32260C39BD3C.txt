@@ -1,0 +1,2 @@
+serviceClass: wranglerView.client.AuthService
+path: 3508E2C22AAFF2028CADED7DA95AE83A.gwt.rpc

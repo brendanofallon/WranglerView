@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--  Handles login attempts -->
+    <bean name="authenticator" class="wranglerView.server.auth.PasswordStore">
+	    <property name="pathToPasswordFile" value="/home/brendan/jobwrangler/jw.passwd" />
+	</bean>
+	
+    <!--  Serves up lists of templates -->
+    <bean name="templateHandler" class="wranglerView.server.template.DirTemplateSource">
+	    <property name="templateDir" value="/home/brendan/jobwrangler/templates" />
+	</bean>
+	
+
+    <!--  Mechanism for creating new Jobs from the info that the user (client) supplies -->
+    <bean name="jobBuilder" class="wranglerView.server.jobSubmission.PipelineJobBuilder">
+	    <property name="workingDir" value="/home/brendan/jobwrangler/wrangler-jobs" />
+	    <property name="templateSource" ref="templateHandler" />
+	</bean>
+	
+    <bean name="dispatcher" class="jobWrangler.dispatch.BasicDispatcher">
+	    <property name="executors">
+	    	<list>
+	    	   <bean name="singleExecutor" class="jobWrangler.executor.SingleJobExecutor" /> 
+	    	</list>    
+	    </property> 
+	</bean>
+    
+
+    <bean name="jobModifier" class="wranglerView.server.jobInfo.JobModifyServiceImpl">
+        <property name="dispatcher" ref="dispatcher" ></property>
+    </bean>
+    
+</beans>

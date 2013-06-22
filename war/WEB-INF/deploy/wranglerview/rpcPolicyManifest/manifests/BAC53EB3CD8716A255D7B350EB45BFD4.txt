@@ -1,0 +1,2 @@
+serviceClass: wranglerView.client.jobSubmission.FastQService
+path: D60850F747833105E1B57436D0F2AE8B.gwt.rpc

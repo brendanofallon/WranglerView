@@ -1,0 +1,2 @@
+serviceClass: wranglerView.client.queueView.JobQueryService
+path: D2326B70B510D305B3F85F991A61620C.gwt.rpc

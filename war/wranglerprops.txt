@@ -1,0 +1,3 @@
+wrangler.root=/home/brendan/jobwrangler/
+fastq.dir=/home/brendan/fastq_files/
+completed.dir=/home/brendan/jobwrangler/completed/

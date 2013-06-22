@@ -29,4 +29,8 @@
 	</bean>
     
 
+    <bean name="jobModifier" class="wranglerView.server.jobInfo.JobModifyServiceImpl">
+        <property name="dispatcher" ref="dispatcher" ></property>
+    </bean>
+    
 </beans>

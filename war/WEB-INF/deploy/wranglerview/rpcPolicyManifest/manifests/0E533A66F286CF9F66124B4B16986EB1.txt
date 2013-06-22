@@ -1,0 +1,2 @@
+serviceClass: wranglerView.client.queueView.QueueSummaryService
+path: 45CC143BF95754FC850DC57ADEC21FEC.gwt.rpc

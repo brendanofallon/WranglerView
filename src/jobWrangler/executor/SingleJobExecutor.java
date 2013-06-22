@@ -38,13 +38,16 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	
 	@Override
 	public void runJob(Job job) {
-		JobMonitor monitor = new JobMonitor(job);
-		monitor.addListener(this);
-		monitor.startMonitoring();
-		runner = new RunningJob(job);
-		runner.execute(); //Job will begin executing in background
-		
-		fireEvent(new ExecutorEvent(job, ExecutorEvent.EventType.JOB_STARTED));		
+		//I think it's a good idea to make sure multiple threads
+		//dont try to do this at the same time
+		synchronized(this) {
+			JobMonitor monitor = new JobMonitor(job);
+			monitor.addListener(this);
+			monitor.startMonitoring();
+			runner = new RunningJob(job);
+			runner.execute(); //Job will begin executing in background
+			fireEvent(new ExecutorEvent(job, ExecutorEvent.EventType.JOB_STARTED));
+		}
 	}
 
 	@Override

@@ -167,7 +167,6 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 		Executor exec = getAvailableExecutor(nextJob);
 		if (exec != null) {
 			queue.poll();
-			System.out.println("Polling found waiting job and available queue, submitting job : " + nextJob.getID());
 			exec.runJob(nextJob);
 			found = true;
 		}
