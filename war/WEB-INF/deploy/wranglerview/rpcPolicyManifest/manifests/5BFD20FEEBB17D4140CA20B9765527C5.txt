@@ -1,2 +1,0 @@
-serviceClass: wranglerView.client.jobSubmission.SubmissionService
-path: 87C6980CC05F8653E400785E1F6EEFA4.gwt.rpc

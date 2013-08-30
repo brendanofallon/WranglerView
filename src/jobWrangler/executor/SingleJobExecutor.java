@@ -56,7 +56,6 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 		//really do anything here
 		
 		JobState state = job.getJobState();
-		System.out.println("Executor is hearing that job status is now : " + state);
 		if (state == JobState.FINISHED_ERROR ) {
 			Exception ex = job.getException();
 			releaseJob();

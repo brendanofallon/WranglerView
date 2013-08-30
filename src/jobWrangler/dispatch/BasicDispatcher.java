@@ -40,12 +40,9 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 	//Stores all jobs that threw an exception during execution
 	protected List<Job> errorJobs = new ArrayList<Job>();
 	
-	/**
-	 * Package-private constructor to enforce singleton status. Use Dispatcher.getDispatcher() to
-	 * obtain a reference to an instance
-	 */
+	
 	public BasicDispatcher() {
-		
+		//
 	}
 	
 	public void setExecutors(List<Executor> execs) {
@@ -53,7 +50,10 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 			throw new IllegalStateException("Cannot reset executor list while there are running jobs.");
 		}
 		executors.clear();
-		executors.addAll(execs);
+		for(Executor exec : execs) {
+			exec.addListener(this);
+			executors.add(exec);
+		}
 	}
 	
 	/**

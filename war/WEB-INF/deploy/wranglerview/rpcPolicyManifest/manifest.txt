@@ -1,9 +1,9 @@
 # Module wranglerview
 # RPC service class, partial path of RPC policy file
 wranglerView.client.queueView.QueueSummaryService, 45CC143BF95754FC850DC57ADEC21FEC.gwt.rpc
-wranglerView.client.jobSubmission.SubmissionService, 87C6980CC05F8653E400785E1F6EEFA4.gwt.rpc
+wranglerView.client.jobSubmission.SubmissionService, 75B723076200434A6AED3C7CA0A3503D.gwt.rpc
 wranglerView.client.jobSubmission.TemplateService, 4CA35DA4FD538B86DD75DE8AA74118C1.gwt.rpc
 wranglerView.client.queueView.JobQueryService, D2326B70B510D305B3F85F991A61620C.gwt.rpc
 wranglerView.client.jobSubmission.FastQService, D60850F747833105E1B57436D0F2AE8B.gwt.rpc
+wranglerView.client.queueView.JobModifyService, 03E1D30673E8BE1CD07CD01AA3159750.gwt.rpc
 wranglerView.client.AuthService, 3508E2C22AAFF2028CADED7DA95AE83A.gwt.rpc
-wranglerView.client.queueView.JobModifyService, 043A2966B7AB0E102A5F50078B031C97.gwt.rpc

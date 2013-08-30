@@ -2,10 +2,12 @@ package wranglerView.server;
 
 import java.util.ArrayList;
 
-import jobWrangler.dispatch.BasicDispatcher;
-import jobWrangler.dispatch.DispatcherManager;
+import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
+
+import org.springframework.context.ApplicationContext;
+
 import wranglerView.client.queueView.QueueSummaryService;
 import wranglerView.shared.QueueSummary;
 import wranglerView.shared.QueueSummary.JobInfo;
@@ -20,13 +22,18 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 public class QueueSummaryServiceImpl  extends RemoteServiceServlet implements QueueSummaryService {
 
+	Dispatcher dispatcher = null;
+	
 	@Override
 	public QueueSummary getQueueSummary() {
 		
+		if (dispatcher == null) {
+			ApplicationContext ctxt = SpringContext.getContext();
+			dispatcher = (Dispatcher) ctxt.getBean("dispatcher");
+		}
+		
 		QueueSummary summary = new QueueSummary();
 		summary.jobInfo = new ArrayList<JobInfo>();
-		
-		BasicDispatcher dispatcher = DispatcherManager.getDispatcher();
 		
 		for(Job job : dispatcher.getQueuedJobs()) {
 			summary.jobInfo.add( makeJobInfo(job) );

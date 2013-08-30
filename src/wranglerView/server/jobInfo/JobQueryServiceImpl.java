@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import jobWrangler.dispatch.BasicDispatcher;
-import jobWrangler.dispatch.DispatcherManager;
+import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.job.Job;
 import jobWrangler.job.ShellJob;
+
+import org.springframework.context.ApplicationContext;
+
 import wranglerView.client.queueView.JobQueryService;
 import wranglerView.logging.WLogger;
+import wranglerView.server.SpringContext;
 import wranglerView.server.WranglerJob;
 import wranglerView.shared.JobQueryResult;
 
@@ -21,11 +24,16 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class JobQueryServiceImpl  extends RemoteServiceServlet implements JobQueryService {
 
+	Dispatcher dispatcher = null;
+	
 	@Override
 	public JobQueryResult queryJob(String id) {
 		
-		//WLogger.info("Attempting to query job id: " + id);
-		BasicDispatcher dispatcher = DispatcherManager.getDispatcher();
+		if (dispatcher == null) {
+			ApplicationContext ctxt = SpringContext.getContext();
+			dispatcher = (Dispatcher) ctxt.getBean("dispatcher");
+		}
+		
 		JobQueryResult result = null;
 		
 		for(Job job : dispatcher.getQueuedJobs()) {

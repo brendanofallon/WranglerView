@@ -33,4 +33,12 @@
         <property name="dispatcher" ref="dispatcher" ></property>
     </bean>
     
+    
+    <bean name="fastQHandler" class="wranglerView.server.fastq.DirFastQHandler">
+    	<property name="rootDir" value="/home/brendan/fastq_files/" />
+    	<!--  property name="rootDir" value="/mnt/research1/fastq_for_parsing" / -->
+    </bean>
+    
+    
+    
 </beans>

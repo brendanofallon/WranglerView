@@ -1,2 +1,0 @@
-serviceClass: wranglerView.client.queueView.JobModifyService
-path: 043A2966B7AB0E102A5F50078B031C97.gwt.rpc

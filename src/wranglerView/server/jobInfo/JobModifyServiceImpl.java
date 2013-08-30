@@ -5,9 +5,9 @@ import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import wranglerView.client.queueView.JobModifyService;
+import wranglerView.server.SpringContext;
 import wranglerView.shared.JobModifyRequest;
 import wranglerView.shared.JobModifyResult;
 import wranglerView.shared.JobModifyResult.ResultType;
@@ -43,8 +43,7 @@ public class JobModifyServiceImpl extends RemoteServiceServlet implements JobMod
 		JobModifyResult result = new JobModifyResult();
 		
 		if (dispatcher == null) {	
-			String path = "spring.xml";
-			ApplicationContext context = new ClassPathXmlApplicationContext(path);
+			ApplicationContext context = SpringContext.getContext();
 			dispatcher = (Dispatcher) context.getBean("dispatcher");
 		}
 		

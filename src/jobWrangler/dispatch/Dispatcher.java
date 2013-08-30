@@ -86,4 +86,11 @@ public interface Dispatcher {
 	public int getErrorJobCount();
 
 	public Job getErrorJob(int which);
+
+
+	/**
+	 * Get list of jobs waiting to execute
+	 * @return
+	 */
+	public List<Job> getQueuedJobs();
 }

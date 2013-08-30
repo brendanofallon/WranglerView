@@ -53,7 +53,7 @@ public class SingleJobPanel {
 			image = new Image("images/questionmark.png");
 		}
 		panel.add(image);
-		System.out.println("Status of job " + info.sampleName + " is :" + info.status);
+		
 		VerticalPanel vp = new VerticalPanel();
 		
 		vp.add(new HTML("Sample : " + info.sampleName));
