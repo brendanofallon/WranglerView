@@ -3,8 +3,6 @@ package jobWrangler.executor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingWorker;
-
 import jobWrangler.job.Job;
 
 /**
@@ -64,7 +62,7 @@ public abstract class AbstractExecutor implements Executor {
 	}
 	
 	
-	class RunningJob extends SwingWorker {
+	class RunningJob implements Runnable {
 
 		final Job job;
 		
@@ -72,14 +70,19 @@ public abstract class AbstractExecutor implements Executor {
 			this.job = job;
 		}
 		
-		@Override
-		protected Object doInBackground() throws Exception {
-			job.runJob();
-			return job;
-		}
-		
 		public Job getJob() {
 			return job;
+		}
+
+		@Override
+		public void run() {
+			job.runJob();
+		}
+		
+		public boolean isDone() {
+			jobWrangler.job.Job.JobState jobState = job.getJobState();
+			return jobState == jobWrangler.job.Job.JobState.FINISHED_ERROR
+					|| jobState == jobWrangler.job.Job.JobState.FINISHED_SUCCESS;
 		}
 		
 		

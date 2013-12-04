@@ -66,7 +66,7 @@ public class LoginPanel extends VerticalPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Server failure when authenticating user: " + username);	
+				Window.alert("Server failure when authenticating user: " + username + " cause: " + caught.getLocalizedMessage());	
 			}
 
 			@Override

@@ -2,6 +2,9 @@ package jobWrangler.executor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
@@ -17,6 +20,8 @@ import wranglerView.logging.WLogger;
 public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 
 	private RunningJob runner = null;
+	private Future<?> jobFuture = null;
+	ExecutorService pool = Executors.newSingleThreadExecutor();
 	
 	@Override
 	public boolean canSubmitJob(Job job) {
@@ -45,7 +50,7 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 			monitor.addListener(this);
 			monitor.startMonitoring();
 			runner = new RunningJob(job);
-			runner.execute(); //Job will begin executing in background
+			jobFuture = pool.submit(runner);
 			fireEvent(new ExecutorEvent(job, ExecutorEvent.EventType.JOB_STARTED));
 		}
 	}
@@ -73,17 +78,19 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	 * Called when a job has completed to set the runner back to null
 	 */
 	private void releaseJob() {
-		if (runner == null) {
+		if (runner == null || jobFuture == null) {
 			WLogger.warn("ERROR: Release Job was called, but runner is null");
 			throw new IllegalStateException("Huh? Release job has been called, but runner is null");
 		}
 		else {
-			if (runner.isDone()) {
+			if (jobFuture.isDone()) {
 				//System.out.println("Running job " + runner.job.getID() + " has finished and thread is done, releasing");
 				runner = null;
+				jobFuture = null;
 			}
 			else {
-				runner.cancel(true);
+				jobFuture.cancel(true);
+				jobFuture = null;
 				//System.out.println("Running job " + runner.job.getID() + " has finished and but thread is not done, canceling thread...");
 				runner = null;
 			}
@@ -92,11 +99,11 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 
 	@Override
 	public void killJob(Job job) {
-		if (runner != null) {
+		if (runner != null && jobFuture != null) {
 			if (runner.getJob() == job) {
 				WLogger.info("SingleJobExecutor is killing job with id: " + job.getID() );
 				job.killJob();
-				runner.cancel(true);
+				jobFuture.cancel(true);
 			}
 		}
 		else {

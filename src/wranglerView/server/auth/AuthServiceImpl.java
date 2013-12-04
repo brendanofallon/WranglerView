@@ -1,10 +1,10 @@
 package wranglerView.server.auth;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import wranglerView.client.AuthService;
 import wranglerView.logging.WLogger;
+import wranglerView.server.SpringContext;
 import wranglerView.shared.AuthToken;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -25,9 +25,7 @@ public class AuthServiceImpl extends RemoteServiceServlet implements AuthService
 
 		//If the authenticator has not been initialized, try to initialize it. 
 		if (authenticator == null) {
-			String path = "spring.xml";
-			WLogger.info("Loading spring config from " + path);
-			ApplicationContext context = new ClassPathXmlApplicationContext(path);
+			ApplicationContext context = SpringContext.getContext();
 			authenticator = (AuthenticatorHandler) context.getBean("authenticator");
 		}	
 			
