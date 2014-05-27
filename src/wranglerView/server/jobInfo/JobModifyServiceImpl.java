@@ -1,13 +1,10 @@
 package wranglerView.server.jobInfo;
 
+import jobWrangler.dispatch.BasicDispatcher;
 import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
-
-import org.springframework.context.ApplicationContext;
-
 import wranglerView.client.queueView.JobModifyService;
-import wranglerView.server.SpringContext;
 import wranglerView.shared.JobModifyRequest;
 import wranglerView.shared.JobModifyResult;
 import wranglerView.shared.JobModifyResult.ResultType;
@@ -23,29 +20,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class JobModifyServiceImpl extends RemoteServiceServlet implements JobModifyService {
 
 	Dispatcher dispatcher = null;
-	
-	
-	
-	public Dispatcher getDispatcher() {
-		return dispatcher;
-	}
-
-
-
-	public void setDispatcher(Dispatcher dispatcher) {
-		this.dispatcher = dispatcher;
-	}
-
-
 
 	@Override
 	public JobModifyResult modifyJob(JobModifyRequest req) {
 		JobModifyResult result = new JobModifyResult();
 		
-		if (dispatcher == null) {	
-			ApplicationContext context = SpringContext.getContext();
-			dispatcher = (Dispatcher) context.getBean("dispatcher");
-		}
+		dispatcher = BasicDispatcher.getDispatcher();
 		
 		Job job = dispatcher.getJobForID(req.getID());
 		

@@ -19,7 +19,7 @@ public class PipelineJob extends WranglerJob {
 		this.projHome = projHome;
 		this.setBaseDir(projHome);
 		String propertiesPath = WranglerProperties.getWranglerRoot() + "/pipeline_properties.xml";
-		setCommand(javaPath + " " + memoryStr + " -jar " + projHome.getAbsolutePath() + "/pipeline.jar -props " + propertiesPath + " -home " + projHome.getAbsolutePath() + " " + projHome.getAbsolutePath() + "/" + inputFile.getName() );
+		setCommand(javaPath + " -Djava.awt.headless=true " + memoryStr + " -jar " + projHome.getAbsolutePath() + "/pipeline.jar -props " + propertiesPath + " -home " + projHome.getAbsolutePath() + " " + projHome.getAbsolutePath() + "/" + inputFile.getName() );
 		WLogger.info("Creating new Pipeline job with command : " + getCommand());
 	}
 

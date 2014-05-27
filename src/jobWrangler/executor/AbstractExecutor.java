@@ -65,6 +65,8 @@ public abstract class AbstractExecutor implements Executor {
 	class RunningJob implements Runnable {
 
 		final Job job;
+		private Exception ex = null;
+		private boolean done  = false;
 		
 		public RunningJob(Job job) {
 			this.job = job;
@@ -77,12 +79,11 @@ public abstract class AbstractExecutor implements Executor {
 		@Override
 		public void run() {
 			job.runJob();
+			done = true;
 		}
 		
 		public boolean isDone() {
-			jobWrangler.job.Job.JobState jobState = job.getJobState();
-			return jobState == jobWrangler.job.Job.JobState.FINISHED_ERROR
-					|| jobState == jobWrangler.job.Job.JobState.FINISHED_SUCCESS;
+			return done;
 		}
 		
 		

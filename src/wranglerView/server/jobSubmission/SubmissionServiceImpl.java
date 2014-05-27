@@ -1,5 +1,6 @@
 package wranglerView.server.jobSubmission;
 
+import jobWrangler.dispatch.BasicDispatcher;
 import jobWrangler.dispatch.Dispatcher;
 import jobWrangler.job.Job;
 import jobWrangler.job.ShellJob;
@@ -30,15 +31,14 @@ public class SubmissionServiceImpl extends RemoteServiceServlet implements Submi
 	public String submitJob(AnalysisJobDescription jobDesc) throws IllegalArgumentException {
 		WLogger.info("Creating a new job with sample: " + jobDesc.sampleName +" fastqdir: " + jobDesc.pathToFastQDir + " analysis id:" + jobDesc.templateID);
 	
+		dispatcher = BasicDispatcher.getDispatcher();
+		
 		if (builder == null) {
 			ApplicationContext context = SpringContext.getContext();
 			builder = (JobBuilder) context.getBean("jobBuilder");
 		}	
 
-		if (dispatcher == null) {	
-			ApplicationContext context = SpringContext.getContext();
-			dispatcher = (Dispatcher) context.getBean("dispatcher");
-		}
+		
 		
 		Job jobToSubmit = null;
 		if (builder != null) {

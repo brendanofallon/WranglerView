@@ -1,14 +1,18 @@
 package jobWrangler.dispatch;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import jobWrangler.executor.AbstractExecutor;
 import jobWrangler.executor.Executor;
 import jobWrangler.executor.ExecutorEvent;
 import jobWrangler.executor.ExecutorListener;
+import jobWrangler.executor.SingleJobExecutor;
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
 import wranglerView.logging.WLogger;
@@ -40,9 +44,35 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 	//Stores all jobs that threw an exception during execution
 	protected List<Job> errorJobs = new ArrayList<Job>();
 	
+	private Timer poller;
 	
-	public BasicDispatcher() {
-		//
+	private static Dispatcher dispatcher = null;
+	
+	public static Dispatcher getDispatcher() {
+		if (dispatcher == null) {
+			dispatcher = new BasicDispatcher();
+		}
+		return dispatcher;
+	}
+	
+	
+	//Private to enforce singleton status
+	private BasicDispatcher() {
+		
+		//This timer periodicially calls pollExecutors, which causes the executors to search for
+		//new available jobs to run
+		poller = new Timer();
+		poller.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				pollExecutors();
+				} 
+			}, 
+			new Date(), 
+			5000);
+		
+		addExecutor(new SingleJobExecutor());
 	}
 	
 	public void setExecutors(List<Executor> execs) {
@@ -155,17 +185,18 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 	 * a new job, if so we dispatch a job from the queue to the executor.
 	 * Returns true if at least one job was submitted to an executor  
 	 */
-	public synchronized boolean pollExecutors() {
-		
-		//System.out.println("Polling, current state is : " + this.toString());
-		
-		if (getQueueSize()==0)
+	public boolean pollExecutors() {
+		if (getQueueSize()==0) {
+			WLogger.info("No jobs in queue, returning");
 			return false;
+		}
 		
 		boolean found = false;
 		Job nextJob = queue.peek();
 		Executor exec = getAvailableExecutor(nextJob);
+		
 		if (exec != null) {
+			WLogger.info("Executor available, submitting job " + nextJob.getID());
 			queue.poll();
 			exec.runJob(nextJob);
 			found = true;
@@ -222,7 +253,7 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 	@Override
 	public void executorUpdated(ExecutorEvent evt) {
 		//System.out.println("Executor updated, event type is: " + evt.type + " job is:" + evt.job.getID());
-		WLogger.info("Executor update, type: " + evt.type + " job:" + evt.job.getID() );
+		//WLogger.info("Executor update, type: " + evt.type + " job:" + evt.job.getID() );
 		if (evt.type == ExecutorEvent.EventType.JOB_FINISHED || evt.type == ExecutorEvent.EventType.JOB_ERROR) {
 			Job job = evt.job;
 			if (! completedJobs.contains(job)) 

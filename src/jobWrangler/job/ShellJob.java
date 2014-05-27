@@ -141,18 +141,22 @@ public class ShellJob extends Job {
 			}
 			exitValue = proc.waitFor();
 			
-			if (directOutputToFile) 
+			if (directOutputToFile) {
 				streamWriter.join();
+			}
 			
 			if (exitValue != 0) {
+				WLogger.warn("Job failure, nonzero exit value for process running job " + getID());
 				throw new ExecutionFailedException("Job failure, unknown reason", this);
 			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			WLogger.warn("IOException in job " +  getID() + " : " + ex.getLocalizedMessage() );
 			throw new ExecutionFailedException(e.getMessage(), this);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+			WLogger.warn("Interruption in job " +  getID() + " : " + ex.getLocalizedMessage() );
 			throw new ExecutionFailedException(e.getMessage(), this);
 		}
 		

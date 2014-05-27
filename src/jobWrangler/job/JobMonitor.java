@@ -106,7 +106,7 @@ public class JobMonitor implements ActionListener {
 	/**
 	 * Notify all listeners that this job's status is updated
 	 */
-	protected void fireJobUpdate() {
+	public void fireJobUpdate() {
 		for(JobListener l : listeners) {
 			l.jobUpdated(job);
 		}

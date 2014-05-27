@@ -25,6 +25,9 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	
 	@Override
 	public boolean canSubmitJob(Job job) {
+		if (runner != null) {
+			jobUpdated(runner.job);
+		}
 		return runner == null;
 	}
 
@@ -43,16 +46,12 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	
 	@Override
 	public void runJob(Job job) {
-		//I think it's a good idea to make sure multiple threads
-		//dont try to do this at the same time
-		synchronized(this) {
-			JobMonitor monitor = new JobMonitor(job);
-			monitor.addListener(this);
-			monitor.startMonitoring();
-			runner = new RunningJob(job);
-			jobFuture = pool.submit(runner);
-			fireEvent(new ExecutorEvent(job, ExecutorEvent.EventType.JOB_STARTED));
-		}
+		JobMonitor monitor = new JobMonitor(job);
+		monitor.addListener(this);
+		monitor.startMonitoring();
+		runner = new RunningJob(job);
+		jobFuture = pool.submit(runner);
+		fireEvent(new ExecutorEvent(job, ExecutorEvent.EventType.JOB_STARTED));
 	}
 
 	@Override
@@ -78,23 +77,11 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	 * Called when a job has completed to set the runner back to null
 	 */
 	private void releaseJob() {
-		if (runner == null || jobFuture == null) {
-			WLogger.warn("ERROR: Release Job was called, but runner is null");
-			throw new IllegalStateException("Huh? Release job has been called, but runner is null");
+		runner = null;
+		if (jobFuture != null) {
+			jobFuture.cancel(true);
 		}
-		else {
-			if (jobFuture.isDone()) {
-				//System.out.println("Running job " + runner.job.getID() + " has finished and thread is done, releasing");
-				runner = null;
-				jobFuture = null;
-			}
-			else {
-				jobFuture.cancel(true);
-				jobFuture = null;
-				//System.out.println("Running job " + runner.job.getID() + " has finished and but thread is not done, canceling thread...");
-				runner = null;
-			}
-		}
+		jobFuture = null;
 	}
 
 	@Override
@@ -103,7 +90,7 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 			if (runner.getJob() == job) {
 				WLogger.info("SingleJobExecutor is killing job with id: " + job.getID() );
 				job.killJob();
-				jobFuture.cancel(true);
+				releaseJob();
 			}
 		}
 		else {

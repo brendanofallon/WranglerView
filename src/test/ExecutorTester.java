@@ -10,7 +10,7 @@ public class ExecutorTester {
 
 	public static void main(String[] args) {
 		
-		BasicDispatcher dispatch = new BasicDispatcher();
+		Dispatcher dispatch = BasicDispatcher.getDispatcher();
 		AbstractExecutor exec = new SingleJobExecutor();
 		dispatch.addExecutor(exec);
 		

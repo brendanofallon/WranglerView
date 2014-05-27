@@ -126,8 +126,9 @@ public abstract class Job {
 	 * @param newState
 	 */
 	protected void updateState(JobState newState) {
-		if (state != newState) {
 			state = newState;
-		}
+			if (monitor != null) {
+				monitor.fireJobUpdate();
+			}
 	}
 }
