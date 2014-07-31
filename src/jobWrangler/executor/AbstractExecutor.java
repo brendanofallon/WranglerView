@@ -39,7 +39,7 @@ public abstract class AbstractExecutor implements Executor {
 	 * instance, if something else submitted a job right before the call did
 	 * @param job
 	 */
-	public abstract void runJob(Job job);
+	public abstract boolean runJob(Job job);
 	
 	/**
 	 * Attempt to immediately terminate the given job
@@ -65,7 +65,6 @@ public abstract class AbstractExecutor implements Executor {
 	class RunningJob implements Runnable {
 
 		final Job job;
-		private Exception ex = null;
 		private boolean done  = false;
 		
 		public RunningJob(Job job) {

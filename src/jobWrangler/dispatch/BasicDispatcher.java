@@ -127,7 +127,7 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 		
 		//System.out.println("Submitting job with id:" + job.getID() + " q size is now : " + getQueueSize());
 		WLogger.info("Submitting new job with id: " + job.getID());
-		pollExecutors();
+		// pollExecutors();
 	}
 	
 	/**
@@ -175,7 +175,6 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 			throw new IllegalStateException("Dispatcher already contains the given executor, cannot add it again");
 		executors.add(exec);
 		exec.addListener(this);
-		pollExecutors();
 	}
 	
 	
@@ -185,9 +184,8 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 	 * a new job, if so we dispatch a job from the queue to the executor.
 	 * Returns true if at least one job was submitted to an executor  
 	 */
-	public boolean pollExecutors() {
+	public synchronized boolean pollExecutors() {
 		if (getQueueSize()==0) {
-			WLogger.info("No jobs in queue, returning");
 			return false;
 		}
 		
@@ -197,8 +195,11 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 		
 		if (exec != null) {
 			WLogger.info("Executor available, submitting job " + nextJob.getID());
-			queue.poll();
-			exec.runJob(nextJob);
+			
+			boolean success = exec.runJob(nextJob);
+			if (success) {
+				queue.poll();
+			}
 			found = true;
 		}
 		
@@ -265,7 +266,7 @@ public class BasicDispatcher implements Dispatcher, ExecutorListener {
 				errorJobs.add(evt.job);
 			}
 		}
-		pollExecutors();
+		// pollExecutors();
 	}
 	
 	public String toString() {

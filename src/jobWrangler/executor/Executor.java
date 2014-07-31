@@ -31,7 +31,7 @@ public interface Executor {
 	 * instance, if something else submitted a job right before the call did
 	 * @param job
 	 */
-	public void runJob(Job job);
+	public boolean runJob(Job job);
 	
 	/**
 	 * Attempt to immediately terminate the given job

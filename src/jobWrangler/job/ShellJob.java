@@ -152,11 +152,15 @@ public class ShellJob extends Job {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-			WLogger.warn("IOException in job " +  getID() + " : " + ex.getLocalizedMessage() );
+			WLogger.warn("IOException in job " +  getID() + " : " + e.getLocalizedMessage() );
 			throw new ExecutionFailedException(e.getMessage(), this);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			WLogger.warn("Interruption in job " +  getID() + " : " + ex.getLocalizedMessage() );
+			WLogger.warn("Interruption in job " +  getID() + " : " + e.getLocalizedMessage() );
+			throw new ExecutionFailedException(e.getMessage(), this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			WLogger.warn("Exception in job " +  getID() + " : " + e.getLocalizedMessage() );
 			throw new ExecutionFailedException(e.getMessage(), this);
 		}
 		

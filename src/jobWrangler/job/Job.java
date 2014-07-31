@@ -67,12 +67,22 @@ public abstract class Job {
 			updateState(JobState.EXECUTING);
 			execute();
 			cleanUp();
+			if (monitor != null) {
+				monitor.stopMonitoring();
+			}
 			updateState(JobState.FINISHED_SUCCESS);
-			info.setEndTime(new Date());
 		}
 		catch (Exception ex) {
+			System.out.println("Caught exception " + ex + " for job " + this.getID());
 			this.ex = ex;
+			if (monitor != null) {
+				monitor.stopMonitoring();
+			}
 			updateState(JobState.FINISHED_ERROR);
+		}
+		info.setEndTime(new Date());
+		if (monitor != null) {
+			monitor.stopMonitoring();
 		}
 	}
 	

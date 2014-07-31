@@ -2,9 +2,6 @@ package jobWrangler.executor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import jobWrangler.job.Job;
 import jobWrangler.job.Job.JobState;
@@ -20,8 +17,17 @@ import wranglerView.logging.WLogger;
 public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 
 	private RunningJob runner = null;
-	private Future<?> jobFuture = null;
-	ExecutorService pool = Executors.newSingleThreadExecutor();
+	private Thread runnerThread = null;
+	
+	private static SingleJobExecutor instance = null;
+	
+	public SingleJobExecutor() {
+		//Enforce singleton status 
+		if (instance != null) {
+			throw new IllegalStateException("Only one single job executor allowed at a time");
+		}
+		instance = this;
+	}
 	
 	@Override
 	public boolean canSubmitJob(Job job) {
@@ -45,13 +51,18 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	}
 	
 	@Override
-	public void runJob(Job job) {
+	public boolean runJob(Job job) {
+		if (runner != null) {
+			return false;
+		}
 		JobMonitor monitor = new JobMonitor(job);
 		monitor.addListener(this);
 		monitor.startMonitoring();
 		runner = new RunningJob(job);
-		jobFuture = pool.submit(runner);
+		runnerThread = new Thread(runner);
+		runnerThread.start();
 		fireEvent(new ExecutorEvent(job, ExecutorEvent.EventType.JOB_STARTED));
+		return true;
 	}
 
 	@Override
@@ -59,6 +70,13 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 		//This gets called from thread in which job is running, so maybe we shouldn't 
 		//really do anything here
 		
+		//Verify that this is the job we think it is,,
+		if (runner != null) {
+			if (! job.getID().equals(runner.getJob().getID())) {
+				System.err.println("Got a message for a job that's not our job, ignoring it.");
+				return;
+			}
+		}
 		JobState state = job.getJobState();
 		if (state == JobState.FINISHED_ERROR ) {
 			Exception ex = job.getException();
@@ -78,15 +96,15 @@ public class SingleJobExecutor extends AbstractExecutor implements JobListener {
 	 */
 	private void releaseJob() {
 		runner = null;
-		if (jobFuture != null) {
-			jobFuture.cancel(true);
+		if (runnerThread != null) {
+			runnerThread.interrupt();
 		}
-		jobFuture = null;
+		runnerThread = null;
 	}
 
 	@Override
 	public void killJob(Job job) {
-		if (runner != null && jobFuture != null) {
+		if (runner != null) {
 			if (runner.getJob() == job) {
 				WLogger.info("SingleJobExecutor is killing job with id: " + job.getID() );
 				job.killJob();
